@@ -129,7 +129,7 @@ Output should be formatted as a json with the following attribute/field: ICD10_c
 """
 
 example = PromptTemplate(
-    input_variables = ["Incidental_Finding", "ICD10_code", "PFx", "PFx_ICD10_code"]
+    input_variables = ["Incidental_Finding", "ICD10_code", "PFx", "PFx_ICD10_code"],
     template = EXAMPLE,
     )
 
@@ -144,17 +144,22 @@ baseline_zeroshot_prompt = PromptTemplate(
     )
 
 single_fewshot_prompt = PromptTemplate(
-    input_variables = ["examples", "Incidental_Finding"]
+    input_variables = ["examples", "Incidental_Finding"],
     template = SINGLE_FEWSHOT_INSTRUCTION,
     )
 
 single_fewshot_icd10_labeling_prompt = PromptTemplate(
-    input_variables = ["examples", "PFx"]
+    input_variables = ["examples", "PFx"],
     template = SINGLE_FEWSHOT_ICD10_LABELING_INSTRUCTION,
     )
 
 multiple_fewshot_icd10_labeling_prompt = PromptTemplate(
-    input_variables = ["examples", "PFx"]
+    input_variables = ["examples", 'Incidental_Finding'],
+    template = MULTIPLE_FEWSHOT_INSTRUCTION,
+)
+
+multiple_fewshot_icd10_labeling_prompt = PromptTemplate(
+    input_variables = ["examples", "PFx"],
     template = MULTIPLE_FEWSHOT_ICD10_LABELING_INSTRUCTION,
     )
 
