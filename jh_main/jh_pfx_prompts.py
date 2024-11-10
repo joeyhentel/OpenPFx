@@ -153,7 +153,7 @@ single_fewshot_icd10_labeling_prompt = PromptTemplate(
     template = SINGLE_FEWSHOT_ICD10_LABELING_INSTRUCTION,
     )
 
-multiple_fewshot_icd10_labeling_prompt = PromptTemplate(
+multiple_fewshot_prompt = PromptTemplate(
     input_variables = ["examples", 'Incidental_Finding'],
     template = MULTIPLE_FEWSHOT_INSTRUCTION,
 )
