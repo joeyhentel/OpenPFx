@@ -1,4 +1,4 @@
-from langchain.prompts import promptTemplate
+from langchain.prompts import PromptTemplate
 
 EXAMPLE = """ 
 
