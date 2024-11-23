@@ -12,6 +12,14 @@ EXAMPLE = """
 
 """
 
+ICD10_EXAMPLE = """ <PFx>
+{PFx}
+</PFx>
+<PFx_ICD10_code>
+'''{{"PFx_ICD10_code":{PFx_ICD10_code}"}}'''
+</PFx_ICD10_code>
+"""
+
 BASELINE_ZEROSHOT_INSTRUCTION = """
 
 <Prompt>
@@ -32,7 +40,6 @@ Additional Instructions:
 {Incidental_Finding} 
 </Incidental Finding>  
 """
-
 
 # INCORPORATE ZEROSHOT_REFLEXION_READING_LEVEL
 
@@ -62,7 +69,8 @@ Additional Instructions:
 </Incidental Finding>  
 """
 
-SINGLE_FEWSHOT_ICD10_LABELING_INSTRUCTION = """<Prompt>
+SINGLE_FEWSHOT_ICD10_LABELING_INSTRUCTION = """
+<Prompt>
 Using the patient friendly explanations {PFx} in <Examples> as well as their associated ICD10 codes <ICD10>, please generate a new <ICD10> for the {PFx}
 
 Output should be formatted as a json with the following attribute/field: ICD10_code 
@@ -91,7 +99,7 @@ icd10_example = PromptTemplate(
 baseline_zeroshot_prompt = PromptTemplate(
     input_variables = ["Incidental_Finding"],
     template = BASELINE_ZEROSHOT_INSTRUCTION,
-    )
+)
 
 single_fewshot_prompt = PromptTemplate(
     input_variables = ["examples", "Incidental_Finding"],
