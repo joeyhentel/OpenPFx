@@ -32,7 +32,6 @@ Additional Instructions:
 2. Use the patient friendly explanation sentences to determine a PFx ICD10_code code.
 3. Please generate PFx at a {Reading_Level} Flesch-Kincaid reading level.
 4. Please output PFx in 100 words or more
-5. Use a bedside manner 
 
 </Prompt>
 
@@ -56,7 +55,6 @@ Additional Instructions:
 2. Use the patient friendly explanation sentences to determine a PFx ICD10_code code.
 3. Please generate PFx at a {Reading_Level} Flesch-Kincaid reading level.
 4. Please output PFx in 100 words or more
-5. Use a bedside manner 
 
 </Prompt>
 
