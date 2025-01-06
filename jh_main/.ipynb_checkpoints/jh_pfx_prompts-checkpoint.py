@@ -28,11 +28,10 @@ Please generate new <PFx> for the <Incidental Finding>
 Output should be formatted as a json with the following attributes/fields: finding, ICD10_code, PFx, PFx_ICD10_code 
 
 Additional Instructions:
-1. Do not suggest follow-up steps with the doctor
+1. DO NOT SUGGEST FOLLOW UP STEPS WITH THE DOCTOR
 2. Use the patient friendly explanation sentences to determine a PFx ICD10_code code.
 3. Please generate PFx at a {Reading_Level} Flesch-Kincaid reading level.
 4. Please output PFx in 100 words or more
-5. Use a bedside manner 
 
 </Prompt>
 
@@ -52,11 +51,10 @@ Please generate new <PFx> for the <Incidental Finding>
 Output should be formatted as a json with the following attributes/fields: finding, ICD10_code, PFx, PFx_ICD10_code
 
 Additional Instructions:
-1. Do not suggest follow-up steps with the doctor
+1. DO NOT SUGGEST FOLLOW UP STEPS WITH THE DOCTOR
 2. Use the patient friendly explanation sentences to determine a PFx ICD10_code code.
 3. Please generate PFx at a {Reading_Level} Flesch-Kincaid reading level.
 4. Please output PFx in 100 words or more
-5. Use a bedside manner 
 
 </Prompt>
 
