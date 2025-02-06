@@ -1,0 +1,408 @@
+Body Part,Organ,Incidental_Finding,ICD-10 Code,ICD-10 Code Description
+Abdomen,Adrenal Glands,Adrenal Adenoma,D35.00,"Benign neoplasm of adrenal gland, unspecified"
+Abdomen,Adrenal Glands,Adrenal Hematoma,E27.8,Other specified disorders of the adrenal glands.
+Abdomen,Adrenal Glands,Adrenal Hyperplasia,E27.0,Congenital adrenal hyperplasia.
+Abdomen,Adrenal Glands,Adrenal Mass,R93.8,Abnormal findings on diagnostic imaging of other specified body structures
+Abdomen,Adrenal Glands,Adrenal Cortical Adenoma,D35.00,"Benign neoplasm of adrenal gland, unspecified"
+Abdomen,Adrenal Glands,Adrenal Hyperfunction,E27.8,Other specified disorders of the adrenal glands.
+Abdomen,Adrenal Glands,Adrenal Gland Tumor,D44.7,"Neoplasm of uncertain behavior of endocrine glands, other specified endocrine glands."
+Abdomen,Adrenal Glands,Adrenal Cyst,E27.8,Other specified disorders of the adrenal glands.
+Abdomen,Bladder,Bladder Diverticulum,N32.3,Diverticulum of bladder
+Abdomen,Bladder,Bladder Mass,R93.4,Abnormal findings on diagnostic imaging of urinary organs
+Abdomen,Bladder,Bladder Wall Thickening,R93.4,Abnormal findings on diagnostic imaging of urinary organs
+Abdomen,Bladder,Bladder Stone,N21.0,Calculus in bladder
+Abdomen,Bladder,Bladder Cyst,R93.4,Abnormal findings on diagnostic imaging of urinary organs
+Abdomen,Bladder,Bladder Calculus,N21.0,Calculus in bladder
+Abdomen,Bladder,Bladder Cancer,C67.9,"Malignant neoplasm of bladder, unspecified"
+Abdomen,Bladder,Bladder Diverticula,N32.3,Diverticulum of bladder
+Abdomen,Bladder,Neurogenic Bladder,N31.9,"Neuromuscular dysfunction of bladder, unspecified"
+Abdomen,Gallbladder,Gallbladder Polyps,K82.4,Polyp of gallbladder
+Abdomen,Gallbladder,Cholelithiasis,K80.20,"Calculus of gallbladder without cholecystitis, without obstruction"
+Abdomen,Gallbladder,Gallstones ,K80.20,"Calculus of gallbladder without cholecystitis, without obstruction"
+Abdomen,Gallbladder,Gallbladder Sludge,R93.2,Abnormal findings on diagnostic imaging of other specified body structures
+Abdomen,Gallbladder,Gallbladder Wall Thickening,K81.9,"Cholecystitis, unspecified"
+Abdomen,Gallbladder,Gallbladder Tumor,D37.6,Neoplasm of uncertain behavior of other and unspecified digestive organs
+Abdomen,Gallbladder,Adenomyomatosis,K82.8,Other specified diseases of gallbladder
+Abdomen,Gallbladder,Porcelain Gallbladder,K82.8,Other specified diseases of gallbladder
+Abdomen,Gallbladder,Gallbladder Agenesis,Q44.0,Congenital absence of gallbladder
+Abdomen,Intestines,Intestinal Polyp,K63.5,Polyp of colon
+Abdomen,Intestines,Diverticulosis,K57.30,Diverticulosis of large intestine without perforation or abscess without bleeding
+Abdomen,Intestines,Appendicitis,K35.80,Unspecified acute appendicitis
+Abdomen,Intestines,Ileus,K56.7,"Ileus, unspecified"
+Abdomen,Intestines,Bowel Wall Thickening,R93.3,Abnormal findings on diagnostic imaging of other parts of digestive tract
+Abdomen,Intestines,Intussusception,K56.1,Intussusception
+Abdomen,Intestines,Crohn's Disease,K50.90,"Crohn's disease, unspecified, without complications"
+Abdomen,Intestines,Intestinal Wall Thickening,R93.3,Abnormal findings on diagnostic imaging of other abdominal regions
+Abdomen,Intestines,Colonic Diverticula,K57.30,Diverticulosis of large intestine without perforation or abscess without bleeding
+Abdomen,Intestines,Colonic Polyp,K63.5,Polyp of colon
+Abdomen,Intestines,Mesenteric Cyst,R93.3,Abnormal findings on diagnostic imaging of other abdominal regions
+Abdomen,Intestines,Intestinal Stricture,K56.60,Unspecified intestinal obstruction
+Abdomen,Kidneys,Simple Renal Cyst,N28.1,"Cyst of kidney, acquired"
+Abdomen,Kidneys,Angiomyolipoma,D30.0,Benign neoplasm of kidney
+Abdomen,Kidneys,Hydronephrosis,N13.30,Unspecified hydronephrosis
+Abdomen,Kidneys,Kidney Stones,N20.0,Calculus of kidney
+Abdomen,Kidneys,Renal Atrophy,N26.1,Atrophy of kidney
+Abdomen,Kidneys,Renal Mass,R93.4,Abnormal findings on diagnostic imaging of urinary organs
+Abdomen,Kidneys,Polycystic Kidney Disease,Q61.3,"Polycystic kidney, unspecified"
+Abdomen,Kidneys,Renal Cortical Thinning,N26.1,Atrophy of kidney
+Abdomen,Kidneys,Renal Cyst with Septations,N28.1,"Cyst of kidney, acquired"
+Abdomen,Kidneys,Medullary Sponge Kidney,Q61.5,Medullary cystic kidney
+Abdomen,Kidneys,Renal Artery Aneurysm,I72.4,Aneurysm of artery of lower extremity
+Abdomen,Liver,Hepatic Cyst,K76.89,Other specified diseases of liver
+Abdomen,Liver,Hepatic Hemangioma,D18.09,Hemangioma of other sites
+Abdomen,Liver,Hepatomegaly,R16.0,"Hepatomegaly, not elsewhere classified"
+Abdomen,Liver,Liver Steatosis,K76.0,"Fatty (change of) liver, not elsewhere classified"
+Abdomen,Liver,Liver Cirrhosis,K74.60,Unspecified cirrhosis of liver
+Abdomen,Liver,Liver Mass,R16.2,"Hepatomegaly with splenomegaly, not elsewhere classified"
+Abdomen,Liver,Hepatic Adenoma,D13.4,Benign neoplasm of liver
+Abdomen,Liver,Liver Metastasis,C78.7,Secondary malignant neoplasm of liver and intrahepatic bile duct
+Abdomen,Liver,Liver Hemangioma,D18.09,Hemangioma of other sites
+Abdomen,Liver,Focal Nodular Hyperplasia,K78.1,Toxic liver disease with other disorders of liver
+Abdomen,Liver,Hepatic Steatosis,K76.0,"Fatty (change of) liver, not elsewhere classified"
+Abdomen,Liver,Hepatic Calcification,K76.89,Other specified diseases of liver
+Abdomen,Liver,Liver Abscess,K75.0,Abscess of liver
+Abdomen,Liver,Hepatic Regeneration Nodule,K76.89,Other specified diseases of liver
+Abdomen,Pancreas,Pancreatic Cyst,K86.2,Cyst of pancreas
+Abdomen,Pancreas,Pancreatic Pseudocyst,K86.3,Pseudocyst of pancreas
+Abdomen,Pancreas,Pancreatic Mass,K86.9,"Disease of pancrease, unspecified "
+Abdomen,Pancreas,Pancreatitis,K85.9,"Acute pancreatitis, unspecified"
+Abdomen,Pancreas,Pancreatic Atrophy,K86.89,Other specified diseases of pancreas
+Abdomen,Pancreas,Intraductal Papillary Mucinous Neoplasm,D13.7,Benign neoplasm of pancreas
+Abdomen,Pancreas,Pancreatic Calcification,K86.89,Other specified diseases of pancreas
+Abdomen,Pancreas,Pancreatic Fatty Infiltration,K86.89,Other specified diseases of pancreas
+Abdomen,Retroperitoneum,Retroperitoneal Fibrosis,M35.7,Retroperitoneal fibrosis
+Abdomen,Retroperitoneum,Retroperitoneal Mass,R93.5,Abnormal findings on diagnostic imaging of other abdominal regions
+Abdomen,Retroperitoneum,Retroperitoneal Tumor,D48.3,Neoplasm of uncertain behavior of retroperitoneum 
+Abdomen,Retroperitoneum,Retroperitoneal Hematoma,R58,"Hemorrhage, not elsewhere classified"
+Abdomen,Retroperitoneum,Retroperitoneal Fibromatosis,M72.9,"Fibromatosis, unspecified"
+Abdomen,Retroperitoneum,Retroperitoneal Lymphadenopathy,R59.0,Localized enlarged lymph nodes
+Abdomen,Spleen,Splenomegaly,R16.1,"Splenomegaly, not elsewhere classified"
+Abdomen,Spleen,Splenic Cyst,D73.4,Cyst of spleen
+Abdomen,Spleen,Splenic Infarction,D73.5,Infarction of spleen
+Abdomen,Spleen,Accessory Spleen,Q89.03,Accessory spleen
+Abdomen,Spleen,Splenic Mass,R16.1,"Splenomegaly, not elsewhere classified"
+Abdomen,Spleen,Splenic Calcification,D73.5,Infarction of spleen
+Abdomen,Spleen,Splenic Laceration,S36.030A,"Minor laceration of spleen, initial encounter"
+Abdomen,Stomach,Gastric Polyp,D13.1,Benign neoplasm of stomach
+Abdomen,Stomach,Gastric Ulcer,K25.9,"Gastric ulcer, unspecified as acute or chronic, without hemorrhage or perforation"
+Abdomen,Stomach,Gastric Wall Thickening,R93.3,Abnormal findings on diagnostic imaging of other abdominal regions
+Abdomen,Stomach,Bezoar,W44.F1,Bezoar entering into or through a natural orifice 
+Abdomen,Stomach,Gastritis,K29.70,"Gastritis, unspecified, without bleeding"
+Abdomen,Stomach,Hiatal Hernia,K44.9,Diaphragmatic hernia without obstruction or gangrene
+Abdomen,Vessels,Abdominal Aortic Aneurysm,I71.4,"Abdominal aortic aneurysm, without rupture"
+Abdomen,Vessels,Renal Artery Stenosis,I70.1,Atherosclerosis of renal artery
+Abdomen,Vessels,Mesenteric Ischemia,K55.1,Chronic vascular disorders of intestine
+Abdomen,Vessels,Inferior Vena Cava Thrombosis,I82.220,Embolism and thrombosis of inferior vena cava
+Abdomen,Vessels,Aortic Dissection,I71.00,"Dissection of aorta, unspecified site"
+Abdomen,Vessels,Aortic Aneurysm,I71.4,"Abdominal aortic aneurysm, without rupture"
+Abdomen,Vessels,Portal Vein Thrombosis,I81,Portal vein thrombosis
+Abdomen,Vessels,Hepatic Vein Thrombosis,I82.0,Budd-Chiari syndrome
+Abdomen,Ovaries,Ovarian Cyst,N83.20,Unspecified ovarian cyst
+Abdomen,Vessels,Splenic Vein Thrombosis,I82.8,Embolism and thrombosis of other specified veins
+Chest,Breast,Fibroadenoma,D24.0,Benign neoplasm of breast
+Chest,Breast,Breast Cyst,N60.09,Solitary cyst of unspecified breast
+Chest,Breast,Gynecomastia,N62,Hypertrophy of breast
+Chest,Breast,Ductal Carcinoma In Situ,D05.9,"Carcinoma in situ of breast, unspecified"
+Chest,Breast,Lobular Neoplasia,D05.0,Lobular carcinoma in situ of breast
+Chest,Breast,Breast Lipoma,D17.39,Benign lipomatous neoplasm of skin and subcutaneous tissue of other sites
+Chest,Breast,Breast Abscess,N61.1,Abscess of the breast and nipple
+Chest,Breast,Breast Hematoma,N64.89,Other specified disorders of breast
+Chest,Breast,Intraductal Papilloma,D24.0,Benign neoplasm of breast
+Chest,Esophagus,Hiatal Hernia,K44.9,Diaphragmatic hernia without obstruction or gangrene
+Chest,Esophagus,Esophageal Diverticulum,K22.5,"Diverticulum of esophagus, acquired"
+Chest,Esophagus,Achalasia,K22.0,Achalasia of esophagus
+Chest,Esophagus,Barrett's Esophagus,K22.70,Barrett's esophagus without dysplasia
+Chest,Esophagus,Esophageal Perforation,K22.3,Perforation of esophagus
+Chest,Esophagus,Esophageal Carcinoma,C15.9,"Malignant neoplasm of esophagus, unspecified"
+Chest,Heart,Pericardial Effusion,I31.3,Pericardial effusion (noninflammatory)
+Chest,Heart,Left Ventricular Hypertrophy,I51.7,Cardiomegaly
+Chest,Heart,Aortic Aneurysm,I71.9,"Aortic aneurysm of unspecified site, without rupture"
+Chest,Heart,Myocardial Fibrosis,I51.4,"Myocarditis, unspecified"
+Chest,Heart,Pericardial Cyst,I31.8,Other specified diseases of pericardium
+Chest,Heart,Mitral Valve Calcification,I34.0,Nonrheumatic mitral (valve) insufficiency
+Chest,Heart,Right Ventricular Hypertrophy,I42.2,Other hypertrophic cardiomyopathy
+Chest,Heart,Aortic Dissection,I71.00,"Dissection of aorta, unspecified site"
+Chest,Heart,Coronary Artery Calcification,I25.10,Atherosclerotic heart disease of native coronary artery without angina pectoris
+Chest,Heart,Pericarditis,I30.9,"Acute pericarditis, unspecified"
+Chest,Heart,Dilated Cardiomyopathy,I42.0,Dilated cardiomyopathy
+Chest,Heart,Hypertrophic Cardiomyopathy,I42.1,Obstructive hypertrophic cardiomyopathy
+Chest,Heart,Restrictive Cardiomyopathy,I42.5,Other restrictive cardiomyopathy
+Chest,Heart,Aortic Valve Stenosis,I35.0,Nonrheumatic aortic (valve) stenosis
+Chest,Heart,Mitral Valve Prolapse,I34.1,Nonrheumatic mitral (valve) prolapse
+Chest,Heart,Cardiac Tumor,D15.1,Benign neoplasm of heart
+Chest,Lung,Pulmonary Nodule,R91.1,Solitary pulmonary nodule
+Chest,Lung,Lung Mass,R91.8,Other nonspecific abnormal finding of lung field
+Chest,Lung,Lung Cyst,J98.4,Other disorders of lung
+Chest,Lung,Bronchiectasis,J47.9,"Bronchiectasis, unspecified"
+Chest,Lung,Emphysema,J43.9,"Emphysema, unspecified"
+Chest,Lung,Pulmonary Fibrosis,J84.10,"Pulmonary fibrosis, unspecified"
+Chest,Lung,Pleural Effusion,J90,"Pleural effusion, not elsewhere classified"
+Chest,Lung,Pneumothorax,J93.9,"Pneumothorax, unspecified"
+Chest,Lung,Interstitial Lung Disease,J84.9,"Interstitial pulmonary disease, unspecified"
+Chest,Lung,Atelectasis,J98.11,Atelectasis
+Chest,Lung,Pulmonary Arteriovenous Malformation,Q25.72,Congenital pulmonary arteriovenous malformation
+Chest,Lung,Pneumonia,J18.9,"Pneumonia, unspecified organism"
+Chest,Lung,Chronic Obstructive Pulmonary Disease (COPD),J44.9,"Chronic obstructive pulmonary disease, unspecified"
+Chest,Lung,Lung Hyperinflation,J43.9,"Emphysema, unspecified"
+Chest,Lung,Ground-Glass Opacities,R91.8,Other nonspecific abnormal finding of lung field
+Chest,Lung,Pulmonary Edema,J81.0,Acute pulmonary edema
+Chest,Lung,Asbestosis,J61,Pneumoconiosis due to asbestos and other mineral fibers
+Chest,Lung,Silicosis,J62.8,Pneumoconiosis due to other silica or silicates
+Chest,Lung,Lymphangioleiomyomatosis,J84.81,Lymphangioleiomyomatosis
+Chest,Lung,Pulmonary Alveolar Proteinosis,J84.01,Alveolar proteinosis
+Chest,Lung,Lung Metastases,C78.00,Secondary malignant neoplasm of unspecified lung
+Chest,Lung,Pulmonary Hamartoma,D14.3,Benign neoplasm of bronchus and lung
+Chest,Lung,Chronic Bronchitis,J41.8,Mixed simple and mucopurulent chronic bronchitis
+Chest,Lung,Hypersensitivity Pneumonitis,J67.9,Hypersensitivity pneumonitis due to unspecified organic dust
+Chest,Lung,Bronchiolitis Obliterans,J44.81,Bronchiolitis obliterans and bronchiolitis obliterans syndrome
+Chest,Lung,Pulmonary Sequestration,Q33.2,Sequestration of lung 
+Chest,Lung,Pleural Effusion ,J90,"Plural effusion, not elsewhere classified "
+Chest,Lung,Pulmonary Hypertension,I27.0,Primary pulmonary hypertension
+Chest,Mediastinum,Mediastinal Mass,J98.5 ,"Diseases of mediastinum, not elsewhere classified "
+Chest,Mediastinum,Thymoma,C37,Malignant neoplasm of thymus
+Chest,Mediastinum,Thymic Hyperplasia,E32.0,Persistant hyperplasia of thymus 
+Chest,Mediastinum,Esophageal Cyst,Q39.8,Other congenital malformations of esophagus
+Chest,Mediastinum,Bronchogenic Cyst,J98.4 ,Other disorders of lung 
+Chest,Mediastinum,Mediastinal Fat Necrosis,M79.89,Other specified soft tissue disorders
+Chest,Mediastinum,Sarcoidosis,D86.0,Sarcoidosis of lung
+Chest,Mediastinum,Mediastinal Lymphadenopathy,R59.0,Localized enlarged lymph nodes
+Chest,Mediastinum,Teratoma,D15.2,Benign neoplasm of mediastinum
+Chest,Pleura,Pleural Plaques,J92.0,Pleural plaque with presence of asbestos
+Chest,Pleura,Pleural Thickening,J94.8,Other specified pleural conditions
+Chest,Pleura,Pleural Calcifications,J94.0,Fibrosis of pleura
+Chest,Pleura,Hemothorax,J94.2,Hemothorax
+Chest,Pleura,Pleural Mass,R22.9,"Localized swelling, mass and lump, unspecified "
+Chest,Pleura,Chylothorax,J94.0,Chylous effusion
+Chest,Pleura,Empyema,J86.9,Pyothorax without fistula
+Chest,Pleura,Pleuropericardial Cyst,J94.8,Other specified pleural conditions
+Chest,Ribs,Rib Fracture,S22.39XA,"Fracture of one rib, unspecified side, initial encounter for closed fracture"
+Chest,Ribs,Rib Lesion,M99.88,Other biomechanical lesions of rib cage
+Chest,Ribs,Costochondritis,M94.0,Chondrocostal junction syndrome [Tietze]
+Chest,Ribs,Rib Osteomyelitis,M86.00,"Acute osteomyelitis, unspecified site"
+Chest,Ribs,Rib Hemangioma,D18.09,Hemangioma of other sites
+Chest,Ribs,Flail Chest,S22.5XXA,"Flail chest, initial encounter"
+Chest,Ribs,Costal Cartilage Calcification,M94.8X,Other specified disorders of cartilage
+Chest,Trachea,Tracheal Stenosis,J39.8,Other specified diseases of upper respiratory tract
+Chest,Trachea,Tracheomalacia,J39.8,Other specified diseases of upper respiratory tract
+Chest,Trachea,Tracheal Mass,D14.2 ,Benign neoplasm of trachea
+Chest,Trachea,Tracheal Deviation,J39.8,Other specified diseases of upper respiratory tract
+Chest,Trachea,Tracheal Wall Thickening,J39.8,Other specified diseases of upper respiratory tract
+Chest,Vessels,Thoracic Aortic Aneurysm,I71.2,Thoracic aortic aneurysm without rupture
+Chest,Vessels,Pulmonary Embolism,I26.99,Other pulmonary embolism without acute cor pulmonale
+Chest,Vessels,Superior Vena Cava Syndrome,I87.8,Other specified disorders of veins
+Chest,Vessels,Subclavian Artery Stenosis,I65.2,Occlusion and stenosis of carotid artery
+Chest,Vessels,Pulmonary Artery Hypertension,I27.20,"Pulmonary hypertension, unspecified"
+Chest,Vessels,Thoracic Aortic Dissection,I71.00,"Dissection of aorta, unspecified site"
+Chest,Vessels,Pulmonary Venous Stenosis,Q26.8,Other congenital malformations of great veins
+Chest,Vessels,Systemic Venous Aneurysm,I72.8,Aneurysm of other specified arteries
+Chest,Vessels,Thoracic Outlet Syndrome,G54.0,Brachial plexus disorders
+Head,Brain,Arachnoid Cyst,G93.0,Cerebral cysts
+Head,Brain,Cavernous Malformation,Q28.3,Other specified congenital malformations of circulatory system
+Head,Brain,Chiari Malformation,Q07.0,Arnold-Chiari syndrome
+Head,Brain,Enlarged Virchow-Robin Spaces,G93.9,"Disorder of brain, unspecified"
+Head,Brain,Microangiopathy,I67.89,Other cerebrovascular disease
+Head,Brain,Pineal Cyst,D35.4,Benign neoplasm: Pineal gland
+Head,Brain,Porencephalic Cyst,Q04.6,Congenital porencephaly
+Head,Brain,Subependymal Nodules,Q04.8,Other specified congenital malformations of brain
+Head,Brain,Perivascular Spaces Dilatation,G93.9,"Disorder of brain, unspecified"
+Head,Brain,White Matter Disease,R90.82 ,"White matter disease, unpsecified "
+Head,Brain,Gliosis,R90.89,Other abnormal findings on diagnostic imaging of central nervous system
+Head,Brain,Cerebral Atrophy,G31.1,"Senile degeneration of brain, not elsewhere classified"
+Head,Brain,White Matter Hyperintensity,R90.89,Other abnormal findings on diagnostic imaging of central nervous system
+Head,Brain,Colloid Cyst,G93.0,Cebebral cysts
+Head,Brain,Cerebral Microbleeds,I61.9,"Nontraumatic intracerebral hemorrhage, unspecified"
+Head,Brain,Dilated Ventricles,G91.9,"Hydrocephalus, unspecified"
+Head,Brain,Cystic Lesion of Choroid Plexus,Q04.8,Other specified congenital malformations of brain
+Head,Brain,Empty Sella Syndrome,E23.6,Other disorders of pituitary gland
+Head,Brain,Developmental Venous Anomaly,Q28.3,Other malformations of cerebral vessels
+Head,Brain,Cerebral Calcifications,R90.89,Other abnormal findings on diagnostic imaging of central nervous system
+Head,Brain,Hemangioblastoma,D33.0,"Benign neoplasm of brain, supratentorial"
+Head,Brain,Cortical Dysplasia,Q04.3,Other reduction deformities of brain
+Head,Brain,Diffuse Axonal Injury,S06.2X0A,"Diffuse traumatic brain injury without loss of consciousness, initial encounter"
+Head,Brain,Ependymoma,D33.3,Benign neoplasm of brainstem
+Head,Brain,Focal Cortical Dysplasia,Q04.3,Other reduction deformities of brain
+Head,Brain,Infarct (Old),I69.998,Sequelae of other cerebrovascular disease
+Head,Brain,Lacunar Infarction,I63.9,"Cerebral infarction, unspecified"
+Head,Brain,Leukoencephalopathy,G93.49,"Leukoencephalopathy, unspecified"
+Head,Brain,Low-Grade Glioma,D33.0,"Benign neoplasm of brain, supratentorial"
+Head,Brain,Meningioma,D32.0,Benign neoplasm of cerebral meninges
+Head,Brain,Multiple Sclerosis Plaques,G35,Multiple sclerosis
+Head,Brain,Normal Pressure Hydrocephalus,G91.2,Normal pressure hydrocephalus
+Head,Brain,Periventricular Leukomalacia,P91.2,Cystic periventricular leukomalacia
+Head,Brain,Septo-Optic Dysplasia,Q04.4,Septo-optic dysplasia of brain
+Head,Brain,Spinal Canal Stenosis,M48.0,"Spinal stenosis, site unspecified"
+Head,Brain,Thalamic Gliosis,R90.89,Other abnormal findings on diagnostic imaging of central nervous system
+Head,Brain,Trigeminal Neuralgia,G50.0,Trigeminal neuralgia
+Head,Brain,Ulegyria,Q04.3,Other reduction deformities of brain
+Head,Brain,Cystic Craniopharyngioma,D33.1,"Benign neoplasm of brain, infratentorial"
+Head,Brain,Heterotopia,Q04.6,Congenital cerebral heteropia
+Head,Brain,Ischemic White Matter Disease,R90.82 ,"White matter disease, unpsecified "
+Head,Brain,Juvenile Pilocytic Astrocytoma,D33.1,"Benign neoplasm of brain, infratentorial"
+Head,Brain,Moyamoya Disease,I67.5,Moyamoya disease
+Head,Brain,Pseudotumor Cerebri,G93.2,Benign intracranial hypertension
+Head,Brain,Schwannoma,D33.3,Benign neoplasm of cranial nerves
+Head,Brain,Spongiform Changes in Brain,A81.9,"Prion disease, unspecified"
+Head,Brain,Stroke (Old),Z86.73,"Personal history of transient ischemic attack (TIA), and cerebral infarction without residual deficits."
+Head,Brain,Subarachnoid Cyst,Q04.6,Congenital cerebral cysts
+Head,Ears,Cholesteatoma,H71.90,"Cholesteatoma of middle ear, unspecified ear"
+Head,Ears,Mastoiditis,H70.90,"Unspecified mastoiditis, unspecified ear"
+Head,Ears,Otitis Media,H66.90,"Otitis media, unspecified, unspecified ear"
+Head,Ears,Otosclerosis,H80.90,"Otosclerosis, unspecified ear"
+Head,Ears,Vestibular Schwannoma,D33.3,Benign neoplasm of cranial nerves
+Head,Jaw,TMJ Disorder,M26.62,Arthralgia of temporomandibular joint
+Head,Jaw,Mandibular Fracture,S02.609A,"Fracture of mandible, unspecified, initial encounter"
+Head,Jaw,Odontogenic Cyst,K09.0,Developmental (nonodontogenic) cysts of oral region
+Head,Jaw,Ameloblastoma,D16.5,Benign neoplasm of mandible
+Head,Nasal Cavity,Deviated Nasal Septum,J34.2,Deviated nasal septum
+Head,Nasal Cavity,Nasal Cavity Mass,R22.0,"Localized swelling, mass and lump, head"
+Head,Nasal Cavity,Turbinate Hypertrophy,J34.3,Hypertrophy of nasal turbinates
+Head,Neck,Cervical Lymphadenopathy,R59.0,Localized enlarged lymph nodes
+Head,Neck,Branchial Cleft Cyst,Q18.0,"Sinus, fistula and cyst of branchial cleft"
+Head,Neck,Thyroglossal Duct Cyst,Q89.2,Congenital malformations of other endocrine glands
+Head,Oral Cavity,Cyst of Oral Mucosa,K09.8,"Other cysts of oral region, not elsewhere classified"
+Head,Oral Cavity,Leukoplakia of Tongue,K13.21,"Leukoplakia of oral mucosa, including tongue"
+Head,Oral Cavity,Mucocele of Oral Mucosa,K11.6,Mucocele of salivary gland
+Head,Orbits,Orbital Mass,H05.89,Other specified disorders of orbit
+Head,Orbits,Proptosis,H05.22,Exophthalmos due to other causes
+Head,Orbits,Optic Nerve Glioma,D33.3,Benign neoplasm of cranial nerves
+Head,Orbits,Orbital Cellulitis,H05.01,Cellulitis of orbit
+Head,Orbits,Orbital Fracture,S02.82,"Fracture of orbital, unspecified "
+Neck,Pharynx,Tonsillar Asymmetry,J35.8,Other chronic diseases of tonsils and adenoids
+Head,Pharynx,Tonsillar Hypertrophy,J35.1,Hypertrophy of tonsils
+Head,Pharynx,Pharyngeal Wall Mass,R22.1,"Localized swelling, mass and lump, neck"
+Head,Pituitary,Pituitary Microadenoma,D35.2,Benign neoplasm of pituitary gland
+Head,Salivary Glands,Parotid Cyst,K11.6,Mucocele of salivary gland
+Head,Salivary Glands,Sialadenitis,K11.20,"Sialoadenitis, unspecified"
+Head,Salivary Glands,Salivary Gland Stone,K11.5,Sialolithiasis
+Head,Salivary Glands,Pleomorphic Adenoma,D11.0,Benign neoplasm of parotid gland
+Head,Scalp,Scalp Hematoma,S00.03XA,"Contusion of scalp, initial encounter"
+Head,Sinuses,Mucosal Thickening in Sinuses,J32.9,"Chronic sinusitis, unspecified"
+Head,Sinuses,Sinus Polyp,J33.8,Other polyp of sinus 
+Head,Sinuses,Mucosal Thickening in Maxillary Sinus,J32.0,Chronic maxillary sinusitis
+Head,Sinuses,Frontal Sinus Retention Cyst,J34.1,Cyst and mucocele of nose and nasal sinus
+Head,Sinuses,Ethmoid Sinusitis,J32.2,Chronic ethmoidal sinusitis
+Head,Sinuses,Maxillary Sinus Hypoplasia,Q30.8,Other congenital malformations of nose
+Head,Skull,Skull Fracture,S02.0XXA,"Fracture of vault of skull, initial encounter"
+Head,Skull,Cranial Meningioma,D32.0,Benign neoplasm of cerebral meninges
+Head,Skull,Fibrous Dysplasia of Skull,Q78.1,Osteogenesis imperfecta
+Head,Skull,Paget’s Disease of Skull,M88.0,Osteitis deformans of skull
+Head,Soft Tissue,Hemangioma of Head,D18.01,Hemangioma of skin and subcutaneous tissue
+Head,Soft Tissue,Lipoma of Face,D17.0,"Benign lipomatous neoplasm of skin and subcutaneous tissue of head, face and neck"
+Head,Soft Tissue,Cutaneous Abscess of Scalp,L02.81,"Cutaneous abscess of head [any part], except face"
+Head,Soft Tissue,Scalp Lipoma,D17.0,"Benign lipomatous neoplasm of skin and subcutaneous tissue of head, face and neck"
+Head,Teeth,Dental Abscess,K04.7,Periapical abscess without sinus
+Head,Teeth,Impacted Tooth,K01.1,Impacted teeth
+Head,Teeth,Dental Caries,K02.9,"Dental caries, unspecified"
+Neck,Esophagus,Zenker's Diverticulum,K22.5,"Diverticulum of esophagus, acquired"
+Neck,Esophagus,Esophageal Web,K22.2,Esophageal obstruction
+Neck,Esophagus,Cervical Esophageal Stricture,K22.2,Esophageal obstruction
+Neck,Esophagus,Esophageal Cyst,Q39.8,Other congenital malformations of esophagus
+Neck,Esophagus,Cervical Esophageal Ulcer,K22.1,Esophageal ulcer
+Neck,Esophagus,Achalasia of Esophagus,K22.0,Achalasia of esophagus
+Neck,Esophagus,Esophageal Varices,I85.00,Esophageal varices without bleeding
+Neck,Esophagus,Cervical Esophageal Web,K22.2,Esophageal obstruction
+Neck,Esophagus,Esophageal Dysmotility,K22.4,Dyskinesia of esophagus
+Neck,Larynx,Vocal Cord Paralysis,J38.00,"Paralysis of vocal cords and larynx, unspecified"
+Neck,Larynx,Laryngeal Cyst,J38.7,Other diseases of larynx
+Neck,Larynx,Laryngeal Carcinoma,C32.0,Malignant neoplasm of glottis
+Neck,Lymph Nodes,Enlarged Cervical Lymph Nodes,R59.0,Localized enlarged lymph nodes
+Neck,Lymph Nodes,Reactive Lymphadenopathy,I88.9,"Nonspecific lymphadenitis, unspecified"
+Neck,Lymph Nodes,Lymphoma,C85.90,"Non-Hodgkin lymphoma, unspecified, unspecified site"
+Neck,Lymph Nodes,Cystic Hygroma,D18.1,"Lymphangioma, any site"
+Neck,Lymph Nodes,Calcified Lymph Node,R93.0,Abnormal findings on diagnostic imaging of skull and head region
+Neck,Lymph Nodes,Metastatic Lymphadenopathy,C77.0,"Secondary and unspecified malignant neoplasm of lymph nodes of head, face, and neck"
+Neck,Lymph Nodes,Lymph Node Calcification,R22.1,"Localized swelling, mass, and lump, neck"
+Neck,Lymph Nodes,Granulomatous Lymphadenitis,I88.1,Chronic nonspecific lymphadenitis
+Neck,Lymph Nodes,Lymph Node Enlargement,R59.0,Localized enlarged lymph nodes
+Neck,Muscles,Fibromatosis Colli,M62.89,Other specified disorders of muscle
+Neck,Muscles,Muscle Atrophy in Neck,M62.50,"Muscle wasting and atrophy, not elsewhere classified, unspecified site"
+Neck,Muscles,Myositis Ossificans,M61.9,"Myositis ossificans, unspecified"
+Neck,Muscles,Cervical Muscle Spasm,M62.838,Other muscle spasm
+Neck,Muscles,Torticollis,M43.6,Torticollis
+Neck,Nerves,Cervical Nerve Root Compression,M54.12,"Radiculopathy, cervical region"
+Neck,Nerves,Brachial Plexus Lesion,G54.0,Brachial plexus disorders
+Neck,Nerves,Glossopharyngeal Neuralgia,G52.1,Disorders of glossopharyngeal nerve
+Neck,Nerves,Phrenic Nerve Palsy,G54.8,Other nerve root and plexus disorders
+Neck,Nerves,Accessory Nerve Palsy,G52.2,Disorders of accessory nerve
+Neck,Nerves,Vagus Nerve Lesion,G52.8,Other specified disorders of cranial nerves
+Neck,Nerves,Cervical Plexopathy,G54.2,"Cervical root lesions, not elsewhere classified "
+Neck,Nerves,Cervical Sympathetic Chain Schwannoma,D36.1,Benign neoplasm of peripheral nerves and autonomic nervous system
+Neck,Parathyroid,Parathyroid Adenoma,D35.1,Benign neoplasm of parathyroid gland
+Neck,Parathyroid,Hyperplasia of Parathyroid,E21.3,Hyperplasia of parathyroid gland
+Neck,Parathyroid,Parathyroid Carcinoma,C75.0,Malignant neoplasm of parathyroid gland
+Neck,Parathyroid,Parathyroid Cyst,E21.5,"Disorder of parathyroid gland, unspecified"
+Neck,Parathyroid,Parathyroid Hyperplasia,E21.3,Hyperplasia of parathyroid gland
+Neck,Parathyroid,Ectopic Parathyroid Tissue,Q89.2,Congenital malformations of other endocrine glands
+Neck,Pharynx,Pharyngeal Diverticulum,J39.2,Other diseases of pharynx
+Neck,Pharynx,Hypertrophy of Pharyngeal Tonsils,J35.2,Hypertrophy of adenoids
+Neck,Pharynx,Tonsillar Asymmetry,R09.89,Other specified symptoms involving respiratory system
+Neck,Pharynx,Pharyngeal Wall Thickening,R22.1,"Localized swelling, mass, and lump, neck"
+Neck,Pharynx,Pharyngitis,J02.9,"Acute pharyngitis, unspecified"
+Neck,Pharynx,Peritonsillar Abscess,J36,Peritonsillar abscess
+Neck,Pharynx,Tonsillar Calcifications,R22.1,"Localized swelling, mass, and lump, neck"
+Neck,Salivary Glands,Salivary Gland Stone,K11.5,Sialolithiasis
+Neck,Salivary Glands,Sialadenitis,K11.20,"Sialoadenitis, unspecified"
+Neck,Salivary Glands,Parotid Gland Mass,D11.0,Benign neoplasm of parotid gland
+Neck,Salivary Glands,Mucocele of Salivary Gland,K11.6,Mucocele of salivary gland
+Neck,Salivary Glands,Submandibular Gland Tumor,D11.7,Benign neoplasm of other major salivary glands
+Neck,Salivary Glands,Sialolithiasis in Sublingual Gland,K11.5,Sialolithiasis
+Neck,Salivary Glands,Parotid Cyst,K11.8,Other diseases of salivary glands
+Neck,Salivary Glands,Salivary Gland Atrophy,K11.0,Atrophy of salivary gland
+Neck,Soft Tissue,Lipoma of Neck,D17.0,"Benign lipomatous neoplasm of skin and subcutaneous tissue of head, face and neck"
+Neck,Soft Tissue,Hemangioma of Neck,D18.01,Hemangioma of skin and subcutaneous tissue
+Neck,Soft Tissue,Cervical Abscess,L02.11,Cutaneous abscess of neck
+Neck,Soft Tissue,Branchial Cleft Cyst,Q18.2,Branchial cleft cyst
+Neck,Soft Tissue,Sebaceous Cyst of Neck,L72.3,Sebaceous cyst
+Neck,Soft Tissue,Soft Tissue Sarcoma of Neck,C49.0,"Malignant neoplasm of connective and soft tissue of head, face, and neck"
+Neck,Soft Tissue,Cervical Cystic Lesion,Q18.0,"Sinus, fistula and cyst of branchial cleft"
+Neck,Soft Tissue,Fat Necrosis of Neck,M79.89,Other specified soft tissue disorders
+Neck,Soft Tissue,Cervical Fibrosis,M62.89,Other specified disorders of muscle
+Neck,Spine,Cervical Disc Herniation,M50.20,"Other cervical disc displacement, unspecified cervical region"
+Neck,Spine,Cervical Spondylosis,M47.812,"Spondylosis without myelopathy or radiculopathy, cervical region"
+Neck,Spine,Cervical Spinal Stenosis,M48.02,"Spinal stenosis, cervical region"
+Neck,Spine,Ossification of the Posterior Longitudinal Ligament,M48.8X2,"Other specified spondylopathies, cervical region"
+Neck,Spine,Cervical Kyphosis,M40.202,"Other kyphosis, cervical region"
+Neck,Spine,Cervical Vertebral Fracture,S12.9XXA,"Fracture of unspecified cervical vertebra, initial encounter"
+Neck,Spine,Cervical Rib,Q76.5,Cervical rib
+Neck,Spine,Atlantoaxial Instability,M43.8X2,"Other specified deforming dorsopathies, cervical region"
+Neck,Spine,Degenerative Disc Disease,M50.30,"Other cervical disc degeneration, unspecified cervical region"
+Neck,Thyroid,Thyroid Nodule,E04.1,Nontoxic single thyroid nodule
+Neck,Thyroid,Thyroid Cyst,E04.1,Nontoxic single thyroid nodule
+Neck,Thyroid,Thyroid Goiter,E04.9,"Nontoxic goiter, unspecified"
+Neck,Thyroid,Thyroiditis,E06.9,"Thyroiditis, unspecified"
+Neck,Thyroid,Papillary Thyroid Carcinoma,C73,Malignant neoplasm of thyroid gland
+Neck,Thyroid,Multinodular Goiter,E04.2,Nontoxic multinodular goiter
+Neck,Thyroid,Hyperthyroidism,E05.90,"Thyrotoxicosis, unspecified without thyrotoxic crisis or storm"
+Neck,Thyroid,Thyroid Hematoma,M79.81,Nontraumatic hematoma of soft tissue
+Neck,Thyroid,Thyroid Calcifications,R93.2,Abnormal findings on diagnostic imaging of other specified body structures
+Neck,Trachea,Tracheal Stenosis,J39.8,Other specified diseases of upper respiratory tract
+Neck,Trachea,Tracheal Diverticulum,Q32.2,Other congenital malformations of trachea
+Neck,Trachea,Tracheomalacia,Q27.8,Other specified congenital malformations of peripheral vessels
+Neck,Trachea,Tracheal Mass,D38.5,Neoplasm of uncertain behavior of other respiratory organs
+Neck,Trachea,Tracheal Calcifications,R93.2,Abnormal findings on diagnostic imaging of other specified body structures
+Neck,Trachea,Tracheoesophageal Fistula,Q39.0,Congenital tracheoesophageal fistula with atresia
+Neck,Vessels,Carotid Artery Stenosis,I65.2,Occlusion and stenosis of carotid artery
+Neck,Vessels,Jugular Vein Thrombosis,I82.891,Embolism and thrombosis of other specified veins
+Neck,Vessels,Vertebral Artery Dissection,I77.74,Dissection of vertebral artery
+Neck,Vessels,Arteriovenous Malformation,Q28.2,Arteriovenous malformation of vessel of brain
+Neck,Vessels,Carotid Body Tumor,D44.7,Neoplasm of uncertain behavior of other endocrine glands
+Neck,Vessels,Carotid Artery Aneurysm,I72.0,Aneurysm of carotid artery
+Neck,Vessels,Vertebral Artery Stenosis,I65.8,Occlusion and stenosis of other precerebral arteries
+Neck,Vessels,Carotid Artery Dissection,I77.71,Dissection of carotid artery
+Neck,Vessels,Subclavian Artery Aneurysm,I72.1,Aneurysm of subclavian artery
+Neck,Vessels,Jugular Venous Dilatation,I87.8,Other specified disorders of veins
+Neck,Larynx,Vocal Cord Polyp,J38.1,Polyp of vocal cord and larynx
+Pelvis,Uterus ,Uterine Fibroid ,D25.9,"Leimyoma of uterus, unspecified "
+Pelvis,Prostate,Prostatic Hyperplasia ,N40.0,Benign prostatic hyperplasia without lower urinary tract symptoms
+Pelvis,Lymphatic System,Pelvic Lymphadenopathy,R59.0,Localized enlarged lymph nodes
+Pelvis,Female Reproductive System,Hemorrhagic Cyst,N83.29,Other ovarian cysts
+Pelvis,Ovary,Para-ovarian Cyst,N83.20,Unspecified ovarian cyst
+Pelvis,Peritoneum,Peritoneal Cyst,K66.8,Other specified disorders of peritoneum
+Pelvis,Female Reproductive System,Simple Hydrosalpinx,N70.11,Chronic Salpingitis 
+Pelvis,Ovary,Ovarian Fibroma ,D27,Benign neoplasm of ovary
+Pelvis,Uterus ,Endometrioma,N80.9,Endometriosis
+Pelvis,Ovary,Ovarian Dermoid,D27.9,Benign neoplasm of unspecified ovary
+Pelvis,Pelvic Floor,Pelvic Floor Relaxation,N81.83,Relaxation of pelvic floor.
+Neck,Vallecula,Asymmetric Appearance of the Vallecula,R93.89,Abnormal findings on diagnostic imaging of other specified body structures
+Back,Spine,Perinueral (Tarlov) Cysts,G96.191,"Perineural (Tarlov) cyst, unspecified."
+Pelvis,Groin,Inguinal hernia,K40.91,"Unilateral inguinal hernia, without obstruction or gangrene, recurrent"
