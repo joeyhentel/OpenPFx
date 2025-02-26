@@ -109,8 +109,49 @@ single_fewshot_icd10_labeling_prompt = PromptTemplate(
     template = SINGLE_FEWSHOT_ICD10_LABELING_INSTRUCTION,
     )
 
+# AUTOGEN PROMPTS BELOW HERE
+
+DOCTOR_INSTRUCTION = """
+Please examine the PFx to determine medical accuracy in explaining {Incidental_Finding}
+Make sure the explanation aligns with the ICD-10 code: <ICD10_code>
+
+Examine the ICD10_code and the PFx_ICD10_code to determine the accuracy of the PFx. If they are completely different, the response could be inaccurate depending on what the codes represent.
+
+- If the response is medically accurate, send the response to the readability_checker. 
+- If not, send the response back to the writer agent with:
+  - **Brief reason** for inaccuracy
+  - **Specific missing or incorrect details**
+
+Format:
+1. **Verdict:** ["ACCURATE - Send to Readability" / "INACCURATE - Revise"]
+IF REQUIRED
+2. **Reasoning:** [Short explanation]
+3. **Fixes:** [Concise revision suggestions]
+
+IF IT IS INACCURATE, YOUR OUTPUT MUST BEGIN WITH THE WORD INACCURATE
+
+"""
+
+READABILITY_CHECKER_INSTRUCTION = """Check if the PFx matches the desired Flesch Reading Ease Score (FRES) {reading_level}.
+
+- If it does not match, return to the writer with:
+  - A **brief** reason why it doesn’t match.
+  - **Specific** changes needed to reach the desired level.
+- - If it matches, say "All done!"
+
+IF IT IS NOT READABLE, YOUR OUTPUT MUST BEGIN WITH: **NOT READABLE**
+"""
 
 
+doctor_prompt = PromptTemplate(
+    imput_variables = ["Incidental_Finding", "ICD10_code"],
+    template=DOCTOR_INSTRUCTION,
+)
+
+readability_checker_prompt = PromptTemplate(
+    input_variables = ["reading_level"],
+    template=READABILITY_CHECKER_INSTRUCTION,
+)
 
 
 
