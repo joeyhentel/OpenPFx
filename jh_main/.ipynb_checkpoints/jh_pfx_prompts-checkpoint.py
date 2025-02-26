@@ -115,7 +115,9 @@ DOCTOR_INSTRUCTION = """
 Please examine the PFx to determine medical accuracy in explaining {Incidental_Finding}
 Make sure the explanation aligns with the ICD-10 code: <ICD10_code>
 
-- If the response is medically accurate, send the response to the icd10_checker. 
+Examine the ICD10_code and the PFx_ICD10_code to determine the accuracy of the PFx. If they are completely different, the response could be inaccurate depending on what the codes represent.
+
+- If the response is medically accurate, send the response to the readability_checker. 
 - If not, send the response back to the writer agent with:
   - **Brief reason** for inaccuracy
   - **Specific missing or incorrect details**
@@ -128,34 +130,16 @@ IF REQUIRED
 
 IF IT IS INACCURATE, YOUR OUTPUT MUST BEGIN WITH THE WORD INACCURATE
 
-Do not engage in further conversation—simply forward the task as instructed.
-
 """
 
 READABILITY_CHECKER_INSTRUCTION = """Check if the PFx matches the desired Flesch Reading Ease Score (FRES) {reading_level}.
 
-- If it matches, say "All done!" to the terminator.
 - If it does not match, return to the writer with:
   - A **brief** reason why it doesn’t match.
   - **Specific** changes needed to reach the desired level.
+- - If it matches, say "All done!"
 
 IF IT IS NOT READABLE, YOUR OUTPUT MUST BEGIN WITH: **NOT READABLE**
-"""
-
-ICD10_AGENT_INSTRUCTION = """Verify that PFx_ICD10_code matches ICD10_code:
-
-Numbers before the decimal must match.
-Numbers after the decimal may differ.
-Next Steps:
-
-If they match, send to Readability Checker.
-If they do not match, return to Writer Agent with:
-Brief mismatch explanation.
-Correction instructions.
-IMPORTANT:
-
-Start response with MISMATCH if codes do not match.
-No extra conversation—just validate and pass the task.
 """
 
 
@@ -168,8 +152,6 @@ readability_checker_prompt = PromptTemplate(
     input_variables = ["reading_level"],
     template=READABILITY_CHECKER_INSTRUCTION,
 )
-
-icd10_checker_prompt = ICD10_AGENT_INSTRUCTION
 
 
 
