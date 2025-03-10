@@ -42,7 +42,6 @@ Additional Instructions:
 
 # INCORPORATE ZEROSHOT_REFLEXION_READING_LEVEL
 
-
 SINGLE_FEWSHOT_INSTRUCTION = """
 
 <Prompt>
@@ -111,6 +110,26 @@ single_fewshot_icd10_labeling_prompt = PromptTemplate(
 
 # AUTOGEN PROMPTS BELOW HERE
 
+WRITER_INSTRUCTION = """
+
+<Prompt>
+Please generate new <PFx> for the <Incidental Finding>
+
+Output should be formatted as a json with the following attributes/fields: finding, ICD10_code, PFx
+
+Additional Instructions:
+1. DO NOT SUGGEST FOLLOW UP STEPS WITH THE DOCTOR
+2. If you use an analogy, do not make another analogy explaining the same thing.
+3. Please generate PFx at a {Reading_Level} Flesch-Kincaid reading level.
+4. Please output PFx in 100 words or more
+
+</Prompt>
+
+<Incidental Finding> 
+{Incidental_Finding} 
+</Incidental Finding>  
+"""
+
 DOCTOR_INSTRUCTION = """
 Please examine the PFx to determine medical accuracy in explaining {Incidental_Finding}
 Make sure the explanation aligns with the ICD-10 code: <ICD10_code>
@@ -139,9 +158,25 @@ READABILITY_CHECKER_INSTRUCTION = """Check if the PFx matches the desired Flesch
   - **Specific** changes needed to reach the desired level.
 - - If it matches, say "All done!"
 
-IF IT IS NOT READABLE, YOUR OUTPUT MUST BEGIN WITH: **NOT READABLE**
+IF IT DOES NOT MATCH, YOUR OUTPUT MUST BEGIN WITH: **NOT READABLE**
 """
 
+ICD10_LABELER_INSTRUCTION = """"You are an ICD10 code labeller. You are knowledgable in incidental MRI findings and their corresponind ICD10 codes. 
+
+Please label the provided response with the ICD10 code of the incidental finding described in the patient-friendly sentences.
+Add the following field to the provided response with the ICD10 code you identified: PFx_ICD10_code
+
+YOU DO NOT INDICATE IF A RESPONSE IS READY FOR USE OR NOT.
+
+Output should be formatted as a json with the following attributes/fields: finding, ICD10_code, PFx, PFx_ICD10_code
+Send your output to doctor_agent. 
+
+"""
+
+writer_prompt = PromptTemplate (
+    input_variables = ["Incidental_Finding", "Reading_Level"],
+    template = WRITER_INSTRUCTION,
+)
 
 doctor_prompt = PromptTemplate(
     imput_variables = ["Incidental_Finding", "ICD10_code"],
