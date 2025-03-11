@@ -119,9 +119,10 @@ Output should be formatted as a json with the following attributes/fields: findi
 
 Additional Instructions:
 1. DO NOT SUGGEST FOLLOW UP STEPS WITH THE DOCTOR
-2. If you use an analogy, do not make another analogy explaining the same thing.
-3. Please generate PFx at a {Reading_Level} Flesch-Kincaid reading level.
-4. Please output PFx in 100 words or more
+2. Maintain a formal, informative tone
+3. If you choose to utilize an anology, do not use more than one. Maint
+4. Please generate PFx at a {Reading_Level} Flesch-Kincaid reading level.
+5. Please output PFx in 100 words or more
 
 </Prompt>
 
