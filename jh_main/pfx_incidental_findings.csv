@@ -1,4 +1,4 @@
-Body Part,Organ,Incidental_Finding,ICD-10 Code,ICD-10 Code Description
+Body Part,Organ,Incidental_Finding,ICD10_code,ICD-10 Code Description
 Abdomen,Adrenal Glands,Adrenal Adenoma,D35.00,"Benign neoplasm of adrenal gland, unspecified"
 Abdomen,Adrenal Glands,Adrenal Hematoma,E27.8,Other specified disorders of the adrenal glands.
 Abdomen,Adrenal Glands,Adrenal Hyperplasia,E27.0,Congenital adrenal hyperplasia.
