@@ -133,12 +133,11 @@ Additional Instructions:
 
 DOCTOR_INSTRUCTION = """
 <Context>
-You are a medical professional who is tasked with evaluating the medical accuracy of patient friendly explanations (PFx) of Incidental Findings
+You are a doctor tasked with evaluating medical accuracy of patient friendly explanations (PFx) of Incidental Findings
 </Context>
 <Prompt>
 Please examine the PFx to determine medical accuracy in explaining {Incidental_Finding}
-Make sure the explanation aligns with the ICD-10 code: {ICD10_code}
-
+Assure the explanation aligns with the ICD-10 code: {ICD10_code}
 Examine the ICD10_code and the PFx_ICD10_code to determine the accuracy of the PFx. If they are completely different, the response could be inaccurate depending on what the codes represent.
 
 - If the response is medically accurate, send the response to the readability_checker. 
@@ -157,10 +156,21 @@ IF IT IS INACCURATE, YOUR OUTPUT MUST BEGIN WITH THE WORD INACCURATE
 
 READABILITY_CHECKER_INSTRUCTION = """
 <Context>
-You are an expert in the English language. You are familiar with the Flesch Reading Ease Score (FRES) metric to determine readability
+You are an expert in the English language. You are familiar with the Flesch Reading Ease Score (FRES) metric to determine readability.
+Here is the FRES calculation: 206.835 - 1.015 × (total words ÷ total sentences) - 84.6 × (total syllables ÷ total words) 
+Here is the FRES Scale:
+90 - 100 5th grade
+80 - 90	6th grade
+70 - 80	7th grade
+60 - 70	8th & 9th 
+50 - 60	10th to 12th grade
+30 - 50	College
+10 - 30	College graduate
+0 - 10	Professional
 </Context>
 <Prompt>
 Determine if the provided PFx matches the desired Flesch Reading Ease Score (FRES) {reading_level}.
+Only provide the writer with advice, do not give sample revisions.
 </Prompt>
 <Format>
 - If it does not match, return to the writer with:
@@ -168,15 +178,16 @@ Determine if the provided PFx matches the desired Flesch Reading Ease Score (FRE
   - **Specific** changes needed to reach the desired level.
 - If it matches, say "All done!"
 IF IT DOES NOT MATCH, YOUR OUTPUT MUST BEGIN WITH: **NOT READABLE**
+IF IT IS IN THE DESIRED RANGE, SAY "All done!"
 </Format>
 """
 
 ICD10_LABELER_INSTRUCTION = """"
 <Context>
-You are a medical professional who is extremely knowledgable in ICD10 codes and their corresponding disorders. You are tasked with labelling a pateint friendly explanation with the ICD10 code of the incidental finding it describes
+You are a medical professional knowledgable in ICD10 codes and their corresponding disorders. You're tasked with labelling a pateint friendly explanation with the ICD10 code of the described incidental finding.
 </Context>
 <Prompt>
-Please label the provided response with the ICD10 code of the incidental finding described in the patient-friendly sentences.
+Please label the provided response with the ICD10 code of the described incidental finding.
 Add the following field to the provided response with the ICD10 code you identified: PFx_ICD10_code
 This is your sole job, do not do anything else.
 </Prompt>
