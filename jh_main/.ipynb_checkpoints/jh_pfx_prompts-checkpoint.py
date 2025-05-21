@@ -137,6 +137,7 @@ You are a doctor tasked with evaluating medical accuracy of patient friendly exp
 </Context>
 <Prompt>
 Please examine the PFx to determine medical accuracy in explaining {Incidental_Finding}
+The explanation should adequately and specifically explain {Incidental_Finding}
 Assure the explanation aligns with the ICD-10 code: {ICD10_code}
 Examine the ICD10_code and the PFx_ICD10_code to determine the accuracy of the PFx. If they are completely different, the response could be inaccurate depending on what the codes represent.
 
