@@ -25,7 +25,7 @@ def cache_key(content: MessageContentType, *args: Hashable) -> str:
 
 
 def cache_content_get(cache: Optional[AbstractCache], key: str) -> Optional[tuple[MessageContentType, ...]]:
-    """Retrieves cachedd content from the cache.
+    """Retrieves cached content from the cache.
 
     Args:
         cache (None or AbstractCache): The cache to retrieve the content from. If None, the cache is ignored.
@@ -56,6 +56,7 @@ def min_tokens_reached(messages: list[dict[str, Any]], min_tokens: Optional[int]
 
     Args:
         messages (List[Dict]): A list of messages to check.
+        min_tokens (None or int): The minimum number of tokens to check for.
     """
     if not min_tokens:
         return True

@@ -146,13 +146,6 @@ Examine the ICD10_code and the PFx_ICD10_code to determine the accuracy of the P
   - **Brief reason** for inaccuracy
   - **Specific missing or incorrect details**
 </Prompt>
-<Format>
-1. **Verdict:** ["ACCURATE - Send to Readability" / "INACCURATE - Revise"]
-IF REQUIRED
-2. **Reasoning:** [Short explanation]
-3. **Fixes:** [Concise revision suggestions]
-IF IT IS INACCURATE, YOUR OUTPUT MUST BEGIN WITH THE WORD INACCURATE
-</Format>
 """
 
 READABILITY_CHECKER_INSTRUCTION = """
@@ -173,14 +166,6 @@ Here is the FRES Scale:
 Determine if the provided PFx matches the desired Flesch Reading Ease Score (FRES) {reading_level}.
 Only provide the writer with advice, do not give sample revisions.
 </Prompt>
-<Format>
-- If it does not match, return to the writer with:
-  - A **brief** reason why it doesn’t match.
-  - **Specific** changes needed to reach the desired level.
-- If it matches, say "All done!"
-IF IT DOES NOT MATCH, YOUR OUTPUT MUST BEGIN WITH: **NOT READABLE**
-IF IT IS IN THE DESIRED RANGE, SAY "All done!"
-</Format>
 """
 
 ICD10_LABELER_INSTRUCTION = """"
