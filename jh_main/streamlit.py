@@ -18,8 +18,6 @@ with lcol:
     st.markdown(
         "- Choose a **workflow** (Zero-shot, Few-shot, Multiple Few-shot, Agentic), then a **finding**.\n"
         "- The PFx card displays the explanation; enable **Advanced stats** to see ICD-10, accuracy, and Readability (FRES).\n"
-        "- Column names in your CSVs are auto-detected (e.g., `Finding`, `PFx/Explanation`, `ICD10`, `Accuracy`, `Readability`, `_0_flesch`)."
-    )
 with rcol:
     st.markdown(
         """
