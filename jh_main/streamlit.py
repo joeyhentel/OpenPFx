@@ -35,16 +35,18 @@ if page == "generate":
     st.stop()
 
 # ---------- File configuration ----------
-# These are the files you uploaded (place them next to app.py or give absolute paths)
+# Always resolve paths relative to this file (works locally & on Streamlit Cloud)
+BASE_DIR = Path(__file__).resolve().parent
+
 WORKFLOW_FILES = {
-    "Zero-shot":          Path("PFx_final - PFx_Zeroshot.csv"),
-    "Few-shot":           Path("PFx_final - PFx_Single_Fewshot.csv"),
-    "Multiple Few-shot":  Path("PFx_final - PFx_Multiple_Few.csv"),
-    "Agentic":            Path("PFx_final - PFx_Agentic.csv"),
+    "Zero-shot":         BASE_DIR / "PFx_final - PFx_Zeroshot.csv",
+    "Few-shot":          BASE_DIR / "PFx_final - PFx_Single_Fewshot.csv",
+    "Multiple Few-shot": BASE_DIR / "PFx_final - PFx_Multiple_Few.csv",
+    "Agentic":           BASE_DIR / "PFx_final - PFx_Agentic.csv",
 }
 
-# Optional legacy fallback: a simple two-column source (A: finding, B: explanation)
-LEGACY_FALLBACK = Path("pfx_source.csv")
+# Optional legacy fallback if you keep it:
+LEGACY_FALLBACK = BASE_DIR / "pfx_source.csv"
 
 # ---------- Data loading & normalization ----------
 @st.cache_data(show_spinner=False)
