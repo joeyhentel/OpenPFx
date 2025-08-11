@@ -1,4 +1,4 @@
-# app.py
+# streamlit.py
 import pandas as pd
 import streamlit as st
 from pathlib import Path
@@ -9,10 +9,17 @@ st.set_page_config(
     layout="wide",
 )
 
-# ---------- Top bar: title (left) + CTA button (right) ----------
+# ==========================
+# Top bar: Title (left) + CTA button (right)
+# ==========================
 lcol, rcol = st.columns([1, 1], gap="small")
 with lcol:
     st.title("PFx: Patient Friendly Explanations")
+    st.markdown(
+        "- Choose a **workflow** (Zero-shot, Few-shot, Multiple Few-shot, Agentic), then a **finding**.\n"
+        "- The PFx card displays the explanation; enable **Advanced stats** to see ICD-10, accuracy, readability, and FRES (Flesch Reading Ease Score), if available.\n"
+        "- Column names in your CSVs are auto-detected (e.g., `Finding`, `PFx/Explanation`, `ICD10`, `Accuracy`, `Readability`, `FRES`)."
+    )
 with rcol:
     st.markdown(
         """
@@ -26,7 +33,9 @@ with rcol:
         unsafe_allow_html=True,
     )
 
-# ---------- Simple router for the future "Generate" page ----------
+# ==========================
+# Simple router for the future "Generate" page
+# ==========================
 qs = st.query_params
 page = qs.get("page", [""])[0] if isinstance(qs.get("page"), list) else qs.get("page", "")
 if page == "generate":
@@ -34,8 +43,9 @@ if page == "generate":
     st.info("You clicked **Generate Your Own!** — I’ll wire this up once you share the specs.")
     st.stop()
 
-# ---------- File configuration ----------
-# Always resolve paths relative to this file (works locally & on Streamlit Cloud)
+# ==========================
+# File configuration (portable: paths relative to this file)
+# ==========================
 BASE_DIR = Path(__file__).resolve().parent
 
 WORKFLOW_FILES = {
@@ -45,83 +55,90 @@ WORKFLOW_FILES = {
     "Agentic":           BASE_DIR / "PFx_final - PFx_Agentic.csv",
 }
 
-# Optional legacy fallback if you keep it:
+# Optional legacy fallback if you keep it
 LEGACY_FALLBACK = BASE_DIR / "pfx_source.csv"
 
-# ---------- Data loading & normalization ----------
+# ==========================
+# Data loading & normalization
+# ==========================
 @st.cache_data(show_spinner=False)
 def load_any_csv(path: Path) -> pd.DataFrame | None:
     """Load a CSV with best-effort header detection; returns None if missing."""
     if not path.exists():
         return None
     try:
-        df = pd.read_csv(path)
+        return pd.read_csv(path)
     except Exception:
         try:
-            df = pd.read_csv(path, header=None)
+            return pd.read_csv(path, header=None)
         except Exception:
             return None
-    return df
+
 
 def _pick_col(df: pd.DataFrame, candidates: list[str]) -> str | None:
-    lower = {c.lower().strip(): c for c in df.columns}
+    lower_map = {str(c).lower().strip(): c for c in df.columns}
     for want in candidates:
-        if want in lower:
-            return lower[want]
+        if want in lower_map:
+            return lower_map[want]
     return None
+
 
 def normalize_dataframe(raw: pd.DataFrame) -> pd.DataFrame:
     """
-    Normalize an arbitrary PFx CSV to standardized columns:
-    - Finding
-    - PFx
-    - ICD10
-    - Accuracy
-    - Readability
+    Normalize an arbitrary PFx CSV to:
+      - Finding
+      - PFx
+      - ICD10
+      - Accuracy
+      - Readability
+      - FRES
     Heuristics try multiple common header names; if not found, falls back to first/second columns.
     """
     df = raw.copy()
-    # If it's a no-header two-col file, give temp names
+
+    # If it's a no-header two+ col file, assign temp names
     if all(str(c).startswith("Unnamed") for c in df.columns) and df.shape[1] >= 2:
-        df = df.iloc[:, :5]
-        df.columns = ["Finding", "PFx", "ICD10", "Accuracy", "Readability"][:df.shape[1]]
-        # Fill missing optional cols if fewer than 5
-        for col in ["ICD10", "Accuracy", "Readability"]:
+        df = df.iloc[:, :6]
+        df.columns = ["Finding", "PFx", "ICD10", "Accuracy", "Readability", "FRES"][: df.shape[1]]
+        for col in ["ICD10", "Accuracy", "Readability", "FRES"]:
             if col not in df.columns:
                 df[col] = None
         return df
 
     # Try to find columns by name (case-insensitive)
     finding_col = _pick_col(df, [
-        "finding","name","incidental finding","finding_name","title","label"
+        "finding", "name", "incidental finding", "finding_name", "title", "label",
     ])
     pfx_col = _pick_col(df, [
-        "pfx","explanation","patient friendly explanation","pfx_text","answer","output","pf x"
+        "pfx", "explanation", "patient friendly explanation", "pfx_text", "answer", "output", "pf x",
     ])
     icd_col = _pick_col(df, [
-        "icd10","icd-10","icd10_code","icd code","icd"
+        "icd10", "icd-10", "icd10_code", "icd code", "icd",
     ])
     acc_col = _pick_col(df, [
-        "accuracy","eval_accuracy","is_correct","correctness","score"
+        "accuracy", "eval_accuracy", "is_correct", "correctness", "score",
     ])
     read_col = _pick_col(df, [
-        "readability","grade","grade_level","fkgl","flesch_kincaid","flesch-kincaid","smog"
+        "readability", "grade", "grade_level", "fkgl", "flesch_kincaid", "flesch-kincaid", "smog",
+    ])
+    fres_col = _pick_col(df, [
+        "fres", "flesch reading ease", "flesch_reading_ease", "flesch reading-ease", "flesch score", "flesch",
     ])
 
-    # Fallbacks if missing
-    cols = df.columns.tolist()
+    # Fallbacks
+    cols = list(df.columns)
     if finding_col is None and len(cols) >= 1:
         finding_col = cols[0]
     if pfx_col is None and len(cols) >= 2:
         pfx_col = cols[1]
 
-    # Build normalized frame
     out = pd.DataFrame({
-        "Finding":   df[finding_col].astype(str).str.strip() if finding_col else "",
-        "PFx":       df[pfx_col].astype(str) if pfx_col else "",
-        "ICD10":     df[icd_col].astype(str) if icd_col else None,
-        "Accuracy":  df[acc_col] if acc_col else None,
+        "Finding": df[finding_col].astype(str).str.strip() if finding_col else "",
+        "PFx": df[pfx_col].astype(str) if pfx_col else "",
+        "ICD10": df[icd_col].astype(str) if icd_col else None,
+        "Accuracy": df[acc_col] if acc_col else None,
         "Readability": df[read_col].astype(str) if read_col else None,
+        "FRES": df[fres_col] if fres_col else None,
     })
 
     # Clean & dedupe
@@ -129,6 +146,7 @@ def normalize_dataframe(raw: pd.DataFrame) -> pd.DataFrame:
     out["Finding"] = out["Finding"].str.strip()
     out = out.drop_duplicates(subset=["Finding"], keep="first")
     return out
+
 
 @st.cache_data(show_spinner=False)
 def load_all_workflows(workflow_files: dict[str, Path]) -> dict[str, pd.DataFrame]:
@@ -144,9 +162,12 @@ def load_all_workflows(workflow_files: dict[str, Path]) -> dict[str, pd.DataFram
             datasets["Zero-shot"] = normalize_dataframe(legacy)
     return datasets
 
+
 datasets = load_all_workflows(WORKFLOW_FILES)
 
-# ---------- UI: left controls / right content ----------
+# ==========================
+# UI: Left controls / Right content
+# ==========================
 left, right = st.columns([1, 2], gap="large")
 
 with left:
@@ -154,7 +175,7 @@ with left:
 
     if not datasets:
         st.error(
-            "No datasets found. Please place the four CSV files next to `app.py`:\n\n"
+            "No datasets found. Please place the four CSV files next to this file (or adjust paths):\n\n"
             "- PFx_final - PFx_Zeroshot.csv\n"
             "- PFx_final - PFx_Single_Fewshot.csv\n"
             "- PFx_final - PFx_Multiple_Few.csv\n"
@@ -173,6 +194,7 @@ with left:
 
 with right:
     st.subheader("Patient-Friendly Explanation")
+
     # Styled white card
     st.markdown(
         """
@@ -215,22 +237,31 @@ with right:
         )
 
         # Advanced stats toggle
-        show_stats = st.checkbox("Show advanced stats (ICD-10, accuracy, readability)", value=False)
+        show_stats = st.checkbox("Show advanced stats (ICD-10, accuracy, readability, FRES)", value=False)
         if show_stats:
             icd10 = (row.get("ICD10") or "").strip()
-            # Format accuracy nicely if numeric
+
+            # Accuracy formatting -> percent if 0-1, else as-is with %
             acc_val = row.get("Accuracy")
+            acc_str = ""
             if pd.notna(acc_val):
                 try:
-                    # If it's like 0.87 turn to 87%, if it's 87 show 87%
                     f_acc = float(acc_val)
                     acc_str = f"{f_acc*100:.1f}%" if 0 <= f_acc <= 1 else f"{f_acc:.1f}%"
                 except Exception:
                     acc_str = str(acc_val)
-            else:
-                acc_str = ""
 
             read_str = (row.get("Readability") or "").strip()
+
+            # FRES (Flesch Reading Ease Score)
+            fres_val = row.get("FRES")
+            fres_str = ""
+            if pd.notna(fres_val):
+                try:
+                    fres_num = float(fres_val)
+                    fres_str = f"{fres_num:.1f}"
+                except Exception:
+                    fres_str = str(fres_val)
 
             # Render pills
             pills = []
@@ -240,6 +271,8 @@ with right:
                 pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
             if read_str:
                 pills.append(f"<div class='pfx-pill'><b>Readability:</b> {read_str}</div>")
+            if fres_str:
+                pills.append(f"<div class='pfx-pill'><b>FRES:</b> {fres_str}</div>")
 
             if pills:
                 st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
@@ -250,11 +283,3 @@ with right:
             "<div class='pfx-card pfx-muted'>Pick a workflow and finding on the left to view the PFx.</div>",
             unsafe_allow_html=True,
         )
-
-# ---------- Tiny helper footer ----------
-with st.expander("About this page", expanded=False):
-    st.write(
-        "- Choose a **workflow** (Zero-shot, Few-shot, Multiple Few-shot, Agentic), then a **finding**.\n"
-        "- The PFx card displays the explanation; enable **Advanced stats** to see ICD-10, accuracy, and readability if available.\n"
-        "- Column names in your CSVs are auto-detected (e.g., `Finding`, `PFx/Explanation`, `ICD10`, `Accuracy`, `Readability`)."
-    )
