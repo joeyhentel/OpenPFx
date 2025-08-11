@@ -177,7 +177,7 @@ with right:
                     acc_str = f"{f_acc*100:.1f}%" if 0 <= f_acc <= 1 else f"{f_acc:.1f}%"
                 except Exception:
                     acc_str = str(acc_val)
-            read_str = (row.get("Readability(FRES)") or "").strip()
+            read_str = (row.get("Readability (FRES)") or "").strip()
             fres_val = row.get("FRES")
             fres_str = ""
             if pd.notna(fres_val):
@@ -191,7 +191,7 @@ with right:
             if acc_str:
                 pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
             if read_str or fres_str:
-                pills.append(f"<div class='pfx-pill'><b>Readability(FRES):</b> {read_str} ({fres_str})</div>")
+                pills.append(f"<div class='pfx-pill'><b>Readability(FRES):</b> {read_str} {fres_str}</div>")
             if pills:
                 st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
             else:
