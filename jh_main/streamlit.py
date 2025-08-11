@@ -18,6 +18,7 @@ with lcol:
     st.markdown(
         "- Choose a **workflow** (Zero-shot, Few-shot, Multiple Few-shot, Agentic), then a **finding**.\n"
         "- The PFx card displays the explanation; enable **Advanced stats** to see ICD-10, accuracy, and Readability (FRES).\n"
+        "- Column names in your CSVs are auto-detected (e.g., `Finding`, `PFx/Explanation`, `ICD10`, `Accuracy`, `Readability`, `_0_flesch`)."
     )
 with rcol:
     st.markdown(
@@ -33,13 +34,13 @@ with rcol:
     )
 
 # ==========================
-# Simple router for the future "Generate" page
+# Router for the "Generate" page
 # ==========================
 qs = st.query_params
 page = qs.get("page", [""])[0] if isinstance(qs.get("page"), list) else qs.get("page", "")
 if page == "generate":
-    st.subheader("Generate Your Own (coming soon)")
-    st.info("You clicked **Generate Your Own!** — I’ll wire this up once you share the specs.")
+    from zero_streamlit import render_generate_page
+    render_generate_page()
     st.stop()
 
 # ==========================
@@ -82,8 +83,8 @@ def normalize_dataframe(raw: pd.DataFrame) -> pd.DataFrame:
     df = raw.copy()
     if all(str(c).startswith("Unnamed") for c in df.columns) and df.shape[1] >= 2:
         df = df.iloc[:, :6]
-        df.columns = ["Finding", "PFx", "ICD10", "Accuracy", "Readability", "FRES"][: df.shape[1]]
-        for col in ["ICD10", "Accuracy", "Readability", "FRES"]:
+        df.columns = ["Finding", "PFx", "ICD10", "Accuracy", "Readability(FRES)", "FRES"][: df.shape[1]]
+        for col in ["ICD10", "Accuracy", "Readability(FRES)", "FRES"]:
             if col not in df.columns:
                 df[col] = None
         return df
@@ -131,7 +132,7 @@ def load_all_workflows(workflow_files: dict[str, Path]) -> dict[str, pd.DataFram
 datasets = load_all_workflows(WORKFLOW_FILES)
 
 # ==========================
-# UI: Left controls / Right content
+# UI: Left controls / Right content (Main page)
 # ==========================
 left, right = st.columns([1, 2], gap="large")
 
@@ -176,7 +177,7 @@ with right:
                     acc_str = f"{f_acc*100:.1f}%" if 0 <= f_acc <= 1 else f"{f_acc:.1f}%"
                 except Exception:
                     acc_str = str(acc_val)
-            read_str = (row.get("Readability (FRES)") or "").strip()
+            read_str = (row.get("Readability(FRES)") or "").strip()
             fres_val = row.get("FRES")
             fres_str = ""
             if pd.notna(fres_val):
