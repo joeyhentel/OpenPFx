@@ -1,18 +1,4 @@
 # streamlit.py
-"""
-PFx: Patient Friendly Explanations — single-page app
-
-This page combines:
-- **Browse PFx**: pick workflow → select finding → view PFx and Advanced stats
-- **Generate Your Own**: choose workflow (Zero-shot, Few-shot, Agentic), enter Finding + ICD-10, click Generate → PFx card + Advanced stats
-
-Notes
-- CSVs expected next to this file (portable paths).
-- Readability(FRES) pill shows Flesch Reading Ease (from column or computed).
-- `textstat` is optional; a fallback FRES is computed if it isn't installed.
-- For generation, set `OPENAI_API_KEY` in Streamlit Secrets or env. `OPENAI_MODEL` optional (default: gpt-4o-mini).
-"""
-
 from __future__ import annotations
 
 import os
@@ -190,9 +176,14 @@ def compute_fres(text: str) -> Optional[float]:
         return None
 
 # ==========================
-# OpenAI helpers (generation)
+# OpenAI helpers (generation) — optional import
 # ==========================
-from openai import OpenAI
+try:
+    from openai import OpenAI  # type: ignore
+    HAS_OPENAI = True
+except Exception:
+    HAS_OPENAI = False
+    OpenAI = None  # type: ignore
 
 try:
     from jh_pfx_prompts import (
@@ -208,7 +199,9 @@ except Exception:
 FEWSHOT_EXAMPLES_CSV = BASE_DIR / "pfx_fewshot_examples_college.csv"
 
 
-def get_openai_client() -> OpenAI:
+def get_openai_client():
+    if not HAS_OPENAI:
+        return None
     return OpenAI()
 
 
@@ -228,7 +221,7 @@ def extract_json_from_text(text: str) -> Optional[Dict[str, Any]]:
 
 
 def label_icd10s(pfx_output: str) -> Optional[Dict[str, Any]]:
-    if single_fewshot_icd10_labeling_prompt is None or icd10_example is None:
+    if not HAS_OPENAI or single_fewshot_icd10_labeling_prompt is None or icd10_example is None:
         return None
     try:
         df_fewshot = pd.read_csv(FEWSHOT_EXAMPLES_CSV)
@@ -242,6 +235,8 @@ def label_icd10s(pfx_output: str) -> Optional[Dict[str, Any]]:
             continue
     prompt = single_fewshot_icd10_labeling_prompt.format(examples=examples, PFx=pfx_output)
     client = get_openai_client()
+    if client is None:
+        return None
     resp = client.chat.completions.create(
         model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
         temperature=0.0,
@@ -257,8 +252,12 @@ def label_icd10s(pfx_output: str) -> Optional[Dict[str, Any]]:
 def generate_zeroshot_pfx(finding: str, reading_level: str = "6th grade") -> Dict[str, Any]:
     if baseline_zeroshot_prompt is None:
         return {"PFx": "(Error: baseline_zeroshot_prompt not available)"}
+    if not HAS_OPENAI:
+        return {"PFx": "(OpenAI package not installed. Add 'openai' to requirements.txt or set up generation later.)"}
     prompt = baseline_zeroshot_prompt.format(Incidental_Finding=finding, Reading_Level=reading_level)
     client = get_openai_client()
+    if client is None:
+        return {"PFx": "(OpenAI client unavailable)"}
     resp = client.chat.completions.create(
         model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
         temperature=0.0,
@@ -330,7 +329,6 @@ with browse_tab:
                 if acc_str:
                     pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
                 if read_str or fres_str:
-                    # Show either provided readability text or FRES number (or both)
                     label = read_str if read_str else fres_str
                     pills.append(f"<div class='pfx-pill'><b>Readability(FRES):</b> {label}</div>")
                 if pills:
@@ -350,44 +348,49 @@ with generate_tab:
         icd10_input = st.text_input("ICD-10 code", value="", placeholder="e.g., N28.1", key="icd10_gen")
         can_generate = bool(workflow_gen and finding_gen.strip() and icd10_input.strip())
         generate_clicked = st.button("Generate", disabled=not can_generate, key="btn_gen")
+        if not HAS_OPENAI:
+            st.caption("OpenAI SDK not installed — add `openai` to requirements.txt to enable generation.")
 
     with right:
         st.subheader("Patient-Friendly Explanation")
         if generate_clicked and can_generate:
-            if workflow_gen == "Zero-shot":
-                result = generate_zeroshot_pfx(finding_gen, reading_level="6th grade")
-            elif workflow_gen == "Few-shot":
-                st.info("Few-shot generation not wired yet. Falling back to Zero-shot.")
-                result = generate_zeroshot_pfx(finding_gen, reading_level="6th grade")
+            if not HAS_OPENAI:
+                st.markdown("<div class='pfx-card pfx-muted'>Generation unavailable: install the <code>openai</code> package and set your API key.</div>", unsafe_allow_html=True)
             else:
-                st.info("Agentic generation not wired yet. Falling back to Zero-shot.")
-                result = generate_zeroshot_pfx(finding_gen, reading_level="6th grade")
-
-            pfx_text = (result.get("PFx") or "").strip()
-            if pfx_text:
-                st.markdown(f"<div class='pfx-card'>{pfx_text}</div>", unsafe_allow_html=True)
-            else:
-                st.markdown("<div class='pfx-card pfx-muted'>No PFx text generated.</div>", unsafe_allow_html=True)
-
-            show_stats_gen = st.checkbox("Show advanced stats (ICD-10, accuracy, Readability(FRES))", value=False, key="adv_gen")
-            if show_stats_gen:
-                icd10_user = icd10_input.strip()
-                labeled = label_icd10s(pfx_text) or {}
-                icd10_llm = labeled.get("ICD10") or labeled.get("ICD-10") or labeled.get("code") or ""
-                match = (icd10_user.upper().strip() == str(icd10_llm).upper().strip()) if icd10_llm else False
-                acc_str = "100.0%" if match else ("0.0%" if icd10_llm else "—")
-                fres_val = compute_fres(pfx_text)
-                fres_str = f"{fres_val:.1f}" if isinstance(fres_val, (float, int)) else ""
-                pills = []
-                if icd10_user:
-                    pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10_user}</div>")
-                if acc_str and acc_str != "—":
-                    pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
-                if fres_str:
-                    pills.append(f"<div class='pfx-pill'><b>Readability(FRES):</b> {fres_str}</div>")
-                if pills:
-                    st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
+                if workflow_gen == "Zero-shot":
+                    result = generate_zeroshot_pfx(finding_gen, reading_level="6th grade")
+                elif workflow_gen == "Few-shot":
+                    st.info("Few-shot generation not wired yet. Falling back to Zero-shot.")
+                    result = generate_zeroshot_pfx(finding_gen, reading_level="6th grade")
                 else:
-                    st.caption("No advanced stats available.")
+                    st.info("Agentic generation not wired yet. Falling back to Zero-shot.")
+                    result = generate_zeroshot_pfx(finding_gen, reading_level="6th grade")
+
+                pfx_text = (result.get("PFx") or "").strip()
+                if pfx_text:
+                    st.markdown(f"<div class='pfx-card'>{pfx_text}</div>", unsafe_allow_html=True)
+                else:
+                    st.markdown("<div class='pfx-card pfx-muted'>No PFx text generated.</div>", unsafe_allow_html=True)
+
+                show_stats_gen = st.checkbox("Show advanced stats (ICD-10, accuracy, Readability(FRES))", value=False, key="adv_gen")
+                if show_stats_gen:
+                    icd10_user = icd10_input.strip()
+                    labeled = label_icd10s(pfx_text) or {}
+                    icd10_llm = labeled.get("ICD10") or labeled.get("ICD-10") or labeled.get("code") or ""
+                    match = (icd10_user.upper().strip() == str(icd10_llm).upper().strip()) if icd10_llm else False
+                    acc_str = "100.0%" if match else ("0.0%" if icd10_llm else "—")
+                    fres_val = compute_fres(pfx_text)
+                    fres_str = f"{fres_val:.1f}" if isinstance(fres_val, (float, int)) else ""
+                    pills = []
+                    if icd10_user:
+                        pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10_user}</div>")
+                    if acc_str and acc_str != "—":
+                        pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
+                    if fres_str:
+                        pills.append(f"<div class='pfx-pill'><b>Readability(FRES):</b> {fres_str}</div>")
+                    if pills:
+                        st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
+                    else:
+                        st.caption("No advanced stats available.")
         else:
             st.markdown("<div class='pfx-card pfx-muted'>Fill out all fields on the left and click Generate.</div>", unsafe_allow_html=True)
