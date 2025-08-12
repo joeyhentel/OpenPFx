@@ -165,35 +165,33 @@ with right:
         row = df.loc[df["Finding"] == finding].iloc[0]
         pfx_text = (row.get("PFx") or "").strip()
         st.markdown(f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\\"pfx-muted\\">No PFx text found for this item.</span>'}</div>", unsafe_allow_html=True)
-        show_stats = st.checkbox("Show advanced stats (ICD-10, accuracy, Readability(FRES))", value=False)
-        if show_stats:
-            icd10 = (row.get("ICD10") or "").strip()
-            acc_val = row.get("Accuracy")
-            acc_str = ""
-            if pd.notna(acc_val):
-                try:
-                    f_acc = float(acc_val)
-                    acc_str = f"{f_acc*100:.1f}%" if 0 <= f_acc <= 1 else f"{f_acc:.1f}%"
-                except Exception:
-                    acc_str = str(acc_val)
-            read_str = (row.get("Readability (FRES)") or "").strip()
-            fres_val = row.get("FRES")
-            fres_str = ""
-            if pd.notna(fres_val):
-                try:
-                    fres_str = f"{float(fres_val):.1f}"
-                except Exception:
-                    fres_str = str(fres_val)
-            pills = []
-            if icd10:
-                pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
-            if acc_str:
-                pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
-            if read_str or fres_str:
-                pills.append(f"<div class='pfx-pill'><b>Readability(FRES):</b> {read_str} {fres_str}</div>")
-            if pills:
-                st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
-            else:
-                st.caption("No advanced stats available for this entry.")
+        icd10 = (row.get("ICD10") or "").strip()
+        acc_val = row.get("Accuracy")
+        acc_str = ""
+        if pd.notna(acc_val):
+            try:
+                f_acc = float(acc_val)
+                acc_str = f"{f_acc*100:.1f}%" if 0 <= f_acc <= 1 else f"{f_acc:.1f}%"
+            except Exception:
+                acc_str = str(acc_val)
+        read_str = (row.get("Readability (FRES)") or "").strip()
+        fres_val = row.get("FRES")
+        fres_str = ""
+        if pd.notna(fres_val):
+            try:
+                fres_str = f"{float(fres_val):.1f}"
+            except Exception:
+                fres_str = str(fres_val)
+        pills = []
+        if icd10:
+            pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
+        if acc_str:
+            pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
+        if read_str or fres_str:
+            pills.append(f"<div class='pfx-pill'><b>Readability(FRES):</b> {read_str} {fres_str}</div>")
+        if pills:
+            st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
+        else:
+            st.caption("No advanced stats available for this entry.")
     else:
         st.markdown("<div class='pfx-card pfx-muted'>Pick a workflow and finding on the left to view the PFx.</div>", unsafe_allow_html=True)
