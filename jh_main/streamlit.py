@@ -1,4 +1,3 @@
-# streamlit.py
 import pandas as pd
 import streamlit as st
 from pathlib import Path
@@ -164,6 +163,11 @@ with right:
         row = df.loc[df["Finding"] == finding].iloc[0]
         pfx_text = (row.get("PFx") or "").strip()
         st.markdown(f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\\"pfx-muted\\">No PFx text found for this item.</span>'}</div>", unsafe_allow_html=True)
+
+        if pfx_text:
+            copy_code = f"navigator.clipboard.writeText(`{pfx_text}`)"
+            st.markdown(f"""<button onclick=\"{copy_code}\" style='margin-top:10px;padding:8px 12px;border-radius:6px;border:1px solid #ccc;background:#f0f2f6;cursor:pointer;'>📋 Copy PFx</button>""", unsafe_allow_html=True)
+
         icd10 = (row.get("ICD10") or "").strip()
         acc_val = row.get("Accuracy")
         acc_str = ""
