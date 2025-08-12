@@ -17,7 +17,6 @@ with lcol:
     st.title("PFx: Patient Friendly Explanations")
     st.markdown(
         "- Choose a **workflow** (Zero-shot, Few-shot, Multiple Few-shot, Agentic), then a **finding**.\n"
-        "- The PFx card displays the explanation; enable **Advanced stats** to see ICD-10, accuracy, and Readability (FRES).\n"
     )
 with rcol:
     st.markdown(
