@@ -10,29 +10,20 @@ st.set_page_config(
     layout="wide",
 )
 
-# ==========================
-# Utility: compatible query params (new + old API)
-# ==========================
-
 def _get_query_param(name: str, default: str = "") -> str:
     try:
-        # Streamlit >= 1.32
         qs = st.query_params
         val = qs.get(name)
         if isinstance(val, list):
             return val[0] if val else default
         return val if val is not None else default
     except Exception:
-        # Older versions
         try:
             qs = st.experimental_get_query_params()
             return (qs.get(name, [default]) or [default])[0]
         except Exception:
             return default
 
-# ==========================
-# Top bar: Title (left) + CTA button (right)
-# ==========================
 lcol, rcol = st.columns([1, 1], gap="small")
 with lcol:
     st.title("PFx: Patient Friendly Explanations")
@@ -52,22 +43,15 @@ with rcol:
         unsafe_allow_html=True,
     )
 
-# ==========================
-# Simple router for the future "Generate" page
-# ==========================
 page = _get_query_param("page", "")
 if page == "generate":
     st.subheader("Generate Your Own (coming soon)")
     st.info("You clicked **Generate Your Own!** — I’ll wire this up once you share the specs.")
     st.stop()
 
-# ==========================
-# File configuration (portable: paths relative to this file)
-# ==========================
 try:
     BASE_DIR = Path(__file__).resolve().parent
 except NameError:
-    # Fallback when __file__ is not defined (e.g., some environments)
     BASE_DIR = Path.cwd()
 
 WORKFLOW_FILES = {
@@ -79,9 +63,6 @@ WORKFLOW_FILES = {
 
 LEGACY_FALLBACK = BASE_DIR / "pfx_source.csv"
 
-# ==========================
-# Data loading & normalization
-# ==========================
 @st.cache_data(show_spinner=False)
 def load_any_csv(path: Path) -> pd.DataFrame | None:
     if not path.exists():
@@ -94,7 +75,6 @@ def load_any_csv(path: Path) -> pd.DataFrame | None:
         except Exception:
             return None
 
-
 def _pick_col(df: pd.DataFrame, candidates: list[str]) -> str | None:
     lower_map = {str(c).lower().strip(): c for c in df.columns}
     for want in candidates:
@@ -102,11 +82,8 @@ def _pick_col(df: pd.DataFrame, candidates: list[str]) -> str | None:
             return lower_map[want]
     return None
 
-
 def normalize_dataframe(raw: pd.DataFrame) -> pd.DataFrame:
     df = raw.copy()
-
-    # Handle headerless CSVs
     if all(str(c).startswith("Unnamed") for c in df.columns) and df.shape[1] >= 2:
         df = df.iloc[:, :6]
         df.columns = [
@@ -122,46 +99,12 @@ def normalize_dataframe(raw: pd.DataFrame) -> pd.DataFrame:
                 df[col] = None
         return df
 
-    finding_col = _pick_col(df, [
-        "finding",
-        "name",
-        "incidental finding",
-        "finding_name",
-        "title",
-        "label",
-    ])
-    pfx_col = _pick_col(df, [
-        "pfx",
-        "explanation",
-        "patient friendly explanation",
-        "pfx_text",
-        "answer",
-        "output",
-        "pf x",
-    ])
+    finding_col = _pick_col(df, ["finding", "name", "incidental finding", "finding_name", "title", "label"])
+    pfx_col = _pick_col(df, ["pfx", "explanation", "patient friendly explanation", "pfx_text", "answer", "output", "pf x"])
     icd_col = _pick_col(df, ["icd10", "icd-10", "icd10_code", "icd code", "icd"])
     acc_col = _pick_col(df, ["accuracy", "eval_accuracy", "is_correct", "correctness", "score"])
-    read_col = _pick_col(df, [
-        "readability",
-        "grade",
-        "grade_level",
-        "fkgl",
-        "flesch_kincaid",
-        "flesch-kincaid",
-        "smog",
-        # common variants we will normalize
-        "readability(fres)",
-        "readability (fres)",
-    ])
-    fres_col = _pick_col(df, [
-        "fres",
-        "_0_flesch",
-        "flesch reading ease",
-        "flesch_reading_ease",
-        "flesch reading-ease",
-        "flesch score",
-        "flesch",
-    ])
+    read_col = _pick_col(df, ["readability", "grade", "grade_level", "fkgl", "flesch_kincaid", "flesch-kincaid", "smog", "readability(fres)", "readability (fres)"])
+    fres_col = _pick_col(df, ["fres", "_0_flesch", "flesch reading ease", "flesch_reading_ease", "flesch reading-ease", "flesch score", "flesch"])
 
     cols = list(df.columns)
     if finding_col is None and len(cols) >= 1:
@@ -169,23 +112,19 @@ def normalize_dataframe(raw: pd.DataFrame) -> pd.DataFrame:
     if pfx_col is None and len(cols) >= 2:
         pfx_col = cols[1]
 
-    out = pd.DataFrame(
-        {
-            "Finding": df[finding_col].astype(str).str.strip() if finding_col else "",
-            "PFx": df[pfx_col].astype(str) if pfx_col else "",
-            "ICD10": df[icd_col].astype(str) if icd_col else None,
-            "Accuracy": df[acc_col] if acc_col else None,
-            # Normalize to this exact name
-            "Readability(FRES)": df[read_col].astype(str) if read_col else None,
-            "FRES": df[fres_col] if fres_col else None,
-        }
-    )
+    out = pd.DataFrame({
+        "Finding": df[finding_col].astype(str).str.strip() if finding_col else "",
+        "PFx": df[pfx_col].astype(str) if pfx_col else "",
+        "ICD10": df[icd_col].astype(str) if icd_col else None,
+        "Accuracy": df[acc_col] if acc_col else None,
+        "Readability(FRES)": df[read_col].astype(str) if read_col else None,
+        "FRES": df[fres_col] if fres_col else None,
+    })
 
     out = out.dropna(subset=["Finding"]).copy()
     out["Finding"] = out["Finding"].str.strip()
     out = out.drop_duplicates(subset=["Finding"], keep="first")
     return out
-
 
 @st.cache_data(show_spinner=False)
 def load_all_workflows(workflow_files: dict[str, Path]) -> dict[str, pd.DataFrame]:
@@ -200,12 +139,8 @@ def load_all_workflows(workflow_files: dict[str, Path]) -> dict[str, pd.DataFram
             datasets["Zero-shot"] = normalize_dataframe(legacy)
     return datasets
 
-
 datasets = load_all_workflows(WORKFLOW_FILES)
 
-# ==========================
-# Shared styling for PFx card and meta pills
-# ==========================
 st.markdown(
     """
     <style>
@@ -218,60 +153,33 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ==========================
-# Multi-panel support: Add another finding / Reset
-# ==========================
 if "panel_count" not in st.session_state:
     st.session_state.panel_count = 1
 
-# Helper to render one panel (2-column layout)
-
 def render_panel(idx: int):
     st.markdown(f"#### Finding {idx+1}")
-
     left, right = st.columns([1, 2], gap="large")
-
     with left:
         st.subheader("Workflow & Finding")
         if not datasets:
             st.error("No datasets found. Please place the four CSV files next to this file.")
             return
         workflow_names = list(datasets.keys())
-        workflow = st.selectbox(
-            "Select workflow",
-            workflow_names,
-            index=0,
-            key=f"wf_{idx}",
-        )
+        workflow = st.selectbox("Select workflow", workflow_names, index=0, key=f"wf_{idx}")
         df = datasets[workflow]
         options = df["Finding"].tolist()
-        finding = st.selectbox(
-            "Select a finding",
-            ["— Select —"] + options,
-            index=0,
-            key=f"finding_{idx}",
-        )
+        finding = st.selectbox("Select a finding", ["— Select —"] + options, index=0, key=f"finding_{idx}")
         finding = None if finding == "— Select —" else finding
-
     with right:
         st.subheader("Patient-Friendly Explanation")
         if finding:
             row = df.loc[df["Finding"] == finding].iloc[0]
             pfx_text = (row.get("PFx") or "").strip()
-            st.markdown(
-                f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\"pfx-muted\">No PFx text found for this item.</span>'}</div>",
-                unsafe_allow_html=True,
-            )
-
+            st.markdown(f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\\"pfx-muted\\">No PFx text found for this item.</span>'}</div>", unsafe_allow_html=True)
             if pfx_text:
                 js_text = json.dumps(pfx_text)
-                st_html(
-                    f"""
-                    <div style='margin-top:10px'>
-                      <button id='copy-pfx-btn-{idx}'
-                              style='padding:8px 12px;border-radius:6px;border:1px solid #e5e7eb;background:#f0f2f6;cursor:pointer;font-weight:600;'>
-                        📋 Copy PFx
-                      </button>
+                st_html(f"""<div style='margin-top:10px'>
+                      <button id='copy-pfx-btn-{idx}' style='padding:8px 12px;border-radius:6px;border:1px solid #e5e7eb;background:#f0f2f6;cursor:pointer;font-weight:600;'>📋 Copy PFx</button>
                     </div>
                     <script>
                       (function(){{
@@ -294,12 +202,8 @@ def render_panel(idx: int):
                             setTimeout(()=>msg.remove(), 2000);
                           }});
                         }}
-                      })();
-                    </script>
-                    """,
-                    height=60,
-                )
-
+                      }})();
+                    </script>""", height=60)
             icd10 = (row.get("ICD10") or "").strip()
             acc_val = row.get("Accuracy")
             acc_str = ""
@@ -309,8 +213,6 @@ def render_panel(idx: int):
                     acc_str = f"{f_acc*100:.1f}%" if 0 <= f_acc <= 1 else f"{f_acc:.1f}%"
                 except Exception:
                     acc_str = str(acc_val)
-
-            # Support either key spelling
             read_key_options = ["Readability(FRES)", "Readability (FRES)"]
             read_str = ""
             for k in read_key_options:
@@ -318,7 +220,6 @@ def render_panel(idx: int):
                 if v is not None and str(v).strip() != "":
                     read_str = str(v).strip()
                     break
-
             fres_val = row.get("FRES")
             fres_str = ""
             if pd.notna(fres_val):
@@ -326,7 +227,6 @@ def render_panel(idx: int):
                     fres_str = f"{float(fres_val):.1f}"
                 except Exception:
                     fres_str = str(fres_val)
-
             pills = []
             if icd10:
                 pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
@@ -339,21 +239,13 @@ def render_panel(idx: int):
             else:
                 st.caption("No advanced stats available for this entry.")
         else:
-            st.markdown(
-                "<div class='pfx-card pfx-muted'>Pick a workflow and finding on the left to view the PFx.</div>",
-                unsafe_allow_html=True,
-            )
+            st.markdown("<div class='pfx-card pfx-muted'>Pick a workflow and finding on the left to view the PFx.</div>", unsafe_allow_html=True)
 
-
-# Render all panels
 for i in range(st.session_state.panel_count):
     render_panel(i)
     if i < st.session_state.panel_count - 1:
         st.divider()
 
-# ==========================
-# Bottom controls: Add another finding + Reset
-# ==========================
 btn_cols = st.columns([1, 1, 6])
 with btn_cols[0]:
     if st.button("➕ Add another finding", use_container_width=True):
@@ -361,7 +253,6 @@ with btn_cols[0]:
         st.rerun()
 with btn_cols[1]:
     if st.button("↺ Reset", use_container_width=True):
-        # Clear selection state for all dynamic widgets
         keys_to_clear = [k for k in list(st.session_state.keys()) if k.startswith("wf_") or k.startswith("finding_")]
         for k in keys_to_clear:
             del st.session_state[k]
