@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 from pathlib import Path
+import json
 
 st.set_page_config(
     page_title="PFx: Patient Friendly Explanations",
@@ -164,9 +165,35 @@ with right:
         pfx_text = (row.get("PFx") or "").strip()
         st.markdown(f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\\"pfx-muted\\">No PFx text found for this item.</span>'}</div>", unsafe_allow_html=True)
 
+        # Copy to clipboard button + 2s toast
         if pfx_text:
-            copy_code = f"navigator.clipboard.writeText(`{pfx_text}`)"
-            st.markdown(f"""<button onclick=\"{copy_code}\" style='margin-top:10px;padding:8px 12px;border-radius:6px;border:1px solid #ccc;background:#f0f2f6;cursor:pointer;'>📋 Copy PFx</button>""", unsafe_allow_html=True)
+            clicked = st.button("📋 Copy PFx", key="copy_pfx", help="Copy the PFx text to your clipboard")
+            if clicked:
+                # Streamlit toast (auto-hides in a couple of seconds)
+                st.toast("Copied to Clipboard!", icon="✅")
+                # JS clipboard write + custom 2s popup for consistency
+                js_text = json.dumps(pfx_text)
+                st.markdown(f"""
+                <script>
+                (function(){{
+                  const txt = {js_text};
+                  // Try modern clipboard API first
+                  navigator.clipboard.writeText(txt).catch(function(){{
+                    // Fallback for older browsers
+                    const ta = document.createElement('textarea');
+                    ta.value = txt; document.body.appendChild(ta); ta.select();
+                    try {{ document.execCommand('copy'); }} catch(e) {{ /* ignore */ }}
+                    document.body.removeChild(ta);
+                  }});
+                  // Tiny 2s popup
+                  const msg = document.createElement('div');
+                  msg.textContent = 'Copied to Clipboard!';
+                  msg.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#111;color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.15);';
+                  document.body.appendChild(msg);
+                  setTimeout(()=>msg.remove(), 2000);
+                }})();
+                </script>
+                """, unsafe_allow_html=True)
 
         icd10 = (row.get("ICD10") or "").strip()
         acc_val = row.get("Accuracy")
