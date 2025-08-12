@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 from pathlib import Path
 import json
+from streamlit.components.v1 import html as st_html
 
 st.set_page_config(
     page_title="PFx: Patient Friendly Explanations",
@@ -165,42 +166,37 @@ with right:
         pfx_text = (row.get("PFx") or "").strip()
         st.markdown(f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\\"pfx-muted\\">No PFx text found for this item.</span>'}</div>", unsafe_allow_html=True)
 
-        # --- Copy to clipboard button that works in Streamlit ---
-if pfx_text:
-    from streamlit.components.v1 import html as st_html
-    js_text = json.dumps(pfx_text)  # safely escape text for JS
-
-    st_html(f"""
-        <div style='margin-top:10px'>
-          <button id='copy-pfx-btn'
-                  style='padding:8px 12px;border-radius:6px;border:1px solid #e5e7eb;background:#f0f2f6;cursor:pointer;font-weight:600;'>
-            📋 Copy PFx
-          </button>
-        </div>
-        <script>
-          (function(){{
-            const btn = document.getElementById('copy-pfx-btn');
-            const txt = {js_text};
-            btn.addEventListener('click', async () => {{
-              try {{
-                await navigator.clipboard.writeText(txt);
-              }} catch (e) {{
-                // Fallback for older environments
-                const ta = document.createElement('textarea');
-                ta.value = txt; document.body.appendChild(ta); ta.select();
-                try {{ document.execCommand('copy'); }} catch(_) {{}}
-                document.body.removeChild(ta);
-              }}
-              // Tiny 2s popup
-              const msg = document.createElement('div');
-              msg.textContent = 'Copied to Clipboard!';
-              msg.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#111;color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.15);';
-              document.body.appendChild(msg);
-              setTimeout(()=>msg.remove(), 2000);
-            }});
-          }})();
-        </script> 
-    """, height=60)
+        if pfx_text:
+            js_text = json.dumps(pfx_text)
+            st_html(f"""
+                <div style='margin-top:10px'>
+                  <button id='copy-pfx-btn'
+                          style='padding:8px 12px;border-radius:6px;border:1px solid #e5e7eb;background:#f0f2f6;cursor:pointer;font-weight:600;'>
+                    📋 Copy PFx
+                  </button>
+                </div>
+                <script>
+                  (function(){{
+                    const btn = document.getElementById('copy-pfx-btn');
+                    const txt = {js_text};
+                    btn.addEventListener('click', async () => {{
+                      try {{
+                        await navigator.clipboard.writeText(txt);
+                      }} catch (e) {{
+                        const ta = document.createElement('textarea');
+                        ta.value = txt; document.body.appendChild(ta); ta.select();
+                        try {{ document.execCommand('copy'); }} catch(_) {{}}
+                        document.body.removeChild(ta);
+                      }}
+                      const msg = document.createElement('div');
+                      msg.textContent = 'Copied to Clipboard!';
+                      msg.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#111;color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.15);';
+                      document.body.appendChild(msg);
+                      setTimeout(()=>msg.remove(), 2000);
+                    }});
+                  }})();
+                </script> 
+            """, height=60)
 
         icd10 = (row.get("ICD10") or "").strip()
         acc_val = row.get("Accuracy")
