@@ -135,7 +135,7 @@ def normalize_dataframe(raw: pd.DataFrame) -> pd.DataFrame:
     })
 
     out = out.dropna(subset=["Finding"]).copy()
-    out["Finding"] = out["Finding"].str.strip()
+    out["Finding"] = out["Finding"].stripped if hasattr(out["Finding"], 'stripped') else out["Finding"].str.strip()
     out = out.drop_duplicates(subset=["Finding"], keep="first")
     return out
 
@@ -206,27 +206,27 @@ def copy_button(js_text: str, key: str, height: int = 60):
               <button id='copy-pfx-btn-{key}' style='padding:8px 12px;border-radius:6px;border:1px solid #e5e7eb;background:#f0f2f6;cursor:pointer;font-weight:600;'>📋 Copy PFx</button>
             </div>
             <script>
-              (function(){{
+              (function(){
                 const btn = document.getElementById('copy-pfx-btn-{key}');
                 const txt = {js_text};
-                if (btn) {{
-                  btn.addEventListener('click', async () => {{
-                    try {{
+                if (btn) {
+                  btn.addEventListener('click', async () => {
+                    try {
                       await navigator.clipboard.writeText(txt);
-                    }} catch (e) {{
+                    } catch (e) {
                       const ta = document.createElement('textarea');
                       ta.value = txt; document.body.appendChild(ta); ta.select();
-                      try {{ document.execCommand('copy'); }} catch(_) {{}}
+                      try { document.execCommand('copy'); } catch(_) {}
                       document.body.removeChild(ta);
-                    }}
+                    }
                     const msg = document.createElement('div');
                     msg.textContent = 'Copied to Clipboard!';
                     msg.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#111;color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.15);';
                     document.body.appendChild(msg);
                     setTimeout(()=>msg.remove(), 2000);
-                  }});
-                }}
-              }})();
+                  });
+                }
+              })();
             </script>""",
         height=height,
     )
@@ -326,11 +326,11 @@ if page in ("", "home"):
             st.rerun()
 
 # ==========================
-# GENERATE PAGE (UI ONLY)
+# GENERATE PAGE (LLM-INTEGRATED)
 # ==========================
 elif page == "generate":
     st.subheader("Generate Your Own PFx")
-    st.caption("UI only for now — wire your LLM call into the commented hook below.")
+    st.caption("Select workflow, enter details, and generate a patient-friendly explanation.")
 
     left, right = st.columns([1, 2], gap="large")
 
@@ -340,32 +340,71 @@ elif page == "generate":
         icd10_code = st.text_input("ICD-10 Code", placeholder="e.g., D18.03")
         reading_level = st.selectbox("Reading Level", READING_LEVELS, index=6)  # default to SIXTH_GRADE
 
-        # NEW: Workflow selector for generation UI
+        # Workflow selector for generation UI
         workflow_options = ["Zero-shot", "Few-shot", "Agentic", "All"]
         workflow_choice = st.selectbox("Workflow", workflow_options, index=0)
 
-        # Generate button (no actual LLM call yet)
+        # Generate button
         generate_clicked = st.button("🚀 Generate PFx", type="primary")
 
-        # Where we store the (future) PFx
+        # Initialize session state holders
         if "generated_pfx" not in st.session_state:
             st.session_state.generated_pfx = ""
+        if "generated_df" not in st.session_state:
+            st.session_state.generated_df = None
+        if "gen_error" not in st.session_state:
+            st.session_state.gen_error = ""
 
-        # Placeholder LLM hook (uncomment + replace with your actual function)
-        # if generate_clicked:
-        #    # Example: pfx_text = your_llm_function(
-        #    finding=incidental_finding,
-        #    icd10=icd10_code,
-        #   reading_level=reading_level,
-        #   workflow=workflow_choice,  # "Zero-shot" | "Few-shot" | "Agentic" | "All"
-        # )
-        #     # st.session_state.generated_pfx = pfx_text
-        #     pass
-        if generate_clicked and not incidental_finding:
-            st.warning("Please enter an Incidental Finding before generating.")
+        if generate_clicked:
+            if not incidental_finding:
+                st.warning("Please enter an Incidental Finding before generating.")
+            else:
+                # Local import to avoid changing global imports
+                try:
+                    from streamlit_calls import zeroshot_call, fewshot_call, agentic_conversation
+                except Exception as e:
+                    st.session_state.gen_error = f"Couldn't import generation functions from streamlit_calls.py: {e}"
+                    st.session_state.generated_pfx = ""
+                    st.session_state.generated_df = None
+                else:
+                    try:
+                        if workflow_choice == "Zero-shot":
+                            df_result = zeroshot_call(incidental_finding, icd10_code, reading_level)
+                        elif workflow_choice == "Few-shot":
+                            df_result = fewshot_call(incidental_finding, icd10_code, reading_level)
+                        elif workflow_choice == "Agentic":
+                            df_result = agentic_conversation(incidental_finding, icd10_code, reading_level)
+                        else:  # "All" -> run all and concat
+                            df_zero = zeroshot_call(incidental_finding, icd10_code, reading_level)
+                            df_few  = fewshot_call(incidental_finding, icd10_code, reading_level)
+                            df_ag   = agentic_conversation(incidental_finding, icd10_code, reading_level)
+                            import pandas as _pd  # local alias to avoid polluting namespace
+                            parts = [d for d in [df_zero, df_few, df_ag] if d is not None]
+                            df_result = _pd.concat(parts, ignore_index=True) if parts else None
+
+                        # Persist results
+                        if df_result is not None and hasattr(df_result, "empty") and not df_result.empty:
+                            st.session_state.generated_df = df_result
+                            # Prefer PFx column if present
+                            try:
+                                st.session_state.generated_pfx = str(df_result.iloc[0]["PFx"]).strip()
+                            except Exception:
+                                st.session_state.generated_pfx = ""
+                            st.session_state.gen_error = ""
+                        else:
+                            st.session_state.generated_df = None
+                            st.session_state.generated_pfx = ""
+                            st.session_state.gen_error = "No results returned by the selected workflow(s)."
+                    except Exception as e:
+                        st.session_state.generated_df = None
+                        st.session_state.generated_pfx = ""
+                        st.session_state.gen_error = f"Error during generation: {e}"
 
     with right:
         st.markdown("### Patient-Friendly Explanation")
+        if st.session_state.get("gen_error"):
+            st.error(st.session_state.gen_error)
+
         pfx_text = (st.session_state.get("generated_pfx") or "").strip()
         card_html = (
             f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\\"pfx-muted\\">Your PFx will appear here once generated.</span>'}</div>"
@@ -374,6 +413,17 @@ elif page == "generate":
         if pfx_text:
             js_text = json.dumps(pfx_text)
             copy_button(js_text, key="gen")
+
+        # Show details table and allow download if available
+        df_out = st.session_state.get("generated_df")
+        if df_out is not None:
+            st.markdown("### Generation Details")
+            st.dataframe(df_out, use_container_width=True)
+            try:
+                csv_bytes = df_out.to_csv(index=False).encode("utf-8")
+                st.download_button("Download results (CSV)", data=csv_bytes, file_name="pfx_generated.csv", mime="text/csv")
+            except Exception:
+                pass
 
 # ==========================
 # Unknown Page -> Fallback

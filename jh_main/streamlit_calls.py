@@ -1,22 +1,53 @@
-#reading levels
-PROFESSIONAL = "Professional"
-COLLEGE_GRADUATE = "College Graduate"
-COLLEGE = "College"
-TENTH_TO_TWELTH_GRADE = "10th to 12th grade"
-EIGTH_TO_NINTH_GRADE = "8th to 9th grade"
-SEVENTH_GRADE = "7th grade"
-SIXTH_GRADE = "6th grade"
-FIFTH_GRADE = "5th grade"
-N_A = "N/A"
+from call_functions import extract_json, label_icd10s, extract_json_gpt4o
+from tools import calculate_fres
 
-# import fewshot examples
-df_fewshot = pd.read_csv('pfx_fewshot_examples_college.csv')
+def imports: 
+    import pandas as pd
+    import os
+    import textstat
+    from openai import OpenAI
+    import json
+    import re
+    import requests
+    from dotenv import load_dotenv
+    import math
+    import unicodedata
 
-# import prompts 
-from jh_pfx_prompts import example, icd10_example, baseline_zeroshot_prompt, single_fewshot_icd10_labeling_prompt
+    #reading levels
+    PROFESSIONAL = "Professional"
+    COLLEGE_GRADUATE = "College Graduate"
+    COLLEGE = "College"
+    TENTH_TO_TWELTH_GRADE = "10th to 12th grade"
+    EIGTH_TO_NINTH_GRADE = "8th to 9th grade"
+    SEVENTH_GRADE = "7th grade"
+    SIXTH_GRADE = "6th grade"
+    FIFTH_GRADE = "5th grade"
+    N_A = "N/A"
+
+    # import fewshot examples
+    df_fewshot = pd.read_csv('pfx_fewshot_examples_college.csv')
+
+    # import prompts 
+    from jh_pfx_prompts import example, icd10_example, baseline_zeroshot_prompt, single_fewshot_icd10_labeling_prompt
+
+def agent_imports: 
+    imports
+    from autogen import LLMConfig
+    from autogen import ConversableAgent, LLMConfig
+    from autogen.agentchat import initiate_group_chat
+    from autogen.agentchat.group.patterns import RoundRobinPattern
+    from autogen.agentchat.group import OnCondition, StringLLMCondition
+    from autogen.agentchat.group import AgentTarget
+    from autogen.agentchat.group import TerminateTarget
+
+    from pydantic import BaseModel, Field
+    from typing import Optional
+    from typing import Annotated
 
 # calls LLM & creates dataframe with results
 def zeroshot_call(finding, code, grade_level):
+    imports 
+
     zero_results_df = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
 
     prompt = baseline_zeroshot_prompt.format(
@@ -63,6 +94,22 @@ def zeroshot_call(finding, code, grade_level):
 
 # zeroshot prompts LLM & creates dataframe with results
 def fewshot_call(finding, code, grade_level):
+    #reading levels
+    PROFESSIONAL = "Professional"
+    COLLEGE_GRADUATE = "College Graduate"
+    COLLEGE = "College"
+    TENTH_TO_TWELTH_GRADE = "10th to 12th grade"
+    EIGTH_TO_NINTH_GRADE = "8th to 9th grade"
+    SEVENTH_GRADE = "7th grade"
+    SIXTH_GRADE = "6th grade"
+    FIFTH_GRADE = "5th grade"
+    N_A = "N/A"
+
+    # import fewshot examples
+    df_fewshot = pd.read_csv('pfx_fewshot_examples_college.csv')
+
+    # import prompts 
+    from jh_pfx_prompts import example, icd10_example, baseline_zeroshot_prompt, single_fewshot_icd10_labeling_prompt
     few_results_df = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
 
     pfx_fewshot_examples = ""
@@ -108,142 +155,84 @@ def fewshot_call(finding, code, grade_level):
 
     return few_results_df
 
-from autogen import LLMConfig
-from autogen import ConversableAgent, LLMConfig
-from autogen.agentchat import initiate_group_chat
-from autogen.agentchat.group.patterns import RoundRobinPattern
-from autogen.agentchat.group import OnCondition, StringLLMCondition
-from autogen.agentchat.group import AgentTarget
-from autogen.agentchat.group import TerminateTarget
-
-from pydantic import BaseModel, Field
-from typing import Optional
-from typing import Annotated
-
-# readability agent tools
-def calculate_fres(
-    pfx_text: Annotated[str, "A patient-friendly explanation string."]
-) -> dict:
-    """Calculate the Flesch Reading Ease Score and estimated reading level for a given explanation."""
-    
-    def count_syllables(word):
-        word = word.lower()
-        word = re.sub(r'[^a-z]', '', word)
-        if not word:
-            return 0
-        syllables = re.findall(r'[aeiouy]+', word)
-        if word.endswith("e") and not word.endswith("le"):
-            syllables = syllables[:-1]
-        return max(1, len(syllables))
-
-    sentences = re.split(r'[.!?]', pfx_text)
-    sentences = [s.strip() for s in sentences if s.strip()]
-    num_sentences = len(sentences)
-
-    words = re.findall(r'\b\w+\b', pfx_text)
-    num_words = len(words)
-    num_syllables = sum(count_syllables(word) for word in words)
-
-    if num_sentences == 0 or num_words == 0:
-        return {"error": "Input must contain at least one sentence and one word."}
-
-    fres = 206.835 - 1.015 * (num_words / num_sentences) - 84.6 * (num_syllables / num_words)
-
-    if fres >= 90:
-        grade_level = "5th grade"
-    elif fres >= 80:
-        grade_level = "6th grade"
-    elif fres >= 70:
-        grade_level = "7th grade"
-    elif fres >= 60:
-        grade_level = "8th–9th grade"
-    elif fres >= 50:
-        grade_level = "10th–12th grade"
-    elif fres >= 30:
-        grade_level = "College"
-    elif fres >= 10:
-        grade_level = "College graduate"
-    else:
-        grade_level = "Professional"
-
-    return {
-        "FRES": round(fres, 2),
-        "Reading_Level": grade_level
-    }
-
-def extract_json_gpt4o(chat_result, verbose=False):
-    messages = getattr(chat_result, "chat_history", None) or getattr(chat_result, "messages", [])
-
-    for msg in reversed(messages):
-        name = msg.get("name", "").lower()
-        if name != "icd10_labeler":
-            continue
-
-        content = msg.get("content", "").strip()
-        content = unicodedata.normalize("NFKC", content)
-
-        if verbose:
-            print(f"[DEBUG] Raw content from {name}:\n{content}")
-
-        content = re.sub(r"```(?:json)?", "", content).strip("` \n")
-
-        try:
-            return json.loads(content)
-        except json.JSONDecodeError:
-            pass
-
-        # fallback with simpler, safe regex
-        json_candidates = re.findall(r"\{.*?\}", content, re.DOTALL)
-        for candidate in json_candidates:
-            try:
-                return json.loads(candidate)
-            except json.JSONDecodeError:
-                continue
-
-        if verbose:
-            print(f"[WARN] No valid JSON in {name}'s message.")
-        return None
-
-    print("[WARN] No message from 'icd10_labeler' found.")
-    return None
-
-llm_config = LLMConfig(
-    api_type="openai",
-    model="gpt-4o",
-    api_key=OPENAI_API_KEY,
-)
-
-writer_config=LLMConfig(
-    api_type="openai",
-    model="gpt-4o",
-    api_key=OPENAI_API_KEY,
-    response_format=WriterOutput,
-)
-
-labeler_config = LLMConfig(
-    api_type="openai",
-    model="gpt-4o",
-    api_key=OPENAI_API_KEY,
-    response_format=LabelerOutput,
-)
-
-doctor_config = LLMConfig(
-    api_type="openai",
-    model="gpt-4o",
-    api_key=OPENAI_API_KEY,
-    response_format=DoctorReadabilityOutput,
-)
-
-readability_config=LLMConfig(
-    api_type="openai",
-    model="gpt-4o",
-    api_key=OPENAI_API_KEY,
-    response_format=DoctorReadabilityOutput,
-    
-)
 
 # agentic conversation & creates dataframe with results
 def agentic_conversation(finding, code, grade_level):
+    agent_imports
+    # readability agent tools
+    
+
+    def extract_json_gpt4o(chat_result, verbose=False):
+        messages = getattr(chat_result, "chat_history", None) or getattr(chat_result, "messages", [])
+
+        for msg in reversed(messages):
+            name = msg.get("name", "").lower()
+            if name != "icd10_labeler":
+                continue
+
+            content = msg.get("content", "").strip()
+            content = unicodedata.normalize("NFKC", content)
+
+            if verbose:
+                print(f"[DEBUG] Raw content from {name}:\n{content}")
+
+            content = re.sub(r"```(?:json)?", "", content).strip("` \n")
+
+            try:
+                return json.loads(content)
+            except json.JSONDecodeError:
+                pass
+
+            # fallback with simpler, safe regex
+            json_candidates = re.findall(r"\{.*?\}", content, re.DOTALL)
+            for candidate in json_candidates:
+                try:
+                    return json.loads(candidate)
+                except json.JSONDecodeError:
+                    continue
+
+            if verbose:
+                print(f"[WARN] No valid JSON in {name}'s message.")
+            return None
+
+        print("[WARN] No message from 'icd10_labeler' found.")
+        return None
+
+    llm_config = LLMConfig(
+        api_type="openai",
+        model="gpt-4o",
+        api_key=OPENAI_API_KEY,
+    )
+
+    writer_config=LLMConfig(
+        api_type="openai",
+        model="gpt-4o",
+        api_key=OPENAI_API_KEY,
+        response_format=WriterOutput,
+    )
+
+    labeler_config = LLMConfig(
+        api_type="openai",
+        model="gpt-4o",
+        api_key=OPENAI_API_KEY,
+        response_format=LabelerOutput,
+    )
+
+    doctor_config = LLMConfig(
+        api_type="openai",
+        model="gpt-4o",
+        api_key=OPENAI_API_KEY,
+        response_format=DoctorReadabilityOutput,
+    )
+
+    readability_config=LLMConfig(
+        api_type="openai",
+        model="gpt-4o",
+        api_key=OPENAI_API_KEY,
+        response_format=DoctorReadabilityOutput,
+        
+    )
+
     agent_results = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_Code"])
 
     with llm_config:
@@ -341,8 +330,3 @@ def agentic_conversation(finding, code, grade_level):
         ) / 2
 
         return agent_results
-        
-
-
-
-
