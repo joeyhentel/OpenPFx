@@ -353,12 +353,12 @@ elif page == "generate":
 
         # Placeholder LLM hook (uncomment + replace with your actual function)
         # if generate_clicked:
-        #     # Example: pfx_text = your_llm_function(
-                finding=incidental_finding,
-                icd10=icd10_code,
-                reading_level=reading_level,
-                workflow=workflow_choice,  # "Zero-shot" | "Few-shot" | "Agentic" | "All"
-            )
+        #    # Example: pfx_text = your_llm_function(
+        #    finding=incidental_finding,
+        #    icd10=icd10_code,
+        #   reading_level=reading_level,
+        #   workflow=workflow_choice,  # "Zero-shot" | "Few-shot" | "Agentic" | "All"
+        # )
         #     # st.session_state.generated_pfx = pfx_text
         #     pass
         if generate_clicked and not incidental_finding:
