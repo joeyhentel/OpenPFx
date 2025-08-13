@@ -375,24 +375,6 @@ elif page == "generate":
             js_text = json.dumps(pfx_text)
             copy_button(js_text, key="gen")
 
-    st.divider()
-    st.markdown(
-        """
-        **Next step:** connect your LLM call.
-        ```python
-        # Example integration
-        if generate_clicked and incidental_finding:
-            pfx_text = your_llm_function(
-                finding=incidental_finding,
-                icd10=icd10_code,
-                reading_level=reading_level,
-            )
-            st.session_state.generated_pfx = pfx_text
-            st.rerun()  # optional: refresh to show the result immediately
-        ```
-        """
-    )
-
 # ==========================
 # Unknown Page -> Fallback
 # ==========================
