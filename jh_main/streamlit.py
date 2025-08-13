@@ -340,6 +340,10 @@ elif page == "generate":
         icd10_code = st.text_input("ICD-10 Code", placeholder="e.g., D18.03")
         reading_level = st.selectbox("Reading Level", READING_LEVELS, index=6)  # default to SIXTH_GRADE
 
+        # NEW: Workflow selector for generation UI
+        workflow_options = ["Zero-shot", "Few-shot", "Agentic", "All"]
+        workflow_choice = st.selectbox("Workflow", workflow_options, index=0)
+
         # Generate button (no actual LLM call yet)
         generate_clicked = st.button("🚀 Generate PFx", type="primary")
 
@@ -349,7 +353,12 @@ elif page == "generate":
 
         # Placeholder LLM hook (uncomment + replace with your actual function)
         # if generate_clicked:
-        #     # Example: pfx_text = your_llm_function(incidental_finding, icd10_code, reading_level)
+        #     # Example: pfx_text = your_llm_function(
+                finding=incidental_finding,
+                icd10=icd10_code,
+                reading_level=reading_level,
+                workflow=workflow_choice,  # "Zero-shot" | "Few-shot" | "Agentic" | "All"
+            )
         #     # st.session_state.generated_pfx = pfx_text
         #     pass
         if generate_clicked and not incidental_finding:
