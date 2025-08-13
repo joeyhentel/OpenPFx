@@ -459,7 +459,7 @@ FIFTH_GRADE = "5th grade"
 N_A = "N/A"
 
 # import fewshot examples
-df_fewshot = pd.read_csv('pfx_fewshot_examples_college.csv')
+df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 
 # import prompts 
 from jh_pfx_prompts import example, icd10_example, baseline_zeroshot_prompt, single_fewshot_icd10_labeling_prompt
