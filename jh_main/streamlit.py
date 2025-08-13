@@ -201,35 +201,40 @@ if "panel_count" not in st.session_state:
 
 # ---------- Shared UI bits ----------
 def copy_button(js_text: str, key: str, height: int = 60):
+    import json
+    # Escape js_text safely for JS
+    safe_js_text = json.dumps(js_text)
+
     st_html(
         f"""<div style='margin-top:10px'>
               <button id='copy-pfx-btn-{key}' style='padding:8px 12px;border-radius:6px;border:1px solid #e5e7eb;background:#f0f2f6;cursor:pointer;font-weight:600;'>📋 Copy PFx</button>
             </div>
             <script>
-              (function(){
+              (function(){{
                 const btn = document.getElementById('copy-pfx-btn-{key}');
-                const txt = {js_text};
-                if (btn) {
-                  btn.addEventListener('click', async () => {
-                    try {
+                const txt = {safe_js_text};
+                if (btn) {{
+                  btn.addEventListener('click', async () => {{
+                    try {{
                       await navigator.clipboard.writeText(txt);
-                    } catch (e) {
+                    }} catch (e) {{
                       const ta = document.createElement('textarea');
                       ta.value = txt; document.body.appendChild(ta); ta.select();
-                      try { document.execCommand('copy'); } catch(_) {}
+                      try {{ document.execCommand('copy'); }} catch(_) {{}}
                       document.body.removeChild(ta);
-                    }
+                    }}
                     const msg = document.createElement('div');
                     msg.textContent = 'Copied to Clipboard!';
                     msg.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#111;color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.15);';
                     document.body.appendChild(msg);
-                    setTimeout(()=>msg.remove(), 2000);
-                  });
-                }
-              })();
+                    setTimeout(() => msg.remove(), 2000);
+                  }});
+                }}
+              }})();
             </script>""",
         height=height,
     )
+
 
 
 def render_home_panel(idx: int):
