@@ -9,17 +9,26 @@ SIXTH_GRADE = "6th grade"
 FIFTH_GRADE = "5th grade"
 N_A = "N/A"
 
-# zeroshot llm call 
-def zeroshot_call(finding, code, grade_level)
-    results_df = pd.DataFrame(columns = ["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
+# import fewshot examples
+df_fewshot = pd.read_csv('pfx_fewshot_examples_college.csv')
 
-    prompt = baseline_zeroshot_prompt.format(Incidental_Finding = finding, Reading_Level = SIXTH_GRADE)
-    
+# import prompts 
+from jh_pfx_prompts import example, icd10_example, baseline_zeroshot_prompt, single_fewshot_icd10_labeling_prompt
+
+# calls LLM & creates dataframe with results
+def zeroshot_call(finding, code, grade_level):
+    zero_results_df = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
+
+    prompt = baseline_zeroshot_prompt.format(
+        Incidental_Finding=finding,
+        Reading_Level=SIXTH_GRADE
+    )
+
     pfx_response = CLIENT.chat.completions.create(
         model=OPENAI_MODEL,
         temperature=0.0,
         messages=[
-            {"role": "system", "content": "You are a medical profesional rephrasing and explaining medical terminology to a patient in an understandable manner."},
+            {"role": "system", "content": "You are a medical professional rephrasing and explaining medical terminology to a patient in an understandable manner."},
             {"role": "system", "content": prompt}
         ],
         stream=False,
@@ -27,16 +36,313 @@ def zeroshot_call(finding, code, grade_level)
 
     extracted_response = extract_json(pfx_response.choices[0])
 
-    results_df = {
+    zero_results_df = {
         "finding": finding,
         "ICD10_code": code,
         "PFx": extracted_response.get("PFx", ""),
         "PFx_ICD10_code": extracted_response.get("PFx_ICD10_code", "")
     }
 
-    agent_code = label_icd10s(response)
+    agent_code = label_icd10s(pfx_response)
 
-    results_df['_0_agent_icd10_codes'] = agent_code
-    results_df["_0_icd10_matches"] = results_df.ICD10_code == results_df._0_agent_icd10_codes
-    results_df["_0_pfx_icd10_matches"] = results_df.ICD10_code == results_df["PFx_ICD10_code"] 
-    results_df["accuracy"] = (results_df._0_icd10_matches + results_df._0_pfx_icd10_matches) / 2
+    zero_results_df["_0_agent_icd10_codes"] = agent_code
+
+    # Compare only the first three characters for accuracy
+    zero_results_df["_0_icd10_matches"] = (
+        str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["_0_agent_icd10_codes"])[:3]
+    )
+    zero_results_df["_0_pfx_icd10_matches"] = (
+        str(results_df["ICD10_code"])[:3] == str(zero_results_df["PFx_ICD10_code"])[:3]
+    )
+
+    results_df["accuracy"] = (
+        zero_results_df["_0_icd10_matches"] + zero_results_df["_0_pfx_icd10_matches"]
+    ) / 2
+
+    return zero_results_df
+
+# zeroshot prompts LLM & creates dataframe with results
+def fewshot_call(finding, code, grade_level):
+    few_results_df = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
+
+    pfx_fewshot_examples = ""
+    for i, row in df_fewshot.iterrows():
+        pfx_fewshot_examples += example.format(**row) 
+
+    prompt = single_fewshot_prompt.format(Examples = pfx_fewshot_examples, Incidental_Finding = row['Incidental_Finding'], Reading_Level = SIXTH_GRADE)
+
+    pfx_response = CLIENT.chat.completions.create(
+        model=OPENAI_MODEL,
+        temperature=0.0,
+        messages=[
+            {"role": "system", "content": "You are a medical professional rephrasing and explaining medical terminology to a patient in an understandable manner."},
+            {"role": "system", "content": prompt}
+        ],
+        stream=False,
+    )
+
+    extracted_response = extract_json(pfx_response.choices[0])
+
+    few_results_df = {
+        "finding": finding,
+        "ICD10_code": code,
+        "PFx": extracted_response.get("PFx", ""),
+        "PFx_ICD10_code": extracted_response.get("PFx_ICD10_code", "")
+    }
+
+    agent_code = label_icd10s(pfx_response)
+
+    few_results_df["_0_agent_icd10_codes"] = agent_code
+
+    # Compare only the first three characters for accuracy
+    few_results_df["_0_icd10_matches"] = (
+        str(few_results_df["ICD10_code"])[:3] == str(few_results_df["_0_agent_icd10_codes"])[:3]
+    )
+    few_results_df["_0_pfx_icd10_matches"] = (
+        str(few_results_df["ICD10_code"])[:3] == str(few_results_df["PFx_ICD10_code"])[:3]
+    )
+
+    few_results_df["accuracy"] = (
+        few_results_df["_0_icd10_matches"] + few_results_df["_0_pfx_icd10_matches"]
+    ) / 2
+
+    return few_results_df
+
+from autogen import LLMConfig
+from autogen import ConversableAgent, LLMConfig
+from autogen.agentchat import initiate_group_chat
+from autogen.agentchat.group.patterns import RoundRobinPattern
+from autogen.agentchat.group import OnCondition, StringLLMCondition
+from autogen.agentchat.group import AgentTarget
+from autogen.agentchat.group import TerminateTarget
+
+from pydantic import BaseModel, Field
+from typing import Optional
+from typing import Annotated
+
+# readability agent tools
+def calculate_fres(
+    pfx_text: Annotated[str, "A patient-friendly explanation string."]
+) -> dict:
+    """Calculate the Flesch Reading Ease Score and estimated reading level for a given explanation."""
+    
+    def count_syllables(word):
+        word = word.lower()
+        word = re.sub(r'[^a-z]', '', word)
+        if not word:
+            return 0
+        syllables = re.findall(r'[aeiouy]+', word)
+        if word.endswith("e") and not word.endswith("le"):
+            syllables = syllables[:-1]
+        return max(1, len(syllables))
+
+    sentences = re.split(r'[.!?]', pfx_text)
+    sentences = [s.strip() for s in sentences if s.strip()]
+    num_sentences = len(sentences)
+
+    words = re.findall(r'\b\w+\b', pfx_text)
+    num_words = len(words)
+    num_syllables = sum(count_syllables(word) for word in words)
+
+    if num_sentences == 0 or num_words == 0:
+        return {"error": "Input must contain at least one sentence and one word."}
+
+    fres = 206.835 - 1.015 * (num_words / num_sentences) - 84.6 * (num_syllables / num_words)
+
+    if fres >= 90:
+        grade_level = "5th grade"
+    elif fres >= 80:
+        grade_level = "6th grade"
+    elif fres >= 70:
+        grade_level = "7th grade"
+    elif fres >= 60:
+        grade_level = "8th–9th grade"
+    elif fres >= 50:
+        grade_level = "10th–12th grade"
+    elif fres >= 30:
+        grade_level = "College"
+    elif fres >= 10:
+        grade_level = "College graduate"
+    else:
+        grade_level = "Professional"
+
+    return {
+        "FRES": round(fres, 2),
+        "Reading_Level": grade_level
+    }
+
+def extract_json_gpt4o(chat_result, verbose=False):
+    messages = getattr(chat_result, "chat_history", None) or getattr(chat_result, "messages", [])
+
+    for msg in reversed(messages):
+        name = msg.get("name", "").lower()
+        if name != "icd10_labeler":
+            continue
+
+        content = msg.get("content", "").strip()
+        content = unicodedata.normalize("NFKC", content)
+
+        if verbose:
+            print(f"[DEBUG] Raw content from {name}:\n{content}")
+
+        content = re.sub(r"```(?:json)?", "", content).strip("` \n")
+
+        try:
+            return json.loads(content)
+        except json.JSONDecodeError:
+            pass
+
+        # fallback with simpler, safe regex
+        json_candidates = re.findall(r"\{.*?\}", content, re.DOTALL)
+        for candidate in json_candidates:
+            try:
+                return json.loads(candidate)
+            except json.JSONDecodeError:
+                continue
+
+        if verbose:
+            print(f"[WARN] No valid JSON in {name}'s message.")
+        return None
+
+    print("[WARN] No message from 'icd10_labeler' found.")
+    return None
+
+llm_config = LLMConfig(
+    api_type="openai",
+    model="gpt-4o",
+    api_key=OPENAI_API_KEY,
+)
+
+writer_config=LLMConfig(
+    api_type="openai",
+    model="gpt-4o",
+    api_key=OPENAI_API_KEY,
+    response_format=WriterOutput,
+)
+
+labeler_config = LLMConfig(
+    api_type="openai",
+    model="gpt-4o",
+    api_key=OPENAI_API_KEY,
+    response_format=LabelerOutput,
+)
+
+doctor_config = LLMConfig(
+    api_type="openai",
+    model="gpt-4o",
+    api_key=OPENAI_API_KEY,
+    response_format=DoctorReadabilityOutput,
+)
+
+readability_config=LLMConfig(
+    api_type="openai",
+    model="gpt-4o",
+    api_key=OPENAI_API_KEY,
+    response_format=DoctorReadabilityOutput,
+    
+)
+
+# agentic conversation & creates dataframe with results
+def agentic_conversation(finding, code, grade_level):
+    agent_results = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_Code"])
+
+    with llm_config:
+        writer = ConversableAgent(
+            name = "writer",
+            system_message = writer_prompt.format(Incidental_Finding = finding, Reading_Level = grade_level),
+            llm_config = writer_config,
+        )
+    
+        icd10_labeler = ConversableAgent(
+            name = "icd10_labeler",
+            system_message = ICD10_LABELER_INSTRUCTION,
+            llm_config = labeler_config,
+            code_execution_config=False,
+        )
+    
+        doctor = ConversableAgent( 
+            name = "Doctor",
+            system_message = doctor_prompt.format(Incidental_Finding = finding, ICD10_code = code),
+            llm_config = doctor_config,
+            code_execution_config=False,
+        )
+    
+        readability_checker = ConversableAgent(
+            name = "Readability_Checker",
+            system_message = readability_checker_prompt.format(reading_level = grade_level),
+            llm_config = readability_config,
+            code_execution_config=False,
+            functions=[calculate_fres],
+        )
+    
+        pattern = RoundRobinPattern(
+            initial_agent = writer,
+            agents = [writer, icd10_labeler, doctor, readability_checker],
+        )
+
+        writer.handoffs.set_after_work(AgentTarget(icd10_labeler))
+    
+        icd10_labeler.handoffs.set_after_work(AgentTarget(doctor))
+
+        doctor.handoffs.add_llm_conditions([
+            OnCondition(
+                target=AgentTarget(readability_checker),
+                condition=StringLLMCondition(prompt="If the response is medically accurate, send the response to the readability_checker."),
+            ),
+            OnCondition(
+                target=AgentTarget(writer),
+                condition=StringLLMCondition(prompt="""If the response is medically inaccuare or the original and pfx_icd10_codes are signifigantly different, 
+                send the response back to the writer agent with an explanation of why it was sent back and suggestions for improvement in medical accuracy."""),
+            ),
+        ])
+
+        readability_checker.handoffs.add_llm_conditions([
+            OnCondition(
+                target=AgentTarget(writer),
+                condition=StringLLMCondition("""If the response does not meet the criteria for the desired reading level, send it back to the writer agent
+                with an explanation of why it wasn't readable enough and suggestions for improving the readability."""),
+            ),
+            OnCondition(
+              target=TerminateTarget(),
+                condition=StringLLMCondition("If the response meets the readability criteria, send it to TerminateTarget."),
+            ),
+        ])
+    
+
+        result, context, last_agent = initiate_group_chat(
+            pattern = pattern,
+            messages = """Please play your specified role in generating a patient friendly explanation of an inicidental MRI finding.""",
+            max_rounds = 20,
+        )
+
+        chat = extract_json_gpt4o(result)
+
+        agent_results.loc[i] = {
+        "finding": finding,
+        "ICD10_code": code,
+        "PFx": chat.get("PFx", ""),
+        "PFx_ICD10_Code": chat.get("PFx_ICD10_Code", "")
+        }
+
+        agent_code = label_icd10s(pfx_response)
+
+        agent_results["_0_agent_icd10_codes"] = agent_code
+
+        # Compare only the first three characters for accuracy
+        agent_results_["_0_icd10_matches"] = (
+            str(agent_results["ICD10_code"])[:3] == str(agent_results["_0_agent_icd10_codes"])[:3]
+        )
+        agent_results["_0_pfx_icd10_matches"] = (
+            str(agent_results["ICD10_code"])[:3] == str(agent_results["PFx_ICD10_code"])[:3]
+        )
+
+        agent_results["accuracy"] = (
+            agent_results["_0_icd10_matches"] + agent_results["_0_pfx_icd10_matches"]
+        ) / 2
+
+        return agent_results
+        
+
+
+
+
