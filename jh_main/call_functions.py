@@ -15,40 +15,63 @@ df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 def label_icd10s(pfx_output):
     """
     Takes a single PFx response (string or JSON) and returns
-    a labeled ICD-10 result as a Python dictionary (or object).
+    a labeled ICD-10 result as a Python dictionary with fields like:
+      {"ICD10_code": "R93.0", "explanation": "..."}.
     """
+    import math
+    import pandas as pd
 
-    # Build up the few-shot examples for ICD-10 labeling
-    pfx_icd10_fewshot_examples = ""
-    for i, row in df_fewshot.iterrows():
-        pfx_icd10_fewshot_examples += icd10_example.format(**row)
+    # ---- Normalize PFx text ----
+    if isinstance(pfx_output, dict):
+        pfx_text = str(pfx_output.get("PFx", "") or "").strip()
+    else:
+        pfx_text = str(pfx_output or "").strip()
 
-    # Generate the prompt for ICD-10 labeling
-    # (Adjust the '{PFx}' if pfx_output is a dictionary with a specific key you need)
+    # ---- Build few-shot examples safely (handle NaNs) ----
+    # Assumes df_fewshot and icd10_example are defined in outer scope
+    parts = []
+    for _, row in df_fewshot.iterrows():
+        # Convert NaNs to empty strings for format()
+        mapping = {k: ("" if (isinstance(v, float) and math.isnan(v)) else v) for k, v in row.items()}
+        parts.append(icd10_example.format(**mapping))
+    pfx_icd10_fewshot_examples = "".join(parts)
+
+    # ---- Compose prompt ----
     prompt = single_fewshot_icd10_labeling_prompt.format(
         examples=pfx_icd10_fewshot_examples,
-        PFx=pfx_output  # or PFx=pfx_output['key'] if needed
+        PFx=pfx_text
     )
 
-    # Call the model to get ICD-10 codes
+    # ---- Call the model ----
     pfx_icd10_response = CLIENT.chat.completions.create(
         model=OPENAI_MODEL,
         temperature=0.0,
         messages=[
             {
                 "role": "system",
-                "content": "You are an ICD10 medical coder for incidental findings. Always respond with a valid JSON object containing the ICD-10 code and its explanation."
+                "content": (
+                    "You are an ICD-10 medical coder for incidental findings. "
+                    "Always respond with a valid JSON object containing the ICD-10 code and its explanation."
+                ),
             },
             {
-                "role": "system",
-                "content": prompt
-            }
+                "role": "user",   # <-- use user, not system
+                "content": prompt,
+            },
         ],
         stream=False,
     )
 
-    # Extract the JSON structure (or dictionary) from the LLM response
-    labeled_result = extract_json(pfx_icd10_response.choices[0])
+    # ---- Extract JSON dict using your robust extractor ----
+    labeled_result = extract_json(pfx_icd10_response) or {}
+
+    # ---- Minimal sanity normalization (keep return type = dict) ----
+    # Ensure keys exist and are strings to avoid downstream surprises.
+    code = str(labeled_result.get("ICD10_code", "") or "").strip()
+    expl = str(labeled_result.get("explanation", "") or "").strip()
+    labeled_result["ICD10_code"] = code
+    if expl:
+        labeled_result["explanation"] = expl
 
     return labeled_result
 
