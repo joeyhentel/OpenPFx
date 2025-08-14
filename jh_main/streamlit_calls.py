@@ -246,3 +246,14 @@ def agentic_conversation(finding, code, grade_level, model):
         ) / 2
 
         return agent_results
+
+from autogen import ConversableAgent, LLMConfig
+from autogen.agentchat import initiate_group_chat
+from autogen.agentchat.group.patterns import RoundRobinPattern
+from autogen.agentchat.group import OnCondition, StringLLMCondition
+from autogen.agentchat.group import AgentTarget
+from autogen.agentchat.group import TerminateTarget
+
+from pydantic import BaseModel, Field
+from typing import Optional
+from typing import Annotated
