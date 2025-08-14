@@ -7,3 +7,4 @@ python-dotenv
 ag2[openai]
 pydantic
 langchain
+re
