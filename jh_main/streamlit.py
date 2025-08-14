@@ -57,6 +57,17 @@ WORKFLOW_FILES = {
 
 LEGACY_FALLBACK = BASE_DIR / "pfx_source.csv"
 
+# ==========================
+# Session State (stable keys)
+# ==========================
+for k, v in {
+    "gen_error": None,
+    "generated_df": None,
+    "generated_pfx": "",
+}.items():
+    if k not in st.session_state:
+        st.session_state[k] = v
+
 model_options = [
     "gpt-3.5-turbo",
     "gpt-4o", 
@@ -86,6 +97,35 @@ READING_LEVELS = [
     SIXTH_GRADE,
     FIFTH_GRADE,
 ]
+
+# ==========================
+# Utilities for result handling
+# ==========================
+import pandas as pd
+
+REQUIRED_SCHEMA = ["finding", "ICD10_code", "PFx", "PFx_ICD10_code"]
+
+def _ensure_schema(df: pd.DataFrame | dict | None) -> pd.DataFrame:
+    """Normalize any return (DataFrame/dict/None) into a DF with REQUIRED_SCHEMA."""
+    if df is None:
+        return pd.DataFrame(columns=REQUIRED_SCHEMA)
+    if isinstance(df, dict):
+        df = pd.DataFrame([df])
+    if not isinstance(df, pd.DataFrame):
+        try:
+            df = pd.DataFrame(df)
+        except Exception:
+            return pd.DataFrame(columns=REQUIRED_SCHEMA)
+    for col in REQUIRED_SCHEMA:
+        if col not in df.columns:
+            df[col] = ""
+    return df[REQUIRED_SCHEMA]
+
+def _extract_pfx_text(df: pd.DataFrame | None) -> str:
+    if df is None or "PFx" not in df.columns:
+        return ""
+    vals = [str(x).strip() for x in df["PFx"].fillna("").astype(str).tolist() if str(x).strip()]
+    return "\n\n---\n".join(vals)
 
 # ==========================
 # Data Loading + Normalization
@@ -326,6 +366,28 @@ def render_home_panel(idx: int):
         else:
             st.markdown("<div class='pfx-card pfx-muted'>Pick a workflow and finding on the left to view the PFx.</div>", unsafe_allow_html=True)
 
+REQUIRED_SCHEMA = ["finding", "ICD10_code", "PFx", "PFx_ICD10_code"]
+
+def _ensure_schema(df):
+    if df is None:
+        return pd.DataFrame(columns=REQUIRED_SCHEMA)
+    if isinstance(df, dict):
+        df = pd.DataFrame([df])
+    if not isinstance(df, pd.DataFrame):
+        try:
+            df = pd.DataFrame(df)
+        except Exception:
+            return pd.DataFrame(columns=REQUIRED_SCHEMA)
+    for col in REQUIRED_SCHEMA:
+        if col not in df.columns:
+            df[col] = ""
+    return df[REQUIRED_SCHEMA]
+
+def _extract_pfx_text(df):
+    if df is None or "PFx" not in df.columns:
+        return ""
+    vals = [str(x).strip() for x in df["PFx"].fillna("").astype(str) if str(x).strip()]
+    return "\n\n---\n".join(vals)
 
 # ==========================
 # HOME PAGE
@@ -383,49 +445,57 @@ elif page == "generate":
             st.session_state.gen_error = ""
 
         if generate_clicked:
-            if not incidental_finding:
-                st.warning("Please enter an Incidental Finding before generating.")
-            else:
-                # Local import to avoid changing global imports
-                try:
-                    from streamlit_calls import zeroshot_call, fewshot_call, agentic_conversation
-                except Exception as e:
-                    st.session_state.gen_error = f"Couldn't import generation functions from streamlit_calls.py: {e}"
-                    st.session_state.generated_pfx = ""
-                    st.session_state.generated_df = None
-                else:
-                    try:
-                        if workflow_choice == "Zero-shot":
-                            df_result = zeroshot_call(incidental_finding, icd10_code, reading_level, ai_model)
-                        elif workflow_choice == "Few-shot":
-                            df_result = fewshot_call(incidental_finding, icd10_code, reading_level, ai_model)
-                        elif workflow_choice == "Agentic":
-                            df_result = agentic_conversation(incidental_finding, icd10_code, reading_level, ai_model)
-                        else:  # "All" -> run all and concat
-                            df_zero = zeroshot_call(incidental_finding, icd10_code, reading_level, ai_model)
-                            df_few  = fewshot_call(incidental_finding, icd10_code, reading_level, ai_model)
-                            df_ag   = agentic_conversation(incidental_finding, icd10_code, reading_level, ai_model)
-                            import pandas as _pd  # local alias to avoid polluting namespace
-                            parts = [d for d in [df_zero, df_few, df_ag] if d is not None]
-                            df_result = _pd.concat(parts, ignore_index=True) if parts else None
+            # reset state at the start of the run
+            st.session_state.gen_error = None
+            st.session_state.generated_df = None
+            st.session_state.generated_pfx = ""
 
-                        # Persist results
-                        if df_result is not None and hasattr(df_result, "empty") and not df_result.empty:
-                            st.session_state.generated_df = df_result
-                            # Prefer PFx column if present
+            if not incidental_finding.strip():
+                st.session_state.gen_error = "Please enter an Incidental Finding before generating."
+            else:
+                try:
+                    from streamlit_calls import (
+                        zeroshot_call,
+                        fewshot_call,
+                        agentic_conversation,
+                    )
+
+                    def _run_one(fn):
+                        out = fn(incidental_finding, icd10_code, reading_level, ai_model)
+                        return _ensure_schema(out)
+
+                    if workflow_choice == "Zero-shot":
+                        df = _run_one(zeroshot_call)
+
+                    elif workflow_choice == "Few-shot":
+                        df = _run_one(fewshot_call)
+
+                    elif workflow_choice == "Agentic":
+                        df = _run_one(agentic_conversation)
+
+                    elif workflow_choice == "All":
+                        parts: list[pd.DataFrame] = []
+                        for fn in (zeroshot_call, fewshot_call, agentic_conversation):
                             try:
-                                st.session_state.generated_pfx = str(df_result.iloc[0]["PFx"]).strip()
+                                dfi = _run_one(fn)
+                                if not dfi.empty:
+                                    parts.append(dfi)
                             except Exception:
-                                st.session_state.generated_pfx = ""
-                            st.session_state.gen_error = ""
-                        else:
-                            st.session_state.generated_df = None
-                            st.session_state.generated_pfx = ""
-                            st.session_state.gen_error = "No results returned by the selected workflow(s)."
-                    except Exception as e:
-                        st.session_state.generated_df = None
-                        st.session_state.generated_pfx = ""
-                        st.session_state.gen_error = f"Error during generation: {e}"
+                                # allow other workflows to succeed
+                                pass
+                        df = pd.concat(parts, ignore_index=True) if parts else _ensure_schema(None)
+
+                    else:
+                        df = _ensure_schema(None)
+
+                    st.session_state.generated_df = df
+                    st.session_state.generated_pfx = _extract_pfx_text(df)
+
+                    if df.empty:
+                        st.session_state.gen_error = "No results returned by the selected workflow(s)."
+
+                except Exception as e:
+                    st.session_state.gen_error = f"Error during generation: {e}"
 
     with right:
         st.markdown("### Patient-Friendly Explanation")
