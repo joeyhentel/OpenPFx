@@ -271,19 +271,21 @@ def agentic_conversation(finding, code, grade_level, ai_model):
 
         chat = extract_json_gpt4o(result)
 
-        agent_results.loc[] = {
+        # Populate the DataFrame with the results
+
+        agent_results.loc[1] = {
         "finding": finding,
         "ICD10_code": code,
         "PFx": chat.get("PFx", ""),
         "PFx_ICD10_Code": chat.get("PFx_ICD10_Code", "")
         }
 
-        agent_code = label_icd10s(pfx_response)
+        agent_code = label_icd10s(chat.get("PFx", ""))
 
         agent_results["_0_agent_icd10_codes"] = agent_code
 
         # Compare only the first three characters for accuracy
-        agent_results_["_0_icd10_matches"] = (
+        agent_results["_0_icd10_matches"] = (
             str(agent_results["ICD10_code"])[:3] == str(agent_results["_0_agent_icd10_codes"])[:3]
         )
         agent_results["_0_pfx_icd10_matches"] = (
