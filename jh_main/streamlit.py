@@ -47,6 +47,15 @@ WORKFLOW_FILES = {
 
 LEGACY_FALLBACK = BASE_DIR / "pfx_source.csv"
 
+model_options = [
+    "gpt-3.5-turbo",
+    "gpt-4o", 
+    "gpt-4o-mini",
+    "gpt-5",
+    "gpt-5-mini",
+    "gpt-5-nano"
+]
+
 # Reading Level options (UI-only for now)
 PROFESSIONAL = "PROFESSIONAL"
 COLLEGE_GRADUATE = "COLLEGE_GRADUATE"
@@ -333,14 +342,6 @@ if page in ("", "home"):
 # ==========================
 # GENERATE PAGE (LLM-INTEGRATED)
 # ==========================
-model_options = [
-    "gpt-3.5-turbo",
-    "gpt-4o", 
-    "gpt-4o-mini",
-    "gpt-5",
-    "gpt-5-mini",
-    "gpt-5-nano"
-]
 
 elif page == "generate":
     st.subheader("Generate Your Own PFx")
