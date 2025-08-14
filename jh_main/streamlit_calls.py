@@ -33,65 +33,96 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 # import fewshot examples
 df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 
-# calls LLM & creates dataframe with results
 def zeroshot_call(finding, code, grade_level, ai_model):
+    import re, json
     import pandas as pd
 
-    # Build the prompt
+    def _first_icd10_prefix(s: str) -> str:
+        """Return canonical ICD-10 3-char prefix like 'D18', or '' if none."""
+        if not s:
+            return ""
+        s = str(s).strip().upper()
+        # ICD-10 chapter letters A–Z excluding U (U used for special purposes).
+        m = re.match(r'^([A-TV-Z]\d{2})', s)  # e.g., D18, R93, C22
+        return m.group(1) if m else ""
+
+    def _coerce_icd10(value):
+        """Accept 'R93.0', {'ICD10_code':'R93.0'}, or JSON string; return 'R93.0'."""
+        if value is None:
+            return ""
+        if isinstance(value, dict):
+            return str(value.get("ICD10_code") or value.get("code") or "").strip()
+        if isinstance(value, (list, tuple)) and value:
+            return _coerce_icd10(value[0])
+        # Try JSON string
+        if isinstance(value, str):
+            v = value.strip()
+            if v.startswith("{") and v.endswith("}"):
+                try:
+                    obj = json.loads(v)
+                    return _coerce_icd10(obj)
+                except Exception:
+                    return v
+            return v
+        return str(value).strip()
+
+    # ---------- Build prompt ----------
     prompt = baseline_zeroshot_prompt.format(
         Incidental_Finding=finding,
         Reading_Level=grade_level,
     )
 
-    # Call the model (prompt goes in a user message)
-    pfx_response = CLIENT.chat.completions.create(
+    # ---------- LLM call ----------
+    resp = CLIENT.chat.completions.create(
         model=ai_model,
         temperature=0.0,
         messages=[
-            {
-                "role": "system",
-                "content": "You are a medical professional rephrasing and explaining medical terminology to a patient in an understandable manner.",
-            },
+            {"role": "system", "content": "You are a medical professional rephrasing and explaining medical terminology to a patient in an understandable manner."},
             {"role": "user", "content": prompt},
         ],
         stream=False,
     )
 
-    # Safely get the assistant text
-    content = getattr(
-        pfx_response.choices[0].message, "content", ""
-    ) or ""
+    content = getattr(getattr(resp.choices[0], "message", object()), "content", "") or ""
 
-    # Parse the JSON block from the assistant content
-    extracted = extract_json(content) or {}
-    pfx_text = extracted.get("PFx", "") or ""
-    pfx_icd10 = extracted.get("PFx_ICD10_code", "") or ""
+    # ---------- Extract JSON from content robustly ----------
+    # Prefer your helper; if it returns {}, fall back to first {...} block.
+    data = extract_json(content) or {}
+    if not isinstance(data, dict) or not data:
+        # try to pull first fenced or inline JSON object
+        m = re.search(r'\{(?:[^{}]|(?R))*\}', content)  # simple balanced-ish fallback
+        if m:
+            try:
+                data = json.loads(m.group(0))
+            except Exception:
+                data = {}
+        else:
+            data = {}
 
-    # Run your ICD-10 labeling agent on the generated PFx text (not the raw response object)
-    agent_code = label_icd10s(pfx_text)  # adjust if your function expects something else
+    pfx_text = (data.get("PFx") or "").strip()
+    pfx_icd10 = _coerce_icd10(data.get("PFx_ICD10_code") or "")
 
-    # Compare the first 3 characters for “block” match
-    gold3 = str(code)[:3]
-    agent3 = str(agent_code)[:3]
-    pfx3 = str(pfx_icd10)[:3]
+    # ---------- Agent ICD-10 from PFx (or use finding if that's desired) ----------
+    agent_raw = label_icd10s(pfx_text)  # if your fn expects the finding, swap to `finding`
+    agent_code = _coerce_icd10(agent_raw)
+
+    # ---------- Matching using ICD-10 3-char prefix ----------
+    gold_prefix = _first_icd10_prefix(code)
+    agent_prefix = _first_icd10_prefix(agent_code)
+    pfx_prefix = _first_icd10_prefix(pfx_icd10)
 
     row = {
         "finding": finding,
-        "ICD10_code": code,
+        "ICD10_code": str(code).strip(),
         "PFx": pfx_text,
         "PFx_ICD10_code": pfx_icd10,
         "_0_agent_icd10_codes": agent_code,
-        "_0_icd10_matches": (gold3 == agent3),
-        "_0_pfx_icd10_matches": (gold3 == pfx3),
+        "_0_icd10_matches": (gold_prefix != "" and gold_prefix == agent_prefix),
+        "_0_pfx_icd10_matches": (gold_prefix != "" and gold_prefix == pfx_prefix),
     }
+    row["accuracy"] = (int(row["_0_icd10_matches"]) + int(row["_0_pfx_icd10_matches"])) / 2.0
 
-    # Make the bool→int conversion explicit
-    row["accuracy"] = (int(row["_0_icd10_matches"]) + int(row["_0_pfx_icd10_matches"])) / 2
-
-    # Return a one-row DataFrame
     return pd.DataFrame([row])
-
-
 
 
 # zeroshot prompts LLM & creates dataframe with results
