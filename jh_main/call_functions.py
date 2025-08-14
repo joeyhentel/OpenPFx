@@ -7,6 +7,7 @@ from openai import OpenAI
 CLIENT = OpenAI()
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 import json
+import unicodedata
 
 # import fewshot examples
 df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
@@ -51,26 +52,85 @@ def label_icd10s(pfx_output):
 
     return labeled_result
 
-# extract the json from openai
-def extract_json(openai_response):
-    if openai_response:  # Ensure the response is not None
+import json, re
+
+def _first_balanced_json(text: str) -> str:
+    """Return the first balanced {...} JSON substring (ignores braces inside strings)."""
+    in_str = False
+    esc = False
+    depth = 0
+    start = -1
+    for i, ch in enumerate(text):
+        if esc:
+            esc = False
+            continue
+        if ch == '\\':
+            esc = True
+            continue
+        if ch == '"':
+            in_str = not in_str
+            continue
+        if in_str:
+            continue
+        if ch == '{':
+            if depth == 0:
+                start = i
+            depth += 1
+        elif ch == '}':
+            if depth > 0:
+                depth -= 1
+                if depth == 0 and start != -1:
+                    return text[start:i+1]
+    return ""
+
+def extract_json_from_text(content: str) -> dict:
+    """Parse JSON from model text. Supports ```json fences, ``` fences, or inline {..}."""
+    if not content:
+        return {}
+    # 1) ```json ... ```
+    m = re.search(r"```json\s*(\{.*?\})\s*```", content, flags=re.DOTALL | re.IGNORECASE)
+    if not m:
+        # 2) generic ``` ... ```
+        m = re.search(r"```\s*(\{.*?\})\s*```", content, flags=re.DOTALL)
+    if m:
         try:
-            # Extract content from response object
-            content = openai_response.message.content
-            
-            # Search for JSON within the content
-            json_match = re.search(r'```json\n(.*?)\n```', content, re.DOTALL)
-            if json_match:
-                json_str = json_match.group(1)
-                return json.loads(json_str)  # Parse JSON string to Python dict
-            else:
-                print("No JSON found in response content.")
-                return None
-        except AttributeError as e:
-            print(f"Attribute error: {e}. Ensure the input is a valid response object.")
-            return None
-    else:
-        return None
+            return json.loads(m.group(1))
+        except Exception:
+            pass
+    # 3) first balanced JSON object inline
+    candidate = _first_balanced_json(content)
+    if candidate:
+        try:
+            return json.loads(candidate)
+        except Exception:
+            pass
+    return {}
+
+def extract_json(openai_response) -> dict:
+    """
+    Robustly extract a JSON dict from an OpenAI Chat Completions response or from a raw string.
+    Always returns a dict ({} on failure).
+    """
+    # If caller already passed a string, parse it directly.
+    if isinstance(openai_response, str):
+        return extract_json_from_text(openai_response)
+
+    # Try to get message content from a Chat Completions response
+    content = ""
+    try:
+        # OpenAI SDK objects
+        content = getattr(openai_response.choices[0].message, "content", "") or ""
+    except Exception:
+        # Fallbacks: dict-like / other shapes
+        try:
+            choices = openai_response.get("choices", [])
+            if choices and "message" in choices[0]:
+                content = choices[0]["message"].get("content", "") or ""
+        except Exception:
+            content = ""
+
+    return extract_json_from_text(content)
+
     
 def extract_json_gpt4o(chat_result, verbose=False):
     messages = getattr(chat_result, "chat_history", None) or getattr(chat_result, "messages", [])
