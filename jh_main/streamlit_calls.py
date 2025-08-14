@@ -70,7 +70,7 @@ def zeroshot_call(finding, code, grade_level, ai_model):
         str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["_0_agent_icd10_codes"])[:3]
     )
     zero_results_df["_0_pfx_icd10_matches"] = (
-        str(results_df["ICD10_code"])[:3] == str(zero_results_df["PFx_ICD10_code"])[:3]
+        str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["PFx_ICD10_code"])[:3]
     )
 
     zero_results_df["accuracy"] = (
