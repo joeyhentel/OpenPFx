@@ -37,20 +37,19 @@ def zeroshot_call(finding, code, grade_level, ai_model):
     import re
     import pandas as pd
 
-    # Create an empty results DataFrame
     zero_results_df = pd.DataFrame(columns=[
         "finding", "ICD10_code", "PFx", "PFx_ICD10_code",
         "_0_agent_icd10_codes", "_0_icd10_matches",
         "_0_pfx_icd10_matches", "accuracy"
     ])
 
-    # Build the prompt
+    # Prompt
     prompt = baseline_zeroshot_prompt.format(
         Incidental_Finding=finding,
         Reading_Level=grade_level,
     )
 
-    # Call the LLM
+    # LLM call
     pfx_response = CLIENT.chat.completions.create(
         model=ai_model,
         temperature=0.0,
@@ -61,24 +60,26 @@ def zeroshot_call(finding, code, grade_level, ai_model):
         stream=False,
     )
 
-    # Extract the PFx and PFx ICD10 code
-    extracted_response = extract_json(pfx_response.choices[0]) or {}
-    pfx_text = extracted_response.get("PFx", "")
+    # Get raw text from model
+    raw_output = pfx_response.choices[0].message["content"]
+
+    # Try to parse JSON
+    extracted_response = extract_json(raw_output) or {}
+
+    # If PFx missing, fall back to raw output
+    pfx_text = extracted_response.get("PFx", raw_output)
     pfx_icd10 = extracted_response.get("PFx_ICD10_code", "")
 
-    # Get agent ICD10 code
+    # Agent ICD10
     agent_code_data = label_icd10s(pfx_response) or {}
-
-    # If it's a string, try to parse JSON
     if isinstance(agent_code_data, str):
         try:
             agent_code_data = json.loads(agent_code_data)
         except json.JSONDecodeError:
             agent_code_data = {}
-
     agent_code = agent_code_data.get("ICD10_code", "")
 
-    # Build the row
+    # Row
     row_data = {
         "finding": finding,
         "ICD10_code": code,
@@ -89,15 +90,13 @@ def zeroshot_call(finding, code, grade_level, ai_model):
         "_0_pfx_icd10_matches": str(code)[:3] == str(pfx_icd10)[:3],
     }
 
-    # Calculate accuracy
     row_data["accuracy"] = (
         row_data["_0_icd10_matches"] + row_data["_0_pfx_icd10_matches"]
     ) / 2
 
-    # Append to DataFrame
     zero_results_df = pd.concat([zero_results_df, pd.DataFrame([row_data])], ignore_index=True)
-
     return zero_results_df
+
 
 
 # zeroshot prompts LLM & creates dataframe with results
