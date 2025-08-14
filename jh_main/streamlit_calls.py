@@ -32,24 +32,16 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 # import fewshot examples
 df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 
+# calls LLM & creates dataframe with results
 def zeroshot_call(finding, code, grade_level, ai_model):
-    import json
     import re
-    import pandas as pd
+    zero_results_df = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
 
-    zero_results_df = pd.DataFrame(columns=[
-        "finding", "ICD10_code", "PFx", "PFx_ICD10_code",
-        "_0_agent_icd10_codes", "_0_icd10_matches",
-        "_0_pfx_icd10_matches", "accuracy"
-    ])
-
-    # Prompt
     prompt = baseline_zeroshot_prompt.format(
         Incidental_Finding=finding,
         Reading_Level=grade_level,
     )
 
-    # LLM call
     pfx_response = CLIENT.chat.completions.create(
         model=ai_model,
         temperature=0.0,
@@ -60,41 +52,31 @@ def zeroshot_call(finding, code, grade_level, ai_model):
         stream=False,
     )
 
-    # Get raw text from model
-    raw_output = pfx_response.choices[0].message["content"]
+    extracted_response = extract_json(pfx_response.choices[0]) or {}
 
-    # Try to parse JSON
-    extracted_response = extract_json(raw_output) or {}
-
-    # If PFx missing, fall back to raw output
-    pfx_text = extracted_response.get("PFx", raw_output)
-    pfx_icd10 = extracted_response.get("PFx_ICD10_code", "")
-
-    # Agent ICD10
-    agent_code_data = label_icd10s(pfx_response) or {}
-    if isinstance(agent_code_data, str):
-        try:
-            agent_code_data = json.loads(agent_code_data)
-        except json.JSONDecodeError:
-            agent_code_data = {}
-    agent_code = agent_code_data.get("ICD10_code", "")
-
-    # Row
-    row_data = {
+    zero_results_df = {
         "finding": finding,
         "ICD10_code": code,
-        "PFx": pfx_text,
-        "PFx_ICD10_code": pfx_icd10,
-        "_0_agent_icd10_codes": agent_code,
-        "_0_icd10_matches": str(code)[:3] == str(agent_code)[:3],
-        "_0_pfx_icd10_matches": str(code)[:3] == str(pfx_icd10)[:3],
+        "PFx": extracted_response.get("PFx", ""),
+        "PFx_ICD10_code": extracted_response.get("PFx_ICD10_code", "")
     }
 
-    row_data["accuracy"] = (
-        row_data["_0_icd10_matches"] + row_data["_0_pfx_icd10_matches"]
+    agent_code = label_icd10s(pfx_response)
+
+    zero_results_df["_0_agent_icd10_codes"] = agent_code
+
+    # Compare only the first three characters for accuracy
+    zero_results_df["_0_icd10_matches"] = (
+        str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["_0_agent_icd10_codes"])[:3]
+    )
+    zero_results_df["_0_pfx_icd10_matches"] = (
+        str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["PFx_ICD10_code"])[:3]
+    )
+
+    zero_results_df["accuracy"] = (
+        zero_results_df["_0_icd10_matches"] + zero_results_df["_0_pfx_icd10_matches"]
     ) / 2
 
-    zero_results_df = pd.concat([zero_results_df, pd.DataFrame([row_data])], ignore_index=True)
     return zero_results_df
 
 
