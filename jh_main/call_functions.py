@@ -15,11 +15,10 @@ df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 def label_icd10s(pfx_output):
     """
     Takes a single PFx response (string or JSON) and returns
-    a labeled ICD-10 result as a Python dictionary with fields like:
-      {"ICD10_code": "R93.0", "explanation": "..."}.
+    the ICD-10 code string (e.g., 'R93.0'). Returns '' if none found.
     """
+
     import math
-    import pandas as pd
 
     # ---- Normalize PFx text ----
     if isinstance(pfx_output, dict):
@@ -27,12 +26,13 @@ def label_icd10s(pfx_output):
     else:
         pfx_text = str(pfx_output or "").strip()
 
-    # ---- Build few-shot examples safely (handle NaNs) ----
-    # Assumes df_fewshot and icd10_example are defined in outer scope
+    # ---- Build few-shot examples (handle NaNs) ----
     parts = []
     for _, row in df_fewshot.iterrows():
-        # Convert NaNs to empty strings for format()
-        mapping = {k: ("" if (isinstance(v, float) and math.isnan(v)) else v) for k, v in row.items()}
+        mapping = {
+            k: ("" if (isinstance(v, float) and math.isnan(v)) else v)
+            for k, v in row.items()
+        }
         parts.append(icd10_example.format(**mapping))
     pfx_icd10_fewshot_examples = "".join(parts)
 
@@ -42,7 +42,7 @@ def label_icd10s(pfx_output):
         PFx=pfx_text
     )
 
-    # ---- Call the model ----
+    # ---- LLM call ----
     pfx_icd10_response = CLIENT.chat.completions.create(
         model=OPENAI_MODEL,
         temperature=0.0,
@@ -55,25 +55,18 @@ def label_icd10s(pfx_output):
                 ),
             },
             {
-                "role": "user",   # <-- use user, not system
+                "role": "user",  # send prompt here
                 "content": prompt,
             },
         ],
         stream=False,
     )
 
-    # ---- Extract JSON dict using your robust extractor ----
+    # ---- Extract JSON dict ----
     labeled_result = extract_json(pfx_icd10_response) or {}
 
-    # ---- Minimal sanity normalization (keep return type = dict) ----
-    # Ensure keys exist and are strings to avoid downstream surprises.
-    code = str(labeled_result.get("ICD10_code", "") or "").strip()
-    expl = str(labeled_result.get("explanation", "") or "").strip()
-    labeled_result["ICD10_code"] = code
-    if expl:
-        labeled_result["explanation"] = expl
-
-    return labeled_result
+    # ---- Return only the code string ----
+    return str(labeled_result.get("ICD10_code", "") or "").strip()
 
 import json, re
 

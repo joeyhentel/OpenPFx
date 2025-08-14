@@ -33,50 +33,68 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 # import fewshot examples
 df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 
-# calls LLM & creates dataframe with results
 def zeroshot_call(finding, code, grade_level, ai_model):
+    import re
+
+    def _icd10_prefix(s: str) -> str:
+        """Return 3-char ICD-10 prefix like 'R93' ('' if not present)."""
+        if not s:
+            return ""
+        s = str(s).strip().upper()
+        m = re.match(r'^([A-TV-Z]\d{2})', s)  # letters except U + two digits
+        return m.group(1) if m else ""
+
+    # ---- Build prompt ----
     prompt = baseline_zeroshot_prompt.format(
         Incidental_Finding=finding,
         Reading_Level=grade_level,
     )
 
+    # ---- LLM call ----
     pfx_response = CLIENT.chat.completions.create(
         model=ai_model,
         temperature=0.0,
         messages=[
-            {"role": "system", "content": "You are a medical professional rephrasing and explaining medical terminology to a patient in an understandable manner."},
-            {"role": "system", "content": prompt}
+            {
+                "role": "system",
+                "content": "You are a medical professional rephrasing and explaining medical terminology to a patient in an understandable manner.",
+            },
+            {"role": "user", "content": prompt},
         ],
         stream=False,
     )
 
-    extracted_response = extract_json(pfx_response.choices[0]) or {}
+    # ---- Extract PFx JSON from full response ----
+    extracted = extract_json(pfx_response) or {}
+    pfx_text = (extracted.get("PFx") or "").strip()
+    pfx_icd10 = str(extracted.get("PFx_ICD10_code") or "").strip()
 
-    zero_results_df = {
+    # ---- Label ICD-10 from the PFx text (your function returns a string code) ----
+    agent_code = label_icd10s(pfx_text) or ""
+
+    # ---- Build result dict ----
+    result = {
         "finding": finding,
-        "ICD10_code": code,
-        "PFx": extracted_response.get("PFx", ""),
-        "PFx_ICD10_code": extracted_response.get("PFx_ICD10_code", "")
+        "ICD10_code": str(code).strip(),
+        "PFx": pfx_text,
+        "PFx_ICD10_code": pfx_icd10,
+        "_0_agent_icd10_codes": agent_code,
     }
 
-    agent_code = label_icd10s(pfx_response)
+    # ---- Compare prefixes ----
+    gold_prefix = _icd10_prefix(result["ICD10_code"])
+    agent_prefix = _icd10_prefix(agent_code)
+    pfx_prefix = _icd10_prefix(pfx_icd10)
 
-    zero_results_df["_0_agent_icd10_codes"] = agent_code
+    result["_0_icd10_matches"] = (gold_prefix != "" and gold_prefix == agent_prefix)
+    result["_0_pfx_icd10_matches"] = (gold_prefix != "" and gold_prefix == pfx_prefix)
 
-    # Compare only the first three characters for accuracy
-    zero_results_df["_0_icd10_matches"] = (
-        str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["_0_agent_icd10_codes"])[:3]
-    )
-    zero_results_df["_0_pfx_icd10_matches"] = (
-        str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["PFx_ICD10_code"])[:3]
-    )
+    # ---- Float accuracy (0.0, 0.5, 1.0) ----
+    result["accuracy"] = (
+        float(int(result["_0_icd10_matches"])) + float(int(result["_0_pfx_icd10_matches"]))
+    ) / 2.0
 
-    zero_results_df["accuracy"] = (
-        zero_results_df["_0_icd10_matches"] + zero_results_df["_0_pfx_icd10_matches"]
-    ) / 2
-
-    return zero_results_df
-
+    return result
 
 
 # zeroshot prompts LLM & creates dataframe with results
