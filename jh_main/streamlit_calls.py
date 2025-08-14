@@ -35,7 +35,6 @@ df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 # calls LLM & creates dataframe with results
 def zeroshot_call(finding, code, grade_level, ai_model):
     import re
-    zero_results_df = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
 
     prompt = baseline_zeroshot_prompt.format(
         Incidental_Finding=finding,
@@ -53,31 +52,23 @@ def zeroshot_call(finding, code, grade_level, ai_model):
     )
 
     extracted_response = extract_json(pfx_response.choices[0]) or {}
+    agent_code = label_icd10s(pfx_response)
 
-    zero_results_df = {
+    # Create DataFrame with one row
+    df = pd.DataFrame([{
         "finding": finding,
         "ICD10_code": code,
         "PFx": extracted_response.get("PFx", ""),
-        "PFx_ICD10_code": extracted_response.get("PFx_ICD10_code", "")
-    }
-
-    agent_code = label_icd10s(pfx_response)
-
-    zero_results_df["_0_agent_icd10_codes"] = agent_code
+        "PFx_ICD10_code": extracted_response.get("PFx_ICD10_code", ""),
+        "_0_agent_icd10_codes": agent_code
+    }])
 
     # Compare only the first three characters for accuracy
-    zero_results_df["_0_icd10_matches"] = (
-        str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["_0_agent_icd10_codes"])[:3]
-    )
-    zero_results_df["_0_pfx_icd10_matches"] = (
-        str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["PFx_ICD10_code"])[:3]
-    )
+    df["_0_icd10_matches"] = df["ICD10_code"].str[:3] == df["_0_agent_icd10_codes"].str[:3]
+    df["_0_pfx_icd10_matches"] = df["ICD10_code"].str[:3] == df["PFx_ICD10_code"].str[:3]
+    df["accuracy"] = (df["_0_icd10_matches"] + df["_0_pfx_icd10_matches"]) / 2
 
-    zero_results_df["accuracy"] = (
-        zero_results_df["_0_icd10_matches"] + zero_results_df["_0_pfx_icd10_matches"]
-    ) / 2
-
-    return zero_results_df
+    return df
 
 # zeroshot prompts LLM & creates dataframe with results
 def fewshot_call(finding, code, grade_level, ai_model):
