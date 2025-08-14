@@ -114,20 +114,20 @@ def fewshot_call(finding, code, grade_level, ai_model):
 # agentic conversation & creates dataframe with results
 def agentic_conversation(finding, code, grade_level, ai_model):
     class WriterOutput(BaseModel):
-    finding: str = Field(..., description="Name of incidental finding")
-    ICD10_Code: str = Field(..., description="The ICD-10 code for the incidental finding")
-    PFx: str = Field(..., description="Patient-friendly explanation of the finding")
+        finding: str = Field(..., description="Name of incidental finding")
+        ICD10_Code: str = Field(..., description="The ICD-10 code for the incidental finding")
+        PFx: str = Field(..., description="Patient-friendly explanation of the finding")
 
     class LabelerOutput(BaseModel):
-    finding: str = Field(..., description="Name of incidental finding")
-    ICD10_Code: str = Field(..., description="The ICD-10 code given by writer")
-    PFx: str = Field(..., description="The patient-friendly explanation given by writer")
-    PFx_ICD10_Code: str = Field(..., description="The ICD-10 code you determine based off of PFx")
+        finding: str = Field(..., description="Name of incidental finding")
+        ICD10_Code: str = Field(..., description="The ICD-10 code given by writer")
+        PFx: str = Field(..., description="The patient-friendly explanation given by writer")
+        PFx_ICD10_Code: str = Field(..., description="The ICD-10 code you determine based off of PFx")
 
     class DoctorReadabilityOutput(BaseModel):
-    Verdict: str = Field(..., description="Overall judgment about the explanation, accurate or inaccurate")
-    Explanation: Optional[str] = Field(None, description="Why the verdict was given")
-    Improvements: Optional[str] = Field(None, description="Suggested changes to improve readability or accuracy")
+        Verdict: str = Field(..., description="Overall judgment about the explanation, accurate or inaccurate")
+        Explanation: Optional[str] = Field(None, description="Why the verdict was given")
+        Improvements: Optional[str] = Field(None, description="Suggested changes to improve readability or accuracy")
 
     llm_config = LLMConfig(
         api_type="openai",
