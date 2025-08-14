@@ -23,7 +23,7 @@ def zeroshot_call(finding, code, grade_level, ai_model):
         stream=False,
     )
 
-    extracted_response = extract_json(pfx_response.choices[0])
+    extracted_response = extract_json(pfx_response.choices[0]) or {}
 
     zero_results_df = {
         "finding": finding,
