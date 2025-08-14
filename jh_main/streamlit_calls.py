@@ -32,15 +32,19 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 # import fewshot examples
 df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 
-# calls LLM & creates dataframe with results
 def zeroshot_call(finding, code, grade_level, ai_model):
-    import pandas as pd
+    import json
     import re
+    import pandas as pd
 
-    # Prepare empty dataframe
-    results_df = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
+    # Create an empty results DataFrame
+    zero_results_df = pd.DataFrame(columns=[
+        "finding", "ICD10_code", "PFx", "PFx_ICD10_code",
+        "_0_agent_icd10_codes", "_0_icd10_matches",
+        "_0_pfx_icd10_matches", "accuracy"
+    ])
 
-    # Format the prompt
+    # Build the prompt
     prompt = baseline_zeroshot_prompt.format(
         Incidental_Finding=finding,
         Reading_Level=grade_level,
@@ -57,46 +61,44 @@ def zeroshot_call(finding, code, grade_level, ai_model):
         stream=False,
     )
 
-    # Extract structured JSON
+    # Extract the PFx and PFx ICD10 code
     extracted_response = extract_json(pfx_response.choices[0]) or {}
+    pfx_text = extracted_response.get("PFx", "")
+    pfx_icd10 = extracted_response.get("PFx_ICD10_code", "")
 
-    # Build row dictionary
-    row_data = {
-        "finding": finding,
-        "ICD10_code": code,
-        "PFx": extracted_response.get("PFx", ""),
-        "PFx_ICD10_code": extracted_response.get("PFx_ICD10_code", "")
-    }
+    # Get agent ICD10 code
+    agent_code_data = label_icd10s(pfx_response) or {}
 
-    # Get agent-generated ICD10 code
-    agent_code = label_icd10s(pfx_response)
-    
-    # If it's a JSON string, parse it
+    # If it's a string, try to parse JSON
     if isinstance(agent_code_data, str):
         try:
             agent_code_data = json.loads(agent_code_data)
         except json.JSONDecodeError:
             agent_code_data = {}
 
-    row_data["_0_agent_icd10_codes"] = agent_code
+    agent_code = agent_code_data.get("ICD10_code", "")
 
-    # Compare only first three characters, forcing string conversion
-    row_data["_0_icd10_matches"] = (
-        str(row_data["ICD10_code"])[:3] == str(row_data["_0_agent_icd10_codes"])[:3]
-    )
-    row_data["_0_pfx_icd10_matches"] = (
-        str(row_data["ICD10_code"])[:3] == str(row_data["PFx_ICD10_code"])[:3]
-    )
+    # Build the row
+    row_data = {
+        "finding": finding,
+        "ICD10_code": code,
+        "PFx": pfx_text,
+        "PFx_ICD10_code": pfx_icd10,
+        "_0_agent_icd10_codes": agent_code,
+        "_0_icd10_matches": str(code)[:3] == str(agent_code)[:3],
+        "_0_pfx_icd10_matches": str(code)[:3] == str(pfx_icd10)[:3],
+    }
 
     # Calculate accuracy
     row_data["accuracy"] = (
-        int(row_data["_0_icd10_matches"]) + int(row_data["_0_pfx_icd10_matches"])
+        row_data["_0_icd10_matches"] + row_data["_0_pfx_icd10_matches"]
     ) / 2
 
     # Append to DataFrame
-    results_df = pd.concat([results_df, pd.DataFrame([row_data])], ignore_index=True)
+    zero_results_df = pd.concat([zero_results_df, pd.DataFrame([row_data])], ignore_index=True)
 
-    return results_df
+    return zero_results_df
+
 
 # zeroshot prompts LLM & creates dataframe with results
 def fewshot_call(finding, code, grade_level, ai_model):
