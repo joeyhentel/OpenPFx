@@ -5,6 +5,7 @@ from jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling
 
 # calls LLM & creates dataframe with results
 def zeroshot_call(finding, code, grade_level, ai_model):
+    import re
     zero_results_df = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
 
     prompt = baseline_zeroshot_prompt.format(
