@@ -70,6 +70,14 @@ def zeroshot_call(finding, code, grade_level, ai_model):
 
     # Get agent-generated ICD10 code
     agent_code = label_icd10s(pfx_response)
+    
+    # If it's a JSON string, parse it
+    if isinstance(agent_code_data, str):
+        try:
+            agent_code_data = json.loads(agent_code_data)
+        except json.JSONDecodeError:
+            agent_code_data = {}
+
     row_data["_0_agent_icd10_codes"] = agent_code
 
     # Compare only first three characters, forcing string conversion
