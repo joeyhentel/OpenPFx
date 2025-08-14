@@ -26,6 +26,9 @@ import requests
 from dotenv import load_dotenv
 import math
 import unicodedata
+
+OPENAI_MODEL = os.getenv("OPENAI_MODEL")
+
 # import fewshot examples
 df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 
