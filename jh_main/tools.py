@@ -1,3 +1,5 @@
+from typing import Annotated
+
 def calculate_fres(
         pfx_text: Annotated[str, "A patient-friendly explanation string."]
     ) -> dict:
