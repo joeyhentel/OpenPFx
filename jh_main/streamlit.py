@@ -5,6 +5,9 @@ from pathlib import Path
 import json
 from streamlit.components.v1 import html as st_html
 
+# import fewshot examples
+df_fewshot = pd.read_csv('pfx_fewshot_examples_college.csv')
+
 # ==========================
 # Page Config
 # ==========================
