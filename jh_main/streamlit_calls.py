@@ -35,60 +35,47 @@ df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 
 # calls LLM & creates dataframe with results
 def zeroshot_call(finding, code, grade_level, ai_model):
-    # Build the prompt
     prompt = baseline_zeroshot_prompt.format(
         Incidental_Finding=finding,
         Reading_Level=grade_level,
     )
 
-    # Call the model (prompt goes in a user message)
     pfx_response = CLIENT.chat.completions.create(
         model=ai_model,
         temperature=0.0,
         messages=[
-            {
-                "role": "system",
-                "content": "You are a medical professional rephrasing and explaining medical terminology to a patient in an understandable manner.",
-            },
-            {"role": "user", "content": prompt},
+            {"role": "system", "content": "You are a medical professional rephrasing and explaining medical terminology to a patient in an understandable manner."},
+            {"role": "system", "content": prompt}
         ],
         stream=False,
     )
 
-    # Safely get the assistant text
-    content = getattr(
-        pfx_response.choices[0].message, "content", ""
-    ) or ""
+    extracted_response = extract_json(pfx_response.choices[0]) or {}
 
-    # Parse the JSON block from the assistant content
-    extracted = extract_json(content) or {}
-    pfx_text = extracted.get("PFx", "") or ""
-    pfx_icd10 = extracted.get("PFx_ICD10_code", "") or ""
-
-    # Run your ICD-10 labeling agent on the generated PFx text (not the raw response object)
-    agent_code = label_icd10s(pfx_text)  # adjust if your function expects something else
-
-    # Compare the first 3 characters for “block” match
-    gold3 = str(code)[:3]
-    agent3 = str(agent_code)[:3]
-    pfx3 = str(pfx_icd10)[:3]
-
-    row = {
+    zero_results_df = {
         "finding": finding,
         "ICD10_code": code,
-        "PFx": pfx_text,
-        "PFx_ICD10_code": pfx_icd10,
-        "_0_agent_icd10_codes": agent_code,
-        "_0_icd10_matches": (gold3 == agent3),
-        "_0_pfx_icd10_matches": (gold3 == pfx3),
+        "PFx": extracted_response.get("PFx", ""),
+        "PFx_ICD10_code": extracted_response.get("PFx_ICD10_code", "")
     }
 
-    # Make the bool→int conversion explicit
-    row["accuracy"] = (int(row["_0_icd10_matches"]) + int(row["_0_pfx_icd10_matches"])) / 2
+    agent_code = label_icd10s(pfx_response)
 
-    # Return a one-row DataFrame
-    return pd.DataFrame([row])
+    zero_results_df["_0_agent_icd10_codes"] = agent_code
 
+    # Compare only the first three characters for accuracy
+    zero_results_df["_0_icd10_matches"] = (
+        str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["_0_agent_icd10_codes"])[:3]
+    )
+    zero_results_df["_0_pfx_icd10_matches"] = (
+        str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["PFx_ICD10_code"])[:3]
+    )
+
+    zero_results_df["accuracy"] = (
+        zero_results_df["_0_icd10_matches"] + zero_results_df["_0_pfx_icd10_matches"]
+    ) / 2
+
+    return zero_results_df
 
 
 
