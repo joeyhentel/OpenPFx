@@ -1,6 +1,7 @@
 from call_functions import extract_json, label_icd10s, extract_json_gpt4o
 from tools import calculate_fres
 import re
+import pandas as pd
 from jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION
 
 from autogen import ConversableAgent, LLMConfig
@@ -15,7 +16,6 @@ from typing import Optional
 from typing import Annotated
 
 # import necessary libraries 
-import pandas as pd
 import os
 import textstat
 from openai import OpenAI
