@@ -33,92 +33,51 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 # import fewshot examples
 df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 
+# calls LLM & creates dataframe with results
 def zeroshot_call(finding, code, grade_level, ai_model):
-    import re
-
-    def _icd10_prefix(s: str) -> str:
-        if not s:
-            return ""
-        s = str(s).strip().upper()
-        m = re.match(r'^([A-TV-Z]\d{2})', s)
-        return m.group(1) if m else ""
+    results_df = pd.DataFrame(columns = ["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
 
     prompt = baseline_zeroshot_prompt.format(
         Incidental_Finding=finding,
         Reading_Level=grade_level,
     )
 
-    diag = {"diag_phase": "start", "diag_note": ""}
+    pfx_response = CLIENT.chat.completions.create(
+        model=ai_model,
+        temperature=0.0,
+        messages=[
+            {"role": "system", "content": "You are a medical professional rephrasing and explaining medical terminology to a patient in an understandable manner."},
+            {"role": "system", "content": prompt}
+        ],
+        stream=False,
+    )
 
-    try:
-        resp = CLIENT.chat.completions.create(
-            model=ai_model,
-            temperature=0.0,
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a medical professional rephrasing and explaining medical terminology to a patient in an understandable manner.",
-                },
-                {"role": "user", "content": prompt},
-            ],
-            stream=False,
-        )
-        diag["diag_phase"] = "llm_complete"
-    except Exception as e:
-        # Return a diagnostic row instead of nothing
-        return {
-            "finding": finding,
-            "ICD10_code": str(code).strip(),
-            "PFx": "",
-            "PFx_ICD10_code": "",
-            "_0_agent_icd10_codes": "",
-            "_0_icd10_matches": False,
-            "_0_pfx_icd10_matches": False,
-            "accuracy": 0.0,
-            "diag_phase": "llm_error",
-            "diag_note": f"{type(e).__name__}: {e}",
-        }
+    extracted_response = extract_json(pfx_response.choices[0])
 
-    try:
-        data = extract_json(resp) or {}
-        pfx_text = (data.get("PFx") or "").strip()
-        pfx_icd10 = str(data.get("PFx_ICD10_code") or "").strip()
-        diag["diag_phase"] = "parsed_json"
-    except Exception as e:
-        pfx_text, pfx_icd10 = "", ""
-        diag["diag_phase"] = "parse_error"
-        diag["diag_note"] = f"{type(e).__name__}: {e}"
-
-    # Label ICD-10 from PFx text (your function now returns a string code)
-    try:
-        agent_code = label_icd10s(pfx_text) or ""
-        diag["diag_phase"] = "agent_done"
-    except Exception as e:
-        agent_code = ""
-        diag["diag_phase"] = "agent_error"
-        diag["diag_note"] = f"{type(e).__name__}: {e}"
-
-    gold_prefix  = _icd10_prefix(code)
-    agent_prefix = _icd10_prefix(agent_code)
-    pfx_prefix   = _icd10_prefix(pfx_icd10)
-
-    icd_match  = (gold_prefix != "" and gold_prefix == agent_prefix)
-    pfx_match  = (gold_prefix != "" and gold_prefix == pfx_prefix)
-    accuracy   = (float(int(icd_match)) + float(int(pfx_match))) / 2.0  # 0.0, 0.5, 1.0
-
-    # Always return a row (even if blank), with diagnostics
-    return {
+    zero_results_df.loc[0] = {
         "finding": finding,
-        "ICD10_code": str(code).strip(),
-        "PFx": pfx_text,
-        "PFx_ICD10_code": pfx_icd10,
-        "_0_agent_icd10_codes": agent_code,
-        "_0_icd10_matches": icd_match,
-        "_0_pfx_icd10_matches": pfx_match,
-        "accuracy": accuracy,
-        "diag_phase": diag.get("diag_phase", ""),
-        "diag_note": diag.get("diag_note", ""),
+        "ICD10_code": code,
+        "PFx": extracted_response.get("PFx", ""),
+        "PFx_ICD10_code": extracted_response.get("PFx_ICD10_code", "")
     }
+    for response in zero_results_df['PFx']:
+        agent_code = label_icd10s(response)
+
+    zero_results_df["_0_agent_icd10_codes"] = agent_code
+
+    # Compare only the first three characters for accuracy
+    zero_results_df["_0_icd10_matches"] = (
+        str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["_0_agent_icd10_codes"])[:3]
+    )
+    zero_results_df["_0_pfx_icd10_matches"] = (
+        str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["PFx_ICD10_code"])[:3]
+    )
+
+    zero_results_df["accuracy"] = (
+        zero_results_df["_0_icd10_matches"] + zero_results_df["_0_pfx_icd10_matches"]
+    ) / 2
+
+    return zero_results_df
 
 
 
