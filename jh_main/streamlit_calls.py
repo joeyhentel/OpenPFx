@@ -2,7 +2,7 @@ from call_functions import extract_json, label_icd10s, extract_json_gpt4o
 from tools import calculate_fres
 import re
 import pandas as pd
-from jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION
+from jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION, single_fewshot_prompt
 
 from autogen import ConversableAgent, LLMConfig
 from autogen.agentchat import initiate_group_chat
@@ -28,117 +28,56 @@ import math
 import unicodedata
 
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # import fewshot examples
 df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 
-import pandas as pd
-
+# calls LLM & creates dataframe with results
 def zeroshot_call(finding, code, grade_level, ai_model):
-    """
-    Calls the LLM and returns a single-row pandas.DataFrame with:
-    finding, ICD10_code, PFx, PFx_ICD10_code, _0_agent_icd10_codes,
-    _0_icd10_matches, _0_pfx_icd10_matches, accuracy
-    """
-    # ---- Build prompt ----
+    import re
+    
     prompt = baseline_zeroshot_prompt.format(
         Incidental_Finding=finding,
         Reading_Level=grade_level,
     )
 
-    # ---- Call LLM ----
     pfx_response = CLIENT.chat.completions.create(
         model=ai_model,
         temperature=0.0,
         messages=[
             {"role": "system", "content": "You are a medical professional rephrasing and explaining medical terminology to a patient in an understandable manner."},
-            {"role": "user", "content": prompt}
+            {"role": "system", "content": prompt}
         ],
         stream=False,
     )
 
-    # ---- Pull response text safely across SDK variants ----
-    def _extract_text(resp):
-        try:
-            # Newer OpenAI client: choices[0].message.content
-            return resp.choices[0].message.content
-        except Exception:
-            # Fallbacks
-            try:
-                return resp.choices[0].text
-            except Exception:
-                return ""
+    extracted_response = extract_json(pfx_response.choices[0]) or {}
 
-    response_text = _extract_text(pfx_response) or ""
-
-    # ---- Parse structured JSON from LLM ----
-    try:
-        extracted = extract_json(response_text) or {}
-    except Exception:
-        extracted = {}
-
-    pfx_text = extracted.get("PFx", "") or ""
-    pfx_icd10 = (extracted.get("PFx_ICD10_code", "") or "").strip()
-
-    # ---- ICD-10 labeling by agent on PFx text ----
-    # Make sure label_icd10s gets text, not the raw response object.
-    try:
-        agent_code_raw = label_icd10s(pfx_text)
-    except Exception:
-        agent_code_raw = None
-
-    # Normalize agent_code to a simple string if it comes back as list/dict/etc.
-    def _normalize_code(x):
-        if x is None:
-            return ""
-        if isinstance(x, str):
-            return x.strip()
-        if isinstance(x, (list, tuple)):
-            # prefer first non-empty string-like item
-            for item in x:
-                if isinstance(item, str) and item.strip():
-                    return item.strip()
-                if isinstance(item, dict):
-                    # look for a field that looks like a code
-                    for k in ("code", "icd10", "ICD10", "ICD10_code"):
-                        if k in item and isinstance(item[k], str) and item[k].strip():
-                            return item[k].strip()
-            return ""
-        if isinstance(x, dict):
-            for k in ("code", "icd10", "ICD10", "ICD10_code"):
-                if k in x and isinstance(x[k], str) and x[k].strip():
-                    return x[k].strip()
-            return ""
-        # last resort
-        return str(x).strip()
-
-    agent_code = _normalize_code(agent_code_raw)
-
-    # ---- Prepare row & comparisons (first 3 chars match) ----
-    icd_truth = (code or "").strip()
-    icd3_truth = icd_truth[:3].upper()
-    icd3_agent = agent_code[:3].upper()
-    icd3_pfx   = pfx_icd10[:3].upper()
-
-    icd10_matches_agent = (icd3_truth == icd3_agent) if icd3_truth else False
-    icd10_matches_pfx   = (icd3_truth == icd3_pfx)   if icd3_truth else False
-
-    # Booleans -> ints (True=1, False=0), average them
-    accuracy = (int(icd10_matches_agent) + int(icd10_matches_pfx)) / 2 if icd3_truth else 0.0
-
-    row = {
+    zero_results_df = {
         "finding": finding,
-        "ICD10_code": icd_truth,
-        "PFx": pfx_text,
-        "PFx_ICD10_code": pfx_icd10,
-        "_0_agent_icd10_codes": agent_code,
-        "_0_icd10_matches": icd10_matches_agent,
-        "_0_pfx_icd10_matches": icd10_matches_pfx,
-        "accuracy": accuracy,
+        "ICD10_code": code,
+        "PFx": extracted_response.get("PFx", ""),
+        "PFx_ICD10_code": extracted_response.get("PFx_ICD10_code", "")
     }
 
-    return pd.DataFrame([row])
+    agent_code = label_icd10s(pfx_response)
 
+    zero_results_df["_0_agent_icd10_codes"] = agent_code
+
+    # Compare only the first three characters for accuracy
+    zero_results_df["_0_icd10_matches"] = (
+        str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["_0_agent_icd10_codes"])[:3]
+    )
+    zero_results_df["_0_pfx_icd10_matches"] = (
+        str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["PFx_ICD10_code"])[:3]
+    )
+
+    zero_results_df["accuracy"] = (
+        zero_results_df["_0_icd10_matches"] + zero_results_df["_0_pfx_icd10_matches"]
+    ) / 2
+
+    return zero_results_df
 
 
 
@@ -332,7 +271,7 @@ def agentic_conversation(finding, code, grade_level, ai_model):
 
         chat = extract_json_gpt4o(result)
 
-        agent_results.loc[i] = {
+        agent_results.loc[] = {
         "finding": finding,
         "ICD10_code": code,
         "PFx": chat.get("PFx", ""),
