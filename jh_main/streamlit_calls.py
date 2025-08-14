@@ -3,6 +3,29 @@ from tools import calculate_fres
 import re
 from jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION
 
+from autogen import ConversableAgent, LLMConfig
+from autogen.agentchat import initiate_group_chat
+from autogen.agentchat.group.patterns import RoundRobinPattern
+from autogen.agentchat.group import OnCondition, StringLLMCondition
+from autogen.agentchat.group import AgentTarget
+from autogen.agentchat.group import TerminateTarget
+
+from pydantic import BaseModel, Field
+from typing import Optional
+from typing import Annotated
+
+# import necessary libraries 
+import pandas as pd
+import os
+import textstat
+from openai import OpenAI
+CLIENT = OpenAI()
+import json
+import re
+import requests
+from dotenv import load_dotenv
+import math
+import unicodedata
 # import fewshot examples
 df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 
@@ -268,26 +291,3 @@ def agentic_conversation(finding, code, grade_level, ai_model):
 
         return agent_results
 
-from autogen import ConversableAgent, LLMConfig
-from autogen.agentchat import initiate_group_chat
-from autogen.agentchat.group.patterns import RoundRobinPattern
-from autogen.agentchat.group import OnCondition, StringLLMCondition
-from autogen.agentchat.group import AgentTarget
-from autogen.agentchat.group import TerminateTarget
-
-from pydantic import BaseModel, Field
-from typing import Optional
-from typing import Annotated
-
-# import necessary libraries 
-import pandas as pd
-import os
-import textstat
-from openai import OpenAI
-CLIENT = OpenAI()
-import json
-import re
-import requests
-from dotenv import load_dotenv
-import math
-import unicodedata
