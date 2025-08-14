@@ -1,3 +1,4 @@
+import re
 def label_icd10s(pfx_output):
     """
     Takes a single PFx response (string or JSON) and returns

@@ -1,4 +1,5 @@
 from typing import Annotated
+import re 
 
 def calculate_fres(
         pfx_text: Annotated[str, "A patient-friendly explanation string."]
