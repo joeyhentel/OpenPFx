@@ -2,18 +2,16 @@ from call_functions import extract_json, label_icd10s, extract_json_gpt4o
 from tools import calculate_fres
 
 # calls LLM & creates dataframe with results
-def zeroshot_call(finding, code, grade_level):
-    imports 
-
+def zeroshot_call(finding, code, grade_level, ai_model):
     zero_results_df = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
 
     prompt = baseline_zeroshot_prompt.format(
         Incidental_Finding=finding,
-        Reading_Level=SIXTH_GRADE
+        Reading_Level=grade_level,
     )
 
     pfx_response = CLIENT.chat.completions.create(
-        model=OPENAI_MODEL,
+        model=ai_model,
         temperature=0.0,
         messages=[
             {"role": "system", "content": "You are a medical professional rephrasing and explaining medical terminology to a patient in an understandable manner."},
@@ -50,7 +48,7 @@ def zeroshot_call(finding, code, grade_level):
     return zero_results_df
 
 # zeroshot prompts LLM & creates dataframe with results
-def fewshot_call(finding, code, grade_level):
+def fewshot_call(finding, code, grade_level, ai_model):
     #reading levels
     PROFESSIONAL = "Professional"
     COLLEGE_GRADUATE = "College Graduate"
@@ -73,10 +71,10 @@ def fewshot_call(finding, code, grade_level):
     for i, row in df_fewshot.iterrows():
         pfx_fewshot_examples += example.format(**row) 
 
-    prompt = single_fewshot_prompt.format(Examples = pfx_fewshot_examples, Incidental_Finding = row['Incidental_Finding'], Reading_Level = SIXTH_GRADE)
+    prompt = single_fewshot_prompt.format(Examples = pfx_fewshot_examples, Incidental_Finding = row['Incidental_Finding'], Reading_Level = grade_level)
 
     pfx_response = CLIENT.chat.completions.create(
-        model=OPENAI_MODEL,
+        model=ai_model,
         temperature=0.0,
         messages=[
             {"role": "system", "content": "You are a medical professional rephrasing and explaining medical terminology to a patient in an understandable manner."},
@@ -114,77 +112,38 @@ def fewshot_call(finding, code, grade_level):
 
 
 # agentic conversation & creates dataframe with results
-def agentic_conversation(finding, code, grade_level):
-    agent_imports
-    # readability agent tools
-    
-
-    def extract_json_gpt4o(chat_result, verbose=False):
-        messages = getattr(chat_result, "chat_history", None) or getattr(chat_result, "messages", [])
-
-        for msg in reversed(messages):
-            name = msg.get("name", "").lower()
-            if name != "icd10_labeler":
-                continue
-
-            content = msg.get("content", "").strip()
-            content = unicodedata.normalize("NFKC", content)
-
-            if verbose:
-                print(f"[DEBUG] Raw content from {name}:\n{content}")
-
-            content = re.sub(r"```(?:json)?", "", content).strip("` \n")
-
-            try:
-                return json.loads(content)
-            except json.JSONDecodeError:
-                pass
-
-            # fallback with simpler, safe regex
-            json_candidates = re.findall(r"\{.*?\}", content, re.DOTALL)
-            for candidate in json_candidates:
-                try:
-                    return json.loads(candidate)
-                except json.JSONDecodeError:
-                    continue
-
-            if verbose:
-                print(f"[WARN] No valid JSON in {name}'s message.")
-            return None
-
-        print("[WARN] No message from 'icd10_labeler' found.")
-        return None
+def agentic_conversation(finding, code, grade_level, model):
 
     llm_config = LLMConfig(
         api_type="openai",
-        model="gpt-4o",
+        model=ai_model,
         api_key=OPENAI_API_KEY,
     )
 
     writer_config=LLMConfig(
         api_type="openai",
-        model="gpt-4o",
+        model=ai_model,
         api_key=OPENAI_API_KEY,
         response_format=WriterOutput,
     )
 
     labeler_config = LLMConfig(
         api_type="openai",
-        model="gpt-4o",
+        model=ai_model,
         api_key=OPENAI_API_KEY,
         response_format=LabelerOutput,
     )
 
     doctor_config = LLMConfig(
         api_type="openai",
-        model="gpt-4o",
+        model=ai_model,
         api_key=OPENAI_API_KEY,
         response_format=DoctorReadabilityOutput,
     )
 
     readability_config=LLMConfig(
         api_type="openai",
-        model="gpt-4o",
+        model=ai_model,
         api_key=OPENAI_API_KEY,
         response_format=DoctorReadabilityOutput,
         

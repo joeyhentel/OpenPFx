@@ -333,6 +333,15 @@ if page in ("", "home"):
 # ==========================
 # GENERATE PAGE (LLM-INTEGRATED)
 # ==========================
+model_options = [
+    "gpt-3.5-turbo",
+    "gpt-4o", 
+    "gpt-4o-mini",
+    "gpt-5",
+    "gpt-5-mini",
+    "gpt-5-nano"
+]
+
 elif page == "generate":
     st.subheader("Generate Your Own PFx")
     st.caption("Select workflow, enter details, and generate a patient-friendly explanation.")
@@ -348,6 +357,8 @@ elif page == "generate":
         # Workflow selector for generation UI
         workflow_options = ["Zero-shot", "Few-shot", "Agentic", "All"]
         workflow_choice = st.selectbox("Workflow", workflow_options, index=0)
+
+        ai_model = st.selectbox("Model", model_options, index = 0)
 
         # Generate button
         generate_clicked = st.button("🚀 Generate PFx", type="primary")
@@ -374,15 +385,15 @@ elif page == "generate":
                 else:
                     try:
                         if workflow_choice == "Zero-shot":
-                            df_result = zeroshot_call(incidental_finding, icd10_code, reading_level)
+                            df_result = zeroshot_call(incidental_finding, icd10_code, reading_level, ai_model)
                         elif workflow_choice == "Few-shot":
-                            df_result = fewshot_call(incidental_finding, icd10_code, reading_level)
+                            df_result = fewshot_call(incidental_finding, icd10_code, reading_level, ai_model)
                         elif workflow_choice == "Agentic":
-                            df_result = agentic_conversation(incidental_finding, icd10_code, reading_level)
+                            df_result = agentic_conversation(incidental_finding, icd10_code, reading_level, ai_model)
                         else:  # "All" -> run all and concat
-                            df_zero = zeroshot_call(incidental_finding, icd10_code, reading_level)
-                            df_few  = fewshot_call(incidental_finding, icd10_code, reading_level)
-                            df_ag   = agentic_conversation(incidental_finding, icd10_code, reading_level)
+                            df_zero = zeroshot_call(incidental_finding, icd10_code, reading_level, ai_model)
+                            df_few  = fewshot_call(incidental_finding, icd10_code, reading_level, ai_model)
+                            df_ag   = agentic_conversation(incidental_finding, icd10_code, reading_level, ai_model)
                             import pandas as _pd  # local alias to avoid polluting namespace
                             parts = [d for d in [df_zero, df_few, df_ag] if d is not None]
                             df_result = _pd.concat(parts, ignore_index=True) if parts else None
@@ -446,17 +457,6 @@ import requests
 from dotenv import load_dotenv
 import math
 import unicodedata
-
-#reading levels
-PROFESSIONAL = "Professional"
-COLLEGE_GRADUATE = "College Graduate"
-COLLEGE = "College"
-TENTH_TO_TWELTH_GRADE = "10th to 12th grade"
-EIGTH_TO_NINTH_GRADE = "8th to 9th grade"
-SEVENTH_GRADE = "7th grade"
-SIXTH_GRADE = "6th grade"
-FIFTH_GRADE = "5th grade"
-N_A = "N/A"
 
 # import fewshot examples
 df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
