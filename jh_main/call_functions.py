@@ -6,6 +6,8 @@ from jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling
 from openai import OpenAI
 CLIENT = OpenAI()
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
+import json
+
 # import fewshot examples
 df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 
