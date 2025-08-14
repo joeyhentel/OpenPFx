@@ -1,4 +1,8 @@
 import re
+
+# import fewshot examples
+df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
+
 def label_icd10s(pfx_output):
     """
     Takes a single PFx response (string or JSON) and returns
