@@ -280,6 +280,7 @@ import pandas as pd
 import os
 import textstat
 from openai import OpenAI
+CLIENT = OpenAI()
 import json
 import re
 import requests
