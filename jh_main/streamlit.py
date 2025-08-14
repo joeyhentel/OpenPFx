@@ -342,7 +342,7 @@ model_options = [
     "gpt-5-nano"
 ]
 
-elif page == "generate":
+else if page == "generate":
     st.subheader("Generate Your Own PFx")
     st.caption("Select workflow, enter details, and generate a patient-friendly explanation.")
 
