@@ -503,7 +503,7 @@ elif page == "generate":
                         st.session_state[f"gen_error_{i}"] = f"Error during generation: {e}"
 
         # Add / Reset buttons (same placement as Home)
-        btn_cols = st.columns([1, 1, 6])
+        btn_cols = st.columns([2, 2, 6])  # wider first two columns
         with btn_cols[0]:
             if st.button("➕ Add another finding", use_container_width=True, key="gen_add"):
                 st.session_state.gen_panel_count = min(st.session_state.gen_panel_count + 1, 10)
@@ -515,6 +515,7 @@ elif page == "generate":
                         del st.session_state[k]
                 st.session_state.gen_panel_count = 1
                 st.rerun()
+
                 
 
     # ---------- RIGHT: outputs (multiple panels) ----------
