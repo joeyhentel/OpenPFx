@@ -217,7 +217,19 @@ DATASETS = load_all_workflows(WORKFLOW_FILES)
 # ==========================
 # Global Styles
 # ==========================
-
+st.markdown(
+    """
+    <style>
+      .pfx-card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 18px 20px; min-height: 160px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); line-height: 1.55; }
+      .pfx-muted { color: #6b7280; }
+      .pfx-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 12px; }
+      .pfx-pill { border: 1px solid #e5e7eb; border-radius: 999px; padding: 8px 12px; background: #fafafa; font-size: 0.92rem; }
+      .pfx-toolbar a { text-decoration:none; background:#f0f2f6; padding:0.55rem 0.9rem; border-radius:10px; border:1px solid #e5e7eb; font-weight:600; color:#111; }
+      .pfx-toolbar { display:flex; gap:.5rem; justify-content:flex-end; margin-top:.5rem; }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
 st.markdown("""
 <style>
