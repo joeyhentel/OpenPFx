@@ -525,7 +525,7 @@ elif page == "generate":
                 return None
 
             icd10_val = pick("ICD10", "ICD10_code", "PFx_ICD10_code", "icd10", "icd")
-            acc_val   = pick("Accuracy", "accuracy", "eval_accuracy", "is_correct", "score")
+            acc_val   = pick("Accuracy", "accuracy")
             fres_val  = pick("FRES", "fres", "flesch", "flesch_reading_ease", "Flesch_Score")
 
             # Format accuracy
@@ -537,19 +537,6 @@ elif page == "generate":
                 except Exception:
                     acc_disp = str(acc_val)
                 acc_html = f"<div class='pfx-pill'><b>Accuracy:</b> {acc_disp}</div>"
-
-            # Format readability/FRES
-            read_fres_html = ""
-            read_bits = []
-            if read_str:
-                read_bits.append(str(read_str).strip())
-            if fres_val is not None and str(fres_val).strip() != "":
-                try:
-                    read_bits.append(f"{float(fres_val):.1f}")
-                except Exception:
-                    read_bits.append(str(fres_val))
-            if read_bits:
-                read_fres_html = f"<div class='pfx-pill'><b>Readability(FRES):</b> {' '.join(read_bits)}</div>"
 
             # ICD-10
             icd10_html = f"<div class='pfx-pill'><b>ICD-10:</b> {str(icd10_val).strip()}</div>" if icd10_val else ""
