@@ -54,6 +54,14 @@ def zeroshot_call(finding, code, grade_level, ai_model):
 
     extracted_response = extract_json(pfx_response.choices[0])
 
+    if extracted_response is None:
+    return pd.DataFrame([{
+        "finding": finding,
+        "ICD10_code": code,
+        "PFx": "No explanation generated. Please try again.",
+        "PFx_ICD10_code": ""
+    }])
+
     zero_results_df.loc[0] = {
         "finding": finding,
         "ICD10_code": code,
