@@ -512,10 +512,14 @@ elif page == "generate":
             copy_button(js_text, key="gen")
 
         # Show details table and allow download if available
-        if st.session_state.get("generated_df") is not None:
-            df_out = st.session_state.generated_df
-            csv_bytes = df_out.to_csv(index=False).encode("utf-8")
-            st.download_button("Download results (CSV)", data=csv_bytes, file_name="pfx_generated.csv", mime="text/csv")
+        df_out = st.session_state.get("generated_df")
+        if df_out is not None:
+            st.markdown("### Generation Details")
+            st.dataframe(df_out, use_container_width=True)
+            try:
+                csv_bytes = df_out.to_csv(index=False).encode("utf-8")
+                st.download_button("Download results (CSV)", data=csv_bytes, file_name="pfx_generated.csv", mime="text/csv")
+
 
 # ==========================
 # Unknown Page -> Fallback
