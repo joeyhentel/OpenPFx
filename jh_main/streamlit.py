@@ -510,72 +510,16 @@ elif page == "generate":
             js_text = json.dumps(pfx_text)
             copy_button(js_text, key="gen")
 
+        # Show details table and allow download if available
         df_out = st.session_state.get("generated_df")
-
-        if isinstance(df_out, pd.DataFrame) and not df_out.empty:
-            row = df_out.iloc[0]
-
-            # Helper to pick the first existing non-empty value from common aliases
-            def pick(*names):
-                for n in names:
-                    if n in row.index:
-                        v = row.get(n)
-                        if v is not None and str(v).strip() != "":
-                            return v
-                return None
-
-            icd10_val = pick("ICD10", "ICD10_code", "PFx_ICD10_code", "icd10", "icd")
-            acc_val   = pick("Accuracy", "accuracy", "eval_accuracy", "is_correct", "score")
-            read_str  = pick("Readability(FRES)", "Readability (FRES)", "readability", "grade", "grade_level", "fkgl", "flesch_kincaid")
-            fres_val  = pick("FRES", "fres", "flesch", "flesch_reading_ease")
-
-            # Format accuracy
-            acc_html = ""
-            if acc_val is not None and str(acc_val).strip() != "":
-                try:
-                    f_acc = float(acc_val)
-                    acc_disp = f"{f_acc*100:.1f}%" if 0 <= f_acc <= 1 else f"{f_acc:.1f}%"
-                except Exception:
-                    acc_disp = str(acc_val)
-                acc_html = f"<div class='pfx-pill'><b>Accuracy:</b> {acc_disp}</div>"
-
-            # Format readability/FRES
-            read_fres_html = ""
-            read_bits = []
-            if read_str:
-                read_bits.append(str(read_str).strip())
-            if fres_val is not None and str(fres_val).strip() != "":
-                try:
-                    read_bits.append(f"{float(fres_val):.1f}")
-                except Exception:
-                    read_bits.append(str(fres_val))
-            if read_bits:
-                read_fres_html = f"<div class='pfx-pill'><b>Readability(FRES):</b> {' '.join(read_bits)}</div>"
-
-            # ICD-10
-            icd10_html = f"<div class='pfx-pill'><b>ICD-10:</b> {str(icd10_val).strip()}</div>" if icd10_val else ""
-
-            pills_html = "".join([icd10_html, acc_html, read_fres_html]).strip()
-            if pills_html:
-                st.markdown(f"<div class='pfx-meta'>{pills_html}</div>", unsafe_allow_html=True)
-            else:
-                st.caption("No advanced stats available for this generation.")
-        else:
-            st.caption("Run a generation to see advanced stats.")
-        if isinstance(df_out, pd.DataFrame):
+        if df_out is not None:
             st.markdown("### Generation Details")
+            # st.dataframe(df_out, use_container_width=True)
             try:
                 csv_bytes = df_out.to_csv(index=False).encode("utf-8")
-                st.download_button(
-                    "Download results (CSV)",
-                    data=csv_bytes,
-                    file_name="pfx_generated.csv",
-                    mime="text/csv"
-                )
+                st.download_button("Download results (CSV)", data=csv_bytes, file_name="pfx_generated.csv", mime="text/csv")
             except Exception:
                 pass
-
-
 
 # ==========================
 # Unknown Page -> Fallback
