@@ -231,6 +231,18 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+st.markdown("""
+<style>
+/* keep button labels on a single line and give them some minimum width */
+.stButton > button { 
+  white-space: nowrap;
+  min-width: 220px;        /* tweak to taste */
+}
+/* optional: make side-by-side buttons the same width */
+div[data-testid="column"] .stButton > button { width: 100%; }
+</style>
+""", unsafe_allow_html=True)
+
 # ==========================
 # Top Header
 # ==========================
@@ -516,6 +528,11 @@ elif page == "generate":
                         del st.session_state[k]
                 st.session_state.gen_panel_count = 1
                 st.rerun()
+        btn_cols = st.columns([1, 1, 6])   # first two get space for buttons
+        with btn_cols[0]:
+            st.button("➕ Add another finding", use_container_width=True, key="gen_add")
+        with btn_cols[1]:
+            st.button("↺ Reset", use_container_width=True, key="gen_reset")
 
     # ---------- RIGHT: outputs (multiple panels) ----------
     with right:
