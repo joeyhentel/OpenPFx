@@ -512,16 +512,23 @@ elif page == "generate":
 
         df_out = st.session_state.get("generated_df")
         if df_out is not None and not df_out.empty:
-            r = df_out.iloc[0]
+            r = df_out.iloc[0]  # pick the first row
             pills = []
-            if r.get("ICD10_code"): pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {r['ICD10_code']}</div>")
+            if r.get("ICD10_code"):
+                pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {r['ICD10_code']}</div>")
             if pd.notna(r.get("accuracy")):
                 acc = float(r["accuracy"])
                 pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc*100:.1f}%</div>")
             if pd.notna(r.get("Flesch_Score")):
                 pills.append(f"<div class='pfx-pill'><b>Readability(Flesch):</b> {float(r['Flesch_Score']):.1f}</div>")
-            if pills: st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
-            st.download_button("Download results (CSV)", df_out.to_csv(index=False).encode(), "pfx_generated.csv", "text/csv")
+            if pills:
+                st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
+            st.download_button(
+                "Download results (CSV)",
+                df_out.to_csv(index=False).encode("utf-8"),
+                "pfx_generated.csv",
+                "text/csv"
+            )
 
 
 
