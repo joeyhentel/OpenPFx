@@ -513,6 +513,70 @@ elif page == "generate":
         # Show details table and allow download if available
         df_out = st.session_state.get("generated_df")
         if df_out is not None:
+            # ---- Pills for the generated output (df_out) ----
+            if isinstance(df_out, pd.DataFrame) and not df_out.empty:
+                # work off the first row returned by the workflow
+                row = df_out.iloc[0]
+
+                def _pick_row(series, *candidates, default=""):
+                    for name in candidates:
+                        if name in series.index:
+                            val = series.get(name)
+                            if pd.notna(val) and str(val).strip() != "":
+                                return val
+                    return default
+
+                def _fmt_percent(val: object) -> str:
+                    if pd.isna(val):
+                        return ""
+                    try:
+                        f = float(val)
+                        # treat 0–1 as ratio, otherwise assume already percent-like
+                        return f"{f*100:.1f}%" if 0.0 <= f <= 1.0 else f"{f:.1f}%"
+                    except Exception:
+                        s = str(val).strip()
+                        return s
+
+                def _fmt_num(val: object) -> str:
+                    if pd.isna(val):
+                        return ""
+                    try:
+                        return f"{float(val):.1f}"
+                    except Exception:
+                        return str(val).strip()
+
+                # ICD-10: prefer the new schema, fall back to older names if present
+                icd10 = _pick_row(row, "ICD10_code", "ICD10", "PFx_ICD10_code")
+
+                # Accuracy: new schema is 'accuracy'; also accept variants
+                acc_raw = _pick_row(row, "accuracy", "Accuracy", "eval_accuracy", "is_correct", "score")
+                acc_str = _fmt_percent(acc_raw)
+
+                # Flesch: new schema 'Flesch_Score'; fallbacks to common FRES fields
+                fres_raw = _pick_row(
+                    row,
+                    "Flesch_Score",
+                    "FRES",
+                    "flesch",
+                    "flesch_reading_ease",
+                    "Flesch",
+                    "Readability(FRES)",
+                    "Readability (FRES)"
+                )
+                fres_str = _fmt_num(fres_raw)
+
+                pills = []
+                if str(icd10).strip():
+                    pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {str(icd10).strip()}</div>")
+                if acc_str:
+                    pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
+                if fres_str:
+                    pills.append(f"<div class='pfx-pill'><b>Flesch:</b> {fres_str}</div>")
+
+                if pills:
+                    st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
+                else:
+                    st.caption("No advanced stats available for the generated entry.")
             st.markdown("### Generation Details")
             # st.dataframe(df_out, use_container_width=True)
             try:
