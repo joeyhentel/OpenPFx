@@ -365,7 +365,7 @@ def render_home_panel(idx: int):
         else:
             st.markdown("<div class='pfx-card pfx-muted'>Pick a workflow and finding on the left to view the PFx.</div>", unsafe_allow_html=True)
 
-REQUIRED_SCHEMA = ["finding", "ICD10_code", "PFx", "PFx_ICD10_code"]
+REQUIRED_SCHEMA = ["finding", "ICD10_code", "PFx", "PFx_ICD10_code","_0_agent_icd10_codes", "_0_icd10_matches", "_0_pfx_icd10_matches", "accuracy", "Flesch_Score"]
 
 def _ensure_schema(df):
     if df is None:
