@@ -214,7 +214,7 @@ def agentic_conversation(finding, code, grade_level, ai_model):
         api_type="openai",
         model=ai_model,
         api_key=OPENAI_API_KEY,
-        reponse_format=DoctorReadabilityOutput,
+        response_format=DoctorReadabilityOutput,
         
     )
 
