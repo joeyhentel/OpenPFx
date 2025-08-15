@@ -19,7 +19,7 @@ df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 # ==========================
 st.set_page_config(
     page_title="PFx: Patient Friendly Explanations",
-    page_icon="💬",
+    page_icon="📝",
     layout="wide",
 )
 
