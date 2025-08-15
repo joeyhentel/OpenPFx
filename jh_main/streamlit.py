@@ -512,8 +512,10 @@ elif page == "generate":
 
         df_out = st.session_state.get("generated_df")
 
-        icd10 = (df_out.get("ICD10_code") or "").strip()
-        acc_val = df_out.get("accuracy")
+        icd10 = str(df_out["ICD10_code"].iloc[0] if "ICD10_code" in df_out else "").strip()
+        acc_val = df_out["accuracy"].iloc[0] if "accuracy" in df_out else None
+        fres_val = df_out["Flesch_Score"].iloc[0] if "Flesch_Score" in df_out else None
+
         acc_str = ""
         if pd.notna(acc_val):
             try:
@@ -522,7 +524,6 @@ elif page == "generate":
             except Exception:
                 acc_str = str(acc_val)
 
-        fres_val = df_out.get("Flesch_Score")
         fres_str = ""
         if pd.notna(fres_val):
             try:
