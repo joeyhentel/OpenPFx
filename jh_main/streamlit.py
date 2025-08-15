@@ -514,7 +514,7 @@ elif page == "generate":
         df_out = st.session_state.get("generated_df")
         if df_out is not None:
             st.markdown("### Generation Details")
-            st.dataframe(df_out, use_container_width=True)
+            # st.dataframe(df_out, use_container_width=True)
             try:
                 csv_bytes = df_out.to_csv(index=False).encode("utf-8")
                 st.download_button("Download results (CSV)", data=csv_bytes, file_name="pfx_generated.csv", mime="text/csv")
