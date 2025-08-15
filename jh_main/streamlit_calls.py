@@ -113,7 +113,7 @@ def fewshot_call(finding, code, grade_level, ai_model):
     
     # import prompts 
     from jh_pfx_prompts import example, icd10_example, baseline_zeroshot_prompt, single_fewshot_icd10_labeling_prompt
-    few_results_df = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
+    few_results_df = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code","_0_agent_icd10_codes", "_0_icd10_matches", "_0_pfx_icd10_matches", "accuracy", "Flesch_Score"])
 
     pfx_fewshot_examples = ""
     for i, row in df_fewshot.iterrows():
@@ -163,6 +163,8 @@ def fewshot_call(finding, code, grade_level, ai_model):
     few_results_df["accuracy"] = (
         few_results_df["_0_icd10_matches"] + few_results_df["_0_pfx_icd10_matches"]
     ) / 2
+
+    few_results_df["Flesch_Score"] = few_results_df["PFx"].apply(textstat.flesch_reading_ease)
 
     return few_results_df
 
@@ -220,7 +222,7 @@ def agentic_conversation(finding, code, grade_level, ai_model):
         
     )
 
-    agent_results = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_Code"])
+    agent_results = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code","_0_agent_icd10_codes", "_0_icd10_matches", "_0_pfx_icd10_matches", "accuracy", "Flesch_Score"])
 
     with llm_config:
         writer = ConversableAgent(
@@ -317,5 +319,7 @@ def agentic_conversation(finding, code, grade_level, ai_model):
         agent_results["accuracy"] = (
             agent_results["_0_icd10_matches"] + agent_results["_0_pfx_icd10_matches"]
         ) / 2
+        
+        agent_results["Flesch_Score"] = agent_results["PFx"].apply(textstat.flesch_reading_ease)
 
         return agent_results
