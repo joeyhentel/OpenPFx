@@ -85,6 +85,9 @@ def zeroshot_call(finding, code, grade_level, ai_model):
         zero_results_df["_0_icd10_matches"] + zero_results_df["_0_pfx_icd10_matches"]
     ) / 2
 
+    flesch_score = textstat.flesch_reading_ease(zero_results_df['PFx'])
+    zero_results_df["Flesch_Score"] = flesch_score
+    
     return zero_results_df
 
 
