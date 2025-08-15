@@ -231,17 +231,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.markdown("""
-<style>
-/* Keep button text on one line and avoid stretching */
-.stButton > button {
-  white-space: nowrap;
-  min-width: 160px;   /* bump to 180–200px if still tight */
-  width: auto;        /* don't force full column width */
-}
-</style>
-""", unsafe_allow_html=True)
-
 
 # ==========================
 # Top Header
