@@ -528,11 +528,7 @@ elif page == "generate":
                         del st.session_state[k]
                 st.session_state.gen_panel_count = 1
                 st.rerun()
-        btn_cols = st.columns([1, 1, 6])   # first two get space for buttons
-        with btn_cols[0]:
-            st.button("➕ Add another finding", use_container_width=True, key="gen_add")
-        with btn_cols[1]:
-            st.button("↺ Reset", use_container_width=True, key="gen_reset")
+                
 
     # ---------- RIGHT: outputs (multiple panels) ----------
     with right:
