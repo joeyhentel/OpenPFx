@@ -546,6 +546,7 @@ elif page == "generate":
         
         if isinstance(df_out, pd.DataFrame):
             st.markdown("### Generation Details")
+            st.dataframe(df_out, use_container_width=True)
             try:
                 csv_bytes = df_out.to_csv(index=False).encode("utf-8")
                 st.download_button(
