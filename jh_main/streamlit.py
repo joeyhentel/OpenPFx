@@ -1,18 +1,34 @@
-import pandas as pd
-import re
-import dotenv
 import os
-import streamlit as st
-from pathlib import Path
+import re
 import json
+from pathlib import Path
+
+import pandas as pd
+import streamlit as st
 from streamlit.components.v1 import html as st_html
 
+# ==========================
+# Env / Models
+# ==========================
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 
-from jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION
+# Prompts (kept imported for side modules that rely on them; not used directly here)
+from jh_pfx_prompts import (
+    example,
+    icd10_example,
+    single_fewshot_icd10_labeling_prompt,
+    baseline_zeroshot_prompt,
+    writer_prompt,
+    doctor_prompt,
+    readability_checker_prompt,
+    ICD10_LABELER_INSTRUCTION,
+)
 
-# import fewshot examples
-df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
+# import fewshot examples (some downstream helpers rely on this file existing)
+try:
+    df_fewshot = pd.read_csv("jh_main/pfx_fewshot_examples_college.csv")
+except Exception:
+    df_fewshot = pd.DataFrame()
 
 # ==========================
 # Page Config
@@ -40,6 +56,7 @@ def _get_query_param(name: str, default: str = "") -> str:
             return (qs.get(name, [default]) or [default])[0]
         except Exception:
             return default
+
 
 # Base directory for local CSVs (works both in `streamlit run` and notebooks)
 try:
@@ -69,11 +86,11 @@ for k, v in {
         st.session_state[k] = v
 
 model_options = [
-    "gpt-4o-2024-08-06", 
+    "gpt-4o-2024-08-06",
     "gpt-4o-mini",
     "gpt-5",
     "gpt-5-mini",
-    "gpt-5-nano"
+    "gpt-5-nano",
 ]
 
 # Reading Level options (UI-only for now)
@@ -100,31 +117,59 @@ READING_LEVELS = [
 # ==========================
 # Utilities for result handling
 # ==========================
-import pandas as pd
-
 REQUIRED_SCHEMA = ["finding", "ICD10_code", "PFx", "PFx_ICD10_code"]
 
-def _ensure_schema(df: pd.DataFrame | dict | None) -> pd.DataFrame:
-    """Normalize any return (DataFrame/dict/None) into a DF with REQUIRED_SCHEMA."""
+
+def _ensure_schema(df: pd.DataFrame | pd.Series | dict | None) -> pd.DataFrame:
+    """Normalize any return (DataFrame/dict/Series/None) into a DF with REQUIRED_SCHEMA of scalars."""
     if df is None:
         return pd.DataFrame(columns=REQUIRED_SCHEMA)
+
+    # Series -> single-row DataFrame
+    if isinstance(df, pd.Series):
+        df = df.to_frame().T
+
+    # Dict -> flatten nested Series/lists into scalars
     if isinstance(df, dict):
-        df = pd.DataFrame([df])
+        flat = {}
+        for k, v in df.items():
+            if isinstance(v, pd.Series):
+                vv = v.dropna().iloc[0] if len(v.dropna()) else ""
+                flat[k] = vv if not isinstance(vv, (pd.Series, pd.DataFrame)) else str(vv)
+            elif isinstance(v, (list, tuple)):
+                flat[k] = (
+                    v[0]
+                    if v and not isinstance(v[0], (pd.Series, pd.DataFrame, list, tuple, dict))
+                    else (str(v[0]) if v else "")
+                )
+            else:
+                flat[k] = v
+        df = pd.DataFrame([flat])
+
+    # Anything else -> try DataFrame
     if not isinstance(df, pd.DataFrame):
         try:
             df = pd.DataFrame(df)
         except Exception:
             return pd.DataFrame(columns=REQUIRED_SCHEMA)
+
+    # Ensure required columns exist and are scalar/stringifiable
     for col in REQUIRED_SCHEMA:
         if col not in df.columns:
             df[col] = ""
+        df[col] = df[col].apply(
+            lambda x: x if isinstance(x, (str, int, float)) or x is None else str(x)
+        )
+
     return df[REQUIRED_SCHEMA]
+
 
 def _extract_pfx_text(df: pd.DataFrame | None) -> str:
     if df is None or "PFx" not in df.columns:
         return ""
     vals = [str(x).strip() for x in df["PFx"].fillna("").astype(str).tolist() if str(x).strip()]
     return "\n\n---\n".join(vals)
+
 
 # ==========================
 # Data Loading + Normalization
@@ -170,12 +215,40 @@ def normalize_dataframe(raw: pd.DataFrame) -> pd.DataFrame:
         return df
 
     # Flexible header matching
-    finding_col = _pick_col(df, ["finding", "name", "incidental finding", "finding_name", "title", "label"])
-    pfx_col     = _pick_col(df, ["pfx", "explanation", "patient friendly explanation", "pfx_text", "answer", "output", "pf x"])
-    icd_col     = _pick_col(df, ["icd10", "icd-10", "icd10_code", "icd code", "icd"])
-    acc_col     = _pick_col(df, ["accuracy", "eval_accuracy", "is_correct", "correctness", "score"])
-    read_col    = _pick_col(df, ["readability", "grade", "grade_level", "fkgl", "flesch_kincaid", "flesch-kincaid", "smog", "readability(fres)", "readability (fres)"])
-    fres_col    = _pick_col(df, ["fres", "_0_flesch", "flesch reading ease", "flesch_reading_ease", "flesch reading-ease", "flesch score", "flesch"])
+    finding_col = _pick_col(
+        df, ["finding", "name", "incidental finding", "finding_name", "title", "label"]
+    )
+    pfx_col = _pick_col(
+        df, ["pfx", "explanation", "patient friendly explanation", "pfx_text", "answer", "output", "pf x"]
+    )
+    icd_col = _pick_col(df, ["icd10", "icd-10", "icd10_code", "icd code", "icd"])
+    acc_col = _pick_col(df, ["accuracy", "eval_accuracy", "is_correct", "correctness", "score"])
+    read_col = _pick_col(
+        df,
+        [
+            "readability",
+            "grade",
+            "grade_level",
+            "fkgl",
+            "flesch_kincaid",
+            "flesch-kincaid",
+            "smog",
+            "readability(fres)",
+            "readability (fres)",
+        ],
+    )
+    fres_col = _pick_col(
+        df,
+        [
+            "fres",
+            "_0_flesch",
+            "flesch reading ease",
+            "flesch_reading_ease",
+            "flesch reading-ease",
+            "flesch score",
+            "flesch",
+        ],
+    )
 
     cols = list(df.columns)
     if finding_col is None and len(cols) >= 1:
@@ -183,17 +256,20 @@ def normalize_dataframe(raw: pd.DataFrame) -> pd.DataFrame:
     if pfx_col is None and len(cols) >= 2:
         pfx_col = cols[1]
 
-    out = pd.DataFrame({
-        "Finding": df[finding_col].astype(str).str.strip() if finding_col else "",
-        "PFx": df[pfx_col].astype(str) if pfx_col else "",
-        "ICD10": df[icd_col].astype(str) if icd_col else None,
-        "Accuracy": df[acc_col] if acc_col else None,
-        "Readability(FRES)": df[read_col].astype(str) if read_col else None,
-        "FRES": df[fres_col] if fres_col else None,
-    })
+    out = pd.DataFrame(
+        {
+            "Finding": df[finding_col].astype(str).str.strip() if finding_col else "",
+            "PFx": df[pfx_col].astype(str) if pfx_col else "",
+            "ICD10": df[icd_col].astype(str) if icd_col else None,
+            "Accuracy": df[acc_col] if acc_col else None,
+            "Readability(FRES)": df[read_col].astype(str) if read_col else None,
+            "FRES": df[fres_col] if fres_col else None,
+        }
+    )
 
     out = out.dropna(subset=["Finding"]).copy()
-    out["Finding"] = out["Finding"].stripped if hasattr(out["Finding"], 'stripped') else out["Finding"].str.strip()
+    # FIX: use proper .str.strip() (you had `.stripped` before)
+    out["Finding"] = out["Finding"].astype(str).str.strip()
     out = out.drop_duplicates(subset=["Finding"], keep="first")
     return out
 
@@ -210,6 +286,7 @@ def load_all_workflows(workflow_files: dict[str, Path]) -> dict[str, pd.DataFram
         if legacy is not None:
             datasets["Zero-shot"] = normalize_dataframe(legacy)
     return datasets
+
 
 # Load datasets once
 DATASETS = load_all_workflows(WORKFLOW_FILES)
@@ -250,19 +327,11 @@ with rcol:
     )
 
 # ==========================
-# Page Router
+# Shared UI bits
 # ==========================
-page = _get_query_param("page", "home").strip().lower()
-
-if "panel_count" not in st.session_state:
-    st.session_state.panel_count = 1
-
-# ---------- Shared UI bits ----------
 def copy_button(js_text: str, key: str, height: int = 60):
-    import json
     # Escape js_text safely for JS
     safe_js_text = json.dumps(js_text)
-
     st_html(
         f"""<div style='margin-top:10px'>
               <button id='copy-pfx-btn-{key}' style='padding:8px 12px;border-radius:6px;border:1px solid #e5e7eb;background:#f0f2f6;cursor:pointer;font-weight:600;'>📋 Copy PFx</button>
@@ -294,7 +363,9 @@ def copy_button(js_text: str, key: str, height: int = 60):
     )
 
 
-
+# ==========================
+# Home Panel
+# ==========================
 def render_home_panel(idx: int):
     st.markdown(f"#### Finding {idx+1}")
     left, right = st.columns([1, 2], gap="large")
@@ -317,7 +388,7 @@ def render_home_panel(idx: int):
             row = df.loc[df["Finding"] == finding].iloc[0]
             pfx_text = (row.get("PFx") or "").strip()
             st.markdown(
-                f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\\"pfx-muted\\">No PFx text found for this item.</span>'}</div>",
+                f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\"pfx-muted\">No PFx text found for this item.</span>'}</div>",
                 unsafe_allow_html=True,
             )
             if pfx_text:
@@ -363,30 +434,18 @@ def render_home_panel(idx: int):
             else:
                 st.caption("No advanced stats available for this entry.")
         else:
-            st.markdown("<div class='pfx-card pfx-muted'>Pick a workflow and finding on the left to view the PFx.</div>", unsafe_allow_html=True)
+            st.markdown(
+                "<div class='pfx-card pfx-muted'>Pick a workflow and finding on the left to view the PFx.</div>",
+                unsafe_allow_html=True,
+            )
 
-REQUIRED_SCHEMA = ["finding", "ICD10_code", "PFx", "PFx_ICD10_code"]
 
-def _ensure_schema(df):
-    if df is None:
-        return pd.DataFrame(columns=REQUIRED_SCHEMA)
-    if isinstance(df, dict):
-        df = pd.DataFrame([df])
-    if not isinstance(df, pd.DataFrame):
-        try:
-            df = pd.DataFrame(df)
-        except Exception:
-            return pd.DataFrame(columns=REQUIRED_SCHEMA)
-    for col in REQUIRED_SCHEMA:
-        if col not in df.columns:
-            df[col] = ""
-    return df[REQUIRED_SCHEMA]
-
-def _extract_pfx_text(df):
-    if df is None or "PFx" not in df.columns:
-        return ""
-    vals = [str(x).strip() for x in df["PFx"].fillna("").astype(str) if str(x).strip()]
-    return "\n\n---\n".join(vals)
+# ==========================
+# Page Router
+# ==========================
+page = _get_query_param("page", "home").strip().lower()
+if "panel_count" not in st.session_state:
+    st.session_state.panel_count = 1
 
 # ==========================
 # HOME PAGE
@@ -413,7 +472,6 @@ if page in ("", "home"):
 # ==========================
 # GENERATE PAGE (LLM-INTEGRATED)
 # ==========================
-
 elif page == "generate":
     st.subheader("Generate Your Own PFx")
     st.caption("Select workflow, enter details, and generate a patient-friendly explanation.")
@@ -430,7 +488,7 @@ elif page == "generate":
         workflow_options = ["Zero-shot", "Few-shot", "Agentic", "All"]
         workflow_choice = st.selectbox("Workflow", workflow_options, index=0)
 
-        ai_model = st.selectbox("Model", model_options, index = 0)
+        ai_model = st.selectbox("Model", model_options, index=0)
 
         # Generate button
         generate_clicked = st.button("🚀 Generate PFx", type="primary")
@@ -453,6 +511,7 @@ elif page == "generate":
                 st.session_state.gen_error = "Please enter an Incidental Finding before generating."
             else:
                 try:
+                    # Import only when needed so app loads even if the module is missing
                     from streamlit_calls import (
                         zeroshot_call,
                         fewshot_call,
@@ -461,6 +520,26 @@ elif page == "generate":
 
                     def _run_one(fn):
                         out = fn(incidental_finding, icd10_code, reading_level, ai_model)
+
+                        # Harden against Series/dict-with-Series returns
+                        if isinstance(out, pd.Series):
+                            out = out.to_frame().T
+                        elif isinstance(out, dict):
+                            flat = {}
+                            for k, v in out.items():
+                                if isinstance(v, pd.Series):
+                                    vv = v.dropna().iloc[0] if len(v.dropna()) else ""
+                                    flat[k] = vv if not isinstance(vv, (pd.Series, pd.DataFrame)) else str(vv)
+                                elif isinstance(v, (list, tuple)):
+                                    flat[k] = (
+                                        v[0]
+                                        if v and not isinstance(v[0], (pd.Series, pd.DataFrame, list, tuple, dict))
+                                        else (str(v[0]) if v else "")
+                                    )
+                                else:
+                                    flat[k] = v
+                            out = flat
+
                         return _ensure_schema(out)
 
                     if workflow_choice == "Zero-shot":
@@ -503,7 +582,7 @@ elif page == "generate":
 
         pfx_text = (st.session_state.get("generated_pfx") or "").strip()
         card_html = (
-            f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\\"pfx-muted\\">Your PFx will appear here once generated.</span>'}</div>"
+            f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\"pfx-muted\">Your PFx will appear here once generated.</span>'}</div>"
         )
         st.markdown(card_html, unsafe_allow_html=True)
         if pfx_text:
@@ -512,10 +591,12 @@ elif page == "generate":
 
         df_out = st.session_state.get("generated_df")
 
+        # Robust extraction of stats with fallback keys
         if isinstance(df_out, pd.DataFrame) and not df_out.empty:
-            icd10 = str(df_out.iloc[0]["ICD10_code"] if "ICD10_code" in df_out.columns else "").strip()
-            acc_val = df_out.iloc[0]["accuracy"] if "accuracy" in df_out.columns else None
-            fres_val = df_out.iloc[0]["Flesch_Score"] if "Flesch_Score" in df_out.columns else None
+            r0 = df_out.iloc[0]
+            icd10 = str(r0.get("ICD10_code", "")).strip()
+            acc_val = r0.get("accuracy", r0.get("Accuracy", None))
+            fres_val = r0.get("Flesch_Score", r0.get("FRES", None))
         else:
             icd10, acc_val, fres_val = "", None, None
 
@@ -546,7 +627,7 @@ elif page == "generate":
             st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
         else:
             st.caption("No advanced stats available for this entry.")
-        
+
         if isinstance(df_out, pd.DataFrame):
             st.markdown("### Generation Details")
             st.dataframe(df_out, use_container_width=True)
@@ -556,64 +637,13 @@ elif page == "generate":
                     "Download results (CSV)",
                     data=csv_bytes,
                     file_name="pfx_generated.csv",
-                    mime="text/csv"
+                    mime="text/csv",
                 )
             except Exception:
                 pass
-
-
 
 # ==========================
 # Unknown Page -> Fallback
 # ==========================
 else:
     st.info("Unknown page. Use the buttons above to navigate.")
-
-import pandas as pd
-import os
-import textstat
-from openai import OpenAI
-CLIENT = OpenAI()
-import json
-import re
-import requests
-from dotenv import load_dotenv
-import math
-import unicodedata
-
-# import fewshot examples
-df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
-
-# import prompts 
-from jh_pfx_prompts import example, icd10_example, baseline_zeroshot_prompt, single_fewshot_icd10_labeling_prompt
-
-from autogen import LLMConfig
-from autogen import ConversableAgent, LLMConfig
-from autogen.agentchat import initiate_group_chat
-from autogen.agentchat.group.patterns import RoundRobinPattern
-from autogen.agentchat.group import OnCondition, StringLLMCondition
-from autogen.agentchat.group import AgentTarget
-from autogen.agentchat.group import TerminateTarget
-
-from pydantic import BaseModel, Field
-from typing import Optional
-from typing import Annotated
-
-from call_functions import extract_json, label_icd10s, extract_json_gpt4o
-from tools import calculate_fres
-
-from typing import Annotated
-
-# import necessary libraries 
-import pandas as pd
-import os
-import textstat
-from openai import OpenAI
-import json
-import re
-import requests
-from dotenv import load_dotenv
-import math
-import unicodedata
-
-from jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION
