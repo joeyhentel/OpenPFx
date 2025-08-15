@@ -73,6 +73,9 @@ def zeroshot_call(finding, code, grade_level, ai_model):
 
     zero_results_df["_0_agent_icd10_codes"] = agent_code
 
+    flesch_score = textstat.flesch_reading_ease(row['PFx'])
+    zero_results_df["Flesch_Score"] = flesch_score
+
     # Compare only the first three characters for accuracy
     zero_results_df["_0_icd10_matches"] = (
         str(zero_results_df["ICD10_code"])[:3] == str(zero_results_df["_0_agent_icd10_codes"])[:3]
@@ -147,8 +150,10 @@ def fewshot_call(finding, code, grade_level, ai_model):
     }
 
     agent_code = label_icd10s(pfx_response)
-
     few_results_df["_0_agent_icd10_codes"] = agent_code
+
+    flesch_score = textstat.flesch_reading_ease(row['PFx'])
+    few_results_df["Flesch_Score"] = flesch_score
 
     # Compare only the first three characters for accuracy
     few_results_df["_0_icd10_matches"] = (
@@ -303,6 +308,9 @@ def agentic_conversation(finding, code, grade_level, ai_model):
         agent_code = label_icd10s(chat.get("PFx", ""))
 
         agent_results["_0_agent_icd10_codes"] = agent_code
+
+        flesch_score = textstat.flesch_reading_ease(row['PFx'])
+        agent_results["Flesch_Score"] = flesch_score
 
         # Compare only the first three characters for accuracy
         agent_results["_0_icd10_matches"] = (

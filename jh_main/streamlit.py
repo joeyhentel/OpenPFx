@@ -510,16 +510,80 @@ elif page == "generate":
             js_text = json.dumps(pfx_text)
             copy_button(js_text, key="gen")
 
-        # Show details table and allow download if available
+        # Show pills + download only (no table)
         df_out = st.session_state.get("generated_df")
-        if df_out is not None:
-            st.markdown("### Generation Details")
-            # st.dataframe(df_out, use_container_width=True)
+
+        if df_out is not None and not df_out.empty:
+            row = df_out.iloc[0]
+
+            # ICD-10 (support either column name)
+            icd10 = (row.get("ICD10") or row.get("ICD10_code") or "").strip()
+
+            # Accuracy (support either column name; normalize to % if 0–1)
+            acc_val = row.get("accuracy", None)
+            if acc_val is None:
+                acc_val = row.get("Accuracy", None)
+
+            acc_str = ""
+            if acc_val is not None and str(acc_val).strip() != "":
+                try:
+                    f_acc = float(acc_val)
+                    acc_str = f"{f_acc*100:.1f}%" if 0 <= f_acc <= 1 else f"{f_acc:.1f}%"
+                except Exception:
+                    acc_str = str(acc_val)
+
+            # Readability label (if you store a text label alongside the numeric score)
+            read_str = ""
+            for k in ["Readability(FRES)", "Readability (FRES)", "readability", "Readability"]:
+                v = row.get(k)
+                if v is not None and str(v).strip() != "":
+                    read_str = str(v).strip()
+                    break
+
+            # Use ONLY Flesch_Score; if missing, compute from PFx
+            fres_str = ""
+            score_val = row.get("Flesch_Score", None)
+            if score_val is not None and str(score_val).strip() != "":
+                try:
+                    fres_str = f"{float(score_val):.1f}"
+                except Exception:
+                    fres_str = str(score_val)
+            else:
+                pfx_text_for_fres = (row.get("PFx") or "").strip()
+                if pfx_text_for_fres:
+                    try:
+                        fres_score = textstat.flesch_reading_ease(pfx_text_for_fres)
+                        fres_str = f"{float(fres_score):.1f}"
+                    except Exception:
+                        pass
+
+            # Pills (same styling as Home)
+            pills = []
+            if icd10:
+                pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
+            if acc_str:
+                pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
+            # Label says "Readability(FRES)" for consistency; shows Flesch_Score value
+            if read_str or fres_str:
+                pills.append(f"<div class='pfx-pill'><b>Readability(FRES):</b> {read_str} {fres_str}</div>")
+
+            if pills:
+                st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
+
+            # CSV download (no table)
             try:
                 csv_bytes = df_out.to_csv(index=False).encode("utf-8")
-                st.download_button("Download results (CSV)", data=csv_bytes, file_name="pfx_generated.csv", mime="text/csv")
+                st.download_button(
+                    "Download results (CSV)",
+                    data=csv_bytes,
+                    file_name="pfx_generated.csv",
+                    mime="text/csv"
+                )
             except Exception:
                 pass
+        elif df_out is not None:
+            st.caption("No advanced stats available for this generation.")
+
 
 # ==========================
 # Unknown Page -> Fallback
