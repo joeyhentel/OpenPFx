@@ -109,6 +109,13 @@ def fewshot_call(finding, code, grade_level, ai_model):
         raise FileNotFoundError(f"Fewshot examples file not found at {fewshot_path}. Please check the path.")
     df_fewshot = pd.read_csv(fewshot_path)
     
+    if extracted_response is None:
+        return pd.DataFrame([{
+            "finding": finding,
+            "ICD10_code": code,
+            "PFx": "No explanation generated. Please try again.",
+            "PFx_ICD10_code": ""
+        }])
     # import prompts 
     from jh_pfx_prompts import example, icd10_example, baseline_zeroshot_prompt, single_fewshot_icd10_labeling_prompt
     few_results_df = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
