@@ -526,14 +526,15 @@ elif page == "generate":
                         st.session_state[f"gen_error_{i}"] = f"Error during generation: {e}"
 
         # Add / Reset buttons (same placement as Home)
-        btn_cols = st.columns([1, 1, 6])
+        btn_cols = st.columns(2)  # Two side-by-side columns
+
         with btn_cols[0]:
-            if st.button("➕ Add another finding", use_container_width=True, key="gen_add"):
+            if st.button("➕ Add another finding", key="gen_add"):
                 st.session_state.gen_panel_count = min(st.session_state.gen_panel_count + 1, 10)
                 st.rerun()
+
         with btn_cols[1]:
-            if st.button("↺ Reset", use_container_width=True, key="gen_reset"):
-                # clear all per-generate keys
+            if st.button("↺ Reset", key="gen_reset"):
                 for k in list(st.session_state.keys()):
                     if k.startswith(("gen_finding_", "gen_icd10_", "gen_reading_", "gen_workflow_", "gen_model_", "gen_btn_", "gen_df_", "gen_pfx_", "gen_error_")):
                         del st.session_state[k]
