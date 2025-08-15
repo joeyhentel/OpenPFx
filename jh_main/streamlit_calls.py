@@ -193,28 +193,28 @@ def agentic_conversation(finding, code, grade_level, ai_model):
         api_type="openai",
         model=ai_model,
         api_key=OPENAI_API_KEY,
-        response_format=WriterOutput,
+        text_format=WriterOutput,
     )
 
     labeler_config = LLMConfig(
         api_type="openai",
         model=ai_model,
         api_key=OPENAI_API_KEY,
-        response_format=LabelerOutput,
+        text_format=LabelerOutput,
     )
 
     doctor_config = LLMConfig(
         api_type="openai",
         model=ai_model,
         api_key=OPENAI_API_KEY,
-        response_format=DoctorReadabilityOutput,
+        text_format=DoctorReadabilityOutput,
     )
 
     readability_config=LLMConfig(
         api_type="openai",
         model=ai_model,
         api_key=OPENAI_API_KEY,
-        response_format=DoctorReadabilityOutput,
+        text_format=DoctorReadabilityOutput,
         
     )
 
