@@ -242,17 +242,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-<style>
-/* keep button labels on a single line and give them some minimum width */
-.stButton > button { 
-  white-space: nowrap;
-  min-width: 220px;        /* tweak to taste */
-}
-/* optional: make side-by-side buttons the same width */
-div[data-testid="column"] .stButton > button { width: 100%; }
-</style>
-""", unsafe_allow_html=True)
 
 # ==========================
 # Top Header
@@ -526,16 +515,13 @@ elif page == "generate":
                         st.session_state[f"gen_error_{i}"] = f"Error during generation: {e}"
 
         # Add / Reset buttons (same placement as Home)
-        st.write("")  # spacer
-        btn_cols = st.columns([0.6, 0.6, 4])  # space between buttons
-
+        btn_cols = st.columns([1, 1, 6])
         with btn_cols[0]:
-            if st.button("➕ Add another finding", key="gen_add"):
+            if st.button("➕ Add another finding", use_container_width=True, key="gen_add"):
                 st.session_state.gen_panel_count = min(st.session_state.gen_panel_count + 1, 10)
                 st.rerun()
-
         with btn_cols[1]:
-            if st.button("↺ Reset", key="gen_reset"):
+            if st.button("↺ Reset", use_container_width=True, key="gen_reset"):
                 for k in list(st.session_state.keys()):
                     if k.startswith(("gen_finding_", "gen_icd10_", "gen_reading_", "gen_workflow_", "gen_model_", "gen_btn_", "gen_df_", "gen_pfx_", "gen_error_")):
                         del st.session_state[k]
