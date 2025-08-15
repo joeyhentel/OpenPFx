@@ -526,7 +526,8 @@ elif page == "generate":
                         st.session_state[f"gen_error_{i}"] = f"Error during generation: {e}"
 
         # Add / Reset buttons (same placement as Home)
-        btn_cols = st.columns([1, 1, 5])  # first two get equal space, last one is empty spacer
+        st.write("")  # spacer
+        btn_cols = st.columns([0.6, 0.6, 4])  # space between buttons
 
         with btn_cols[0]:
             if st.button("➕ Add another finding", key="gen_add"):
