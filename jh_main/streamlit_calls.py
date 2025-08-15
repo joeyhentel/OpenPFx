@@ -104,7 +104,11 @@ def fewshot_call(finding, code, grade_level, ai_model):
 
     # import fewshot examples
     df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
-
+    fewshot_path = 'jh_main/pfx_fewshot_examples_college.csv'
+    if not os.path.exists(fewshot_path):
+        raise FileNotFoundError(f"Fewshot examples file not found at {fewshot_path}. Please check the path.")
+    df_fewshot = pd.read_csv(fewshot_path)
+    
     # import prompts 
     from jh_pfx_prompts import example, icd10_example, baseline_zeroshot_prompt, single_fewshot_icd10_labeling_prompt
     few_results_df = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
