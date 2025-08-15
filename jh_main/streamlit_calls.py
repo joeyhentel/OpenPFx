@@ -35,7 +35,7 @@ df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 
 # calls LLM & creates dataframe with results
 def zeroshot_call(finding, code, grade_level, ai_model):
-    zero_results_df = pd.DataFrame(columns = ["finding", "ICD10_code", "PFx", "PFx_ICD10_code"])
+    zero_results_df = pd.DataFrame(columns = ["finding", "ICD10_code", "PFx", "PFx_ICD10_code","_0_agent_icd10_codes", "_0_icd10_matches", "_0_pfx_icd10_matches", "accuracy", "Flesch_Score"])
 
     prompt = baseline_zeroshot_prompt.format(
         Incidental_Finding=finding,
