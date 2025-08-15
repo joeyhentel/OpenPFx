@@ -93,34 +93,25 @@ def zeroshot_call(finding, code, grade_level, ai_model):
 
 # zeroshot prompts LLM & creates dataframe with results
 def fewshot_call(finding, code, grade_level, ai_model):
-    #reading levels
-    PROFESSIONAL = "Professional"
-    COLLEGE_GRADUATE = "College Graduate"
-    COLLEGE = "College"
-    TENTH_TO_TWELTH_GRADE = "10th to 12th grade"
-    EIGTH_TO_NINTH_GRADE = "8th to 9th grade"
-    SEVENTH_GRADE = "7th grade"
-    SIXTH_GRADE = "6th grade"
-    FIFTH_GRADE = "5th grade"
-    N_A = "N/A"
-
-    # import fewshot examples
-    df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
+    # Read fewshot examples
     fewshot_path = 'jh_main/pfx_fewshot_examples_college.csv'
     if not os.path.exists(fewshot_path):
         raise FileNotFoundError(f"Fewshot examples file not found at {fewshot_path}. Please check the path.")
     df_fewshot = pd.read_csv(fewshot_path)
-    
-    # import prompts 
-    from jh_pfx_prompts import example, icd10_example, baseline_zeroshot_prompt, single_fewshot_icd10_labeling_prompt
-    few_results_df = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code","_0_agent_icd10_codes", "_0_icd10_matches", "_0_pfx_icd10_matches", "accuracy", "Flesch_Score"])
 
+    # Build fewshot examples string
     pfx_fewshot_examples = ""
-    for i, row in df_fewshot.iterrows():
-        pfx_fewshot_examples += example.format(**row) 
+    for _, row in df_fewshot.iterrows():
+        pfx_fewshot_examples += example.format(**row)
 
-    prompt = single_fewshot_prompt.format(Examples = pfx_fewshot_examples, Incidental_Finding = row['Incidental_Finding'], Reading_Level = grade_level)
+    # Build prompt
+    prompt = single_fewshot_prompt.format(
+        Examples=pfx_fewshot_examples,
+        Incidental_Finding=finding,
+        Reading_Level=grade_level
+    )
 
+    # Call model
     pfx_response = CLIENT.chat.completions.create(
         model=ai_model,
         temperature=0.0,
@@ -131,7 +122,15 @@ def fewshot_call(finding, code, grade_level, ai_model):
         stream=False,
     )
 
+    # Extract JSON
     extracted_response = extract_json(pfx_response.choices[0])
+
+    # Create DataFrame with same structure as zeroshot_call
+    few_results_df = pd.DataFrame(columns=[
+        "finding", "ICD10_code", "PFx", "PFx_ICD10_code",
+        "_0_agent_icd10_codes", "_0_icd10_matches",
+        "_0_pfx_icd10_matches", "accuracy", "Flesch_Score"
+    ])
 
     if extracted_response is None:
         return pd.DataFrame([{
@@ -140,15 +139,17 @@ def fewshot_call(finding, code, grade_level, ai_model):
             "PFx": "No explanation generated. Please try again.",
             "PFx_ICD10_code": ""
         }])
-    
-    few_results_df = {
+
+    few_results_df.loc[0] = {
         "finding": finding,
         "ICD10_code": code,
         "PFx": extracted_response.get("PFx", ""),
         "PFx_ICD10_code": extracted_response.get("PFx_ICD10_code", "")
     }
 
-    agent_code = label_icd10s(pfx_response)
+    # Label ICD-10
+    for response in few_results_df['PFx']:
+        agent_code = label_icd10s(response)
 
     few_results_df["_0_agent_icd10_codes"] = agent_code
 
@@ -164,9 +165,11 @@ def fewshot_call(finding, code, grade_level, ai_model):
         few_results_df["_0_icd10_matches"] + few_results_df["_0_pfx_icd10_matches"]
     ) / 2
 
+    # Flesch score
     few_results_df["Flesch_Score"] = few_results_df["PFx"].apply(textstat.flesch_reading_ease)
 
     return few_results_df
+
 
 
 # agentic conversation & creates dataframe with results
@@ -301,7 +304,7 @@ def agentic_conversation(finding, code, grade_level, ai_model):
         "finding": finding,
         "ICD10_code": code,
         "PFx": chat.get("PFx", ""),
-        "PFx_ICD10_Code": chat.get("PFx_ICD10_Code", "")
+        "PFx_ICD10_code": chat.get("PFx_ICD10_code", "")
         }
 
         agent_code = label_icd10s(chat.get("PFx", ""))
@@ -313,13 +316,13 @@ def agentic_conversation(finding, code, grade_level, ai_model):
             str(agent_results["ICD10_code"])[:3] == str(agent_results["_0_agent_icd10_codes"])[:3]
         )
         agent_results["_0_pfx_icd10_matches"] = (
-            str(agent_results["ICD10_code"])[:3] == str(agent_results["PFx_ICD10_Code"])[:3]
+            str(agent_results["ICD10_code"])[:3] == str(agent_results["PFx_ICD10_code"])[:3]
         )
 
         agent_results["accuracy"] = (
             agent_results["_0_icd10_matches"] + agent_results["_0_pfx_icd10_matches"]
         ) / 2
-        
+
         agent_results["Flesch_Score"] = agent_results["PFx"].apply(textstat.flesch_reading_ease)
 
         return agent_results
