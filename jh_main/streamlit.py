@@ -519,7 +519,8 @@ elif page == "generate":
             try:
                 csv_bytes = df_out.to_csv(index=False).encode("utf-8")
                 st.download_button("Download results (CSV)", data=csv_bytes, file_name="pfx_generated.csv", mime="text/csv")
-
+            except Exception:
+                pass
 
 # ==========================
 # Unknown Page -> Fallback
