@@ -474,15 +474,103 @@ elif page == "generate":
 
                     elif workflow_choice == "All":
                         parts: list[pd.DataFrame] = []
-                        for fn in (zeroshot_call, fewshot_call, agentic_conversation):
+
+                        workflows_to_run = [
+                            ("Zero-shot", zeroshot_call),
+                            ("Few-shot", fewshot_call),
+                            ("Agentic", agentic_conversation),
+                        ]
+
+                        for wf_name, fn in workflows_to_run:
                             try:
-                                dfi = _run_one(fn)
-                                if not dfi.empty:
-                                    parts.append(dfi)
-                            except Exception:
-                                # allow other workflows to succeed
-                                pass
+                                st.markdown(f"### {wf_name} Output")
+                                with st.container():
+                                    # Terminal header
+                                    st.markdown(
+                                        "<div style='background:#111;color:#0f0;padding:10px;border-radius:6px;font-family:monospace;font-size:0.9rem;'>"
+                                        f"<b>{wf_name}...</b>"
+                                        "</div>",
+                                        unsafe_allow_html=True,
+                                    )
+
+                                    # Run workflow
+                                    dfi = _run_one(fn)
+                                    if not dfi.empty:
+                                        # Add to combined results
+                                        parts.append(dfi)
+
+                                        # PFx card
+                                        pfx_preview = _extract_pfx_text(dfi)
+                                        st.markdown(
+                                            f"<div class='pfx-card'>{pfx_preview}</div>",
+                                            unsafe_allow_html=True,
+                                        )
+
+                                        # Pills
+                                        row = dfi.iloc[0]
+                                        def _pick_row(series, *candidates, default=""):
+                                            for name in candidates:
+                                                if name in series.index:
+                                                    val = series.get(name)
+                                                    if pd.notna(val) and str(val).strip() != "":
+                                                        return val
+                                            return default
+
+                                        def _fmt_percent(val: object) -> str:
+                                            if pd.isna(val):
+                                                return ""
+                                            try:
+                                                f = float(val)
+                                                return f"{f*100:.1f}%" if 0.0 <= f <= 1.0 else f"{f:.1f}%"
+                                            except Exception:
+                                                return str(val).strip()
+
+                                        def _fmt_num(val: object) -> str:
+                                            if pd.isna(val):
+                                                return ""
+                                            try:
+                                                return f"{float(val):.1f}"
+                                            except Exception:
+                                                return str(val).strip()
+
+                                        icd10 = _pick_row(row, "ICD10_code", "ICD10", "PFx_ICD10_code")
+                                        acc_str = _fmt_percent(_pick_row(row, "accuracy", "Accuracy", "eval_accuracy", "is_correct", "score"))
+                                        fres_str = _fmt_num(_pick_row(
+                                            row,
+                                            "Flesch_Score",
+                                            "FRES",
+                                            "flesch",
+                                            "flesch_reading_ease",
+                                            "Flesch",
+                                            "Readability(FRES)",
+                                            "Readability (FRES)"
+                                        ))
+
+                                        pills = []
+                                        if str(icd10).strip():
+                                            pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {str(icd10).strip()}</div>")
+                                        if acc_str:
+                                            pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
+                                        if fres_str:
+                                            pills.append(f"<div class='pfx-pill'><b>Flesch:</b> {fres_str}</div>")
+
+                                        if pills:
+                                            st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
+                                        else:
+                                            st.caption("No advanced stats available for this entry.")
+                                    else:
+                                        st.caption(f"No results from {wf_name}")
+                            except Exception as e:
+                                st.error(f"{wf_name} failed: {e}")
+
+                        # Combine all results for download
                         df = pd.concat(parts, ignore_index=True) if parts else _ensure_schema(None)
+                        st.markdown("### Generation Details")
+                        try:
+                            csv_bytes = df.to_csv(index=False).encode("utf-8")
+                            st.download_button("Download results (CSV)", data=csv_bytes, file_name="pfx_generated.csv", mime="text/csv")
+                        except Exception:
+                            pass
 
                     else:
                         df = _ensure_schema(None)
