@@ -512,33 +512,37 @@ elif page == "generate":
 
         df_out = st.session_state.get("generated_df")
 
-        if isinstance(df_out, pd.DataFrame) and not df_out.empty:
-            row = df_out.iloc[0]
+        icd10 = (df_out.get("ICD10_code") or "").strip()
+        acc_val = df_out.get("accuracy")
+        acc_str = ""
+        if pd.notna(acc_val):
+            try:
+                f_acc = float(acc_val)
+                acc_str = f"{f_acc*100:.1f}%" if 0 <= f_acc <= 1 else f"{f_acc:.1f}%"
+            except Exception:
+                acc_str = str(acc_val)
 
-            icd10_val = "ICD10_code"
-            acc_val   = "accuracy"
-            fres_val  = "Flesch_Score"
+        fres_val = df_out.get("Flesch_Score")
+        fres_str = ""
+        if pd.notna(fres_val):
+            try:
+                fres_str = f"{float(fres_val):.1f}"
+            except Exception:
+                fres_str = str(fres_val)
 
-            # Format accuracy
-            acc_html = ""
-            if acc_val is not None and str(acc_val).strip() != "":
-                try:
-                    f_acc = float(acc_val)
-                    acc_disp = f"{f_acc*100:.1f}%" if 0 <= f_acc <= 1 else f"{f_acc:.1f}%"
-                except Exception:
-                    acc_disp = str(acc_val)
-                acc_html = f"<div class='pfx-pill'><b>Accuracy:</b> {acc_disp}</div>"
+        pills = []
+        if icd10:
+            pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
+        if acc_str:
+            pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
+        if fres_str:
+            pills.append(f"<div class='pfx-pill'><b>Readability(FRES):</b> {fres_str}</div>")
 
-            # ICD-10
-            icd10_html = f"<div class='pfx-pill'><b>ICD-10:</b> {str(icd10_val).strip()}</div>" if icd10_val else ""
-
-            pills_html = "".join([icd10_html, acc_html, fres_val]).strip()
-            if pills_html:
-                st.markdown(f"<div class='pfx-meta'>{pills_html}</div>", unsafe_allow_html=True)
-            else:
-                st.caption("No advanced stats available for this generation.")
+        if pills:
+            st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
         else:
-            st.caption("Run a generation to see advanced stats.")
+            st.caption("No advanced stats available for this entry.")
+        
         if isinstance(df_out, pd.DataFrame):
             st.markdown("### Generation Details")
             try:
