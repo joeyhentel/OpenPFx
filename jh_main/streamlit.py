@@ -69,7 +69,6 @@ for k, v in {
         st.session_state[k] = v
 
 model_options = [
-    "gpt-3.5-turbo",
     "gpt-4o-2024-08-06", 
     "gpt-4o-mini",
     "gpt-5",
