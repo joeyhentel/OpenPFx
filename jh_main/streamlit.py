@@ -526,8 +526,7 @@ elif page == "generate":
 
             icd10_val = pick("ICD10", "ICD10_code", "PFx_ICD10_code", "icd10", "icd")
             acc_val   = pick("Accuracy", "accuracy", "eval_accuracy", "is_correct", "score")
-            read_str  = pick("Readability(FRES)", "Readability (FRES)", "readability", "grade", "grade_level", "fkgl", "flesch_kincaid")
-            fres_val  = pick("FRES", "fres", "flesch", "flesch_reading_ease")
+            fres_val  = pick("FRES", "fres", "flesch", "flesch_reading_ease", "Flesch_Score")
 
             # Format accuracy
             acc_html = ""
