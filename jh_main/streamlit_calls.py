@@ -73,7 +73,7 @@ def zeroshot_call(finding, code, grade_level, ai_model):
 
     zero_results_df["_0_agent_icd10_codes"] = agent_code
 
-    flesch_score = textstat.flesch_reading_ease(row['PFx'])
+    flesch_score = textstat.flesch_reading_ease(zero_results_df['PFx'])
     zero_results_df["Flesch_Score"] = flesch_score
 
     # Compare only the first three characters for accuracy
@@ -309,7 +309,7 @@ def agentic_conversation(finding, code, grade_level, ai_model):
 
         agent_results["_0_agent_icd10_codes"] = agent_code
 
-        flesch_score = textstat.flesch_reading_ease(row['PFx'])
+        flesch_score = textstat.flesch_reading_ease(agent_results['PFx'])
         agent_results["Flesch_Score"] = flesch_score
 
         # Compare only the first three characters for accuracy

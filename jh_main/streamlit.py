@@ -515,18 +515,9 @@ elif page == "generate":
         if isinstance(df_out, pd.DataFrame) and not df_out.empty:
             row = df_out.iloc[0]
 
-            # Helper to pick the first existing non-empty value from common aliases
-            def pick(*names):
-                for n in names:
-                    if n in row.index:
-                        v = row.get(n)
-                        if v is not None and str(v).strip() != "":
-                            return v
-                return None
-
-            icd10_val = pick("ICD10", "ICD10_code", "PFx_ICD10_code", "icd10", "icd")
-            acc_val   = pick("Accuracy", "accuracy")
-            fres_val  = pick("FRES", "fres", "flesch", "flesch_reading_ease", "Flesch_Score")
+            icd10_val = "ICD10_code"
+            acc_val   = "accuracy"
+            fres_val  = "Flesch_Score"
 
             # Format accuracy
             acc_html = ""
@@ -541,7 +532,7 @@ elif page == "generate":
             # ICD-10
             icd10_html = f"<div class='pfx-pill'><b>ICD-10:</b> {str(icd10_val).strip()}</div>" if icd10_val else ""
 
-            pills_html = "".join([icd10_html, acc_html, read_fres_html]).strip()
+            pills_html = "".join([icd10_html, acc_html, fres_val]).strip()
             if pills_html:
                 st.markdown(f"<div class='pfx-meta'>{pills_html}</div>", unsafe_allow_html=True)
             else:
