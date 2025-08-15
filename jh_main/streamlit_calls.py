@@ -309,7 +309,7 @@ def agentic_conversation(finding, code, grade_level, ai_model):
             str(agent_results["ICD10_code"])[:3] == str(agent_results["_0_agent_icd10_codes"])[:3]
         )
         agent_results["_0_pfx_icd10_matches"] = (
-            str(agent_results["ICD10_code"])[:3] == str(agent_results["PFx_ICD10_code"])[:3]
+            str(agent_results["ICD10_code"])[:3] == str(agent_results["PFx_ICD10_Code"])[:3]
         )
 
         agent_results["accuracy"] = (
