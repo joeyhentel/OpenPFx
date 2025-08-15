@@ -512,10 +512,10 @@ elif page == "generate":
 
         df_out = st.session_state.get("generated_df")
 
-        if df_out is not None and not df_out.empty:
-            icd10 = str(df_out["ICD10_code"].iloc[0] if "ICD10_code" in df_out else "").strip()
-            acc_val = df_out["accuracy"].iloc[0] if "accuracy" in df_out else None
-            fres_val = df_out["Flesch_Score"].iloc[0] if "Flesch_Score" in df_out else None
+        if isinstance(df_out, pd.DataFrame) and not df_out.empty:
+            icd10 = str(df_out.iloc[0]["ICD10_code"] if "ICD10_code" in df_out.columns else "").strip()
+            acc_val = df_out.iloc[0]["accuracy"] if "accuracy" in df_out.columns else None
+            fres_val = df_out.iloc[0]["Flesch_Score"] if "Flesch_Score" in df_out.columns else None
         else:
             icd10, acc_val, fres_val = "", None, None
 
