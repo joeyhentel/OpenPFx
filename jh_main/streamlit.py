@@ -418,141 +418,162 @@ elif page == "generate":
     st.subheader("Generate Your Own PFx")
     st.caption("Select workflow, enter details, and generate a patient-friendly explanation.")
 
-    # --- Track how many input blocks we have ---
-    if "gen_panel_count" not in st.session_state:
-        st.session_state.gen_panel_count = 1
-
-    # --- Reset and Add buttons ---
-    col_btn1, col_btn2 = st.columns([1, 1], gap="small")
-    with col_btn1:
-        if st.button("➕ Add Another Finding"):
-            st.session_state.gen_panel_count += 1
-    with col_btn2:
-        if st.button("🔄 Reset All"):
-            st.session_state.gen_panel_count = 1
-            for key in list(st.session_state.keys()):
-                if key.startswith(("gen_finding_", "gen_icd10_", "gen_reading_", "gen_workflow_", "gen_df_", "gen_pfx_")):
-                    del st.session_state[key]
-
     left, right = st.columns([1, 2], gap="large")
 
-    # ------------------------------
-    # LEFT: Multiple input panels
-    # ------------------------------
     with left:
         st.markdown("### Inputs")
+        incidental_finding = st.text_input("Incidental Finding", placeholder="e.g., Hepatic hemangioma")
+        icd10_code = st.text_input("ICD-10 Code", placeholder="e.g., D18.03")
+        reading_level = st.selectbox("Reading Level", READING_LEVELS, index=6)  # default to SIXTH_GRADE
+        workflow_options = ["Zero-shot", "Few-shot", "Agentic", "All"]
+        workflow_choice = st.selectbox("Workflow", workflow_options, index=0)
+        ai_model = st.selectbox("Model", model_options, index=0)
 
-        for idx in range(st.session_state.gen_panel_count):
-            st.markdown(f"#### Finding {idx + 1}")
+        # Action buttons in Home-page style
+        col_a, col_b = st.columns([1, 1], gap="small")
+        with col_a:
+            add_clicked = st.button("➕ Add another finding", use_container_width=True)
+        with col_b:
+            reset_clicked = st.button("↩ Reset", use_container_width=True)
 
-            incidental_finding = st.text_input(
-                f"Incidental Finding {idx+1}", 
-                key=f"gen_finding_{idx}",
-                placeholder="e.g., Hepatic hemangioma"
-            )
-            icd10_code = st.text_input(
-                f"ICD-10 Code {idx+1}", 
-                key=f"gen_icd10_{idx}", 
-                placeholder="e.g., D18.03"
-            )
-            reading_level = st.selectbox(
-                f"Reading Level {idx+1}", 
-                READING_LEVELS, 
-                index=6, 
-                key=f"gen_reading_{idx}"
-            )
+        # Session state
+        if "generated_pfx" not in st.session_state:
+            st.session_state.generated_pfx = ""
+        if "generated_df" not in st.session_state:
+            st.session_state.generated_df = None
+        if "gen_error" not in st.session_state:
+            st.session_state.gen_error = ""
+        if "findings_list" not in st.session_state:
+            st.session_state.findings_list = []
 
-            workflow_options = ["Zero-shot", "Few-shot", "Agentic", "All"]
-            workflow_choice = st.selectbox(
-                f"Workflow {idx+1}", 
-                workflow_options, 
-                index=0, 
-                key=f"gen_workflow_{idx}"
-            )
+        if add_clicked and incidental_finding.strip():
+            st.session_state.findings_list.append((incidental_finding, icd10_code, reading_level))
+        if reset_clicked:
+            st.session_state.findings_list.clear()
+            st.session_state.generated_df = None
+            st.session_state.generated_pfx = ""
+            st.session_state.gen_error = ""
 
-            ai_model = st.selectbox(
-                f"Model {idx+1}", 
-                model_options, 
-                index=0, 
-                key=f"gen_model_{idx}"
-            )
+        generate_clicked = st.button("🚀 Generate PFx", type="primary")
 
-            if st.button(f"🚀 Generate PFx {idx+1}", type="primary", key=f"gen_btn_{idx}"):
-                st.session_state[f"gen_error_{idx}"] = None
-                st.session_state[f"gen_df_{idx}"] = None
-                st.session_state[f"gen_pfx_{idx}"] = ""
+        if generate_clicked:
+            st.session_state.gen_error = None
+            st.session_state.generated_df = None
+            st.session_state.generated_pfx = ""
 
-                if not incidental_finding.strip():
-                    st.session_state[f"gen_error_{idx}"] = "Please enter an Incidental Finding before generating."
-                else:
-                    try:
-                        from streamlit_calls import zeroshot_call, fewshot_call, agentic_conversation
+            if not incidental_finding.strip():
+                st.session_state.gen_error = "Please enter an Incidental Finding before generating."
+            else:
+                try:
+                    from streamlit_calls import (
+                        zeroshot_call,
+                        fewshot_call,
+                        agentic_conversation,
+                    )
 
-                        def _run_one(fn):
-                            out = fn(incidental_finding, icd10_code, reading_level, ai_model)
-                            return _ensure_schema(out)
+                    def _run_one(fn):
+                        out = fn(incidental_finding, icd10_code, reading_level, ai_model)
+                        return _ensure_schema(out)
 
-                        if workflow_choice == "Zero-shot":
-                            df = _run_one(zeroshot_call)
-                        elif workflow_choice == "Few-shot":
-                            df = _run_one(fewshot_call)
-                        elif workflow_choice == "Agentic":
-                            df = _run_one(agentic_conversation)
-                        elif workflow_choice == "All":
-                            df_zero = _run_one(zeroshot_call)
-                            df_few = _run_one(fewshot_call)
-                            df_agent = _run_one(agentic_conversation)
-                            df = pd.concat([df_zero, df_few, df_agent], ignore_index=True)
-                        else:
-                            df = _ensure_schema(None)
+                    if workflow_choice == "Zero-shot":
+                        df = _run_one(zeroshot_call)
 
-                        st.session_state[f"gen_df_{idx}"] = df
-                        st.session_state[f"gen_pfx_{idx}"] = _extract_pfx_text(df)
+                    elif workflow_choice == "Few-shot":
+                        df = _run_one(fewshot_call)
 
-                        if df.empty:
-                            st.session_state[f"gen_error_{idx}"] = "No results returned by the selected workflow(s)."
+                    elif workflow_choice == "Agentic":
+                        df = _run_one(agentic_conversation)
 
-                    except Exception as e:
-                        st.session_state[f"gen_error_{idx}"] = f"Error during generation: {e}"
+                    elif workflow_choice == "All":
+                        parts: list[pd.DataFrame] = []
+                        with right:
+                            workflows_to_run = [
+                                ("Zero-shot", zeroshot_call),
+                                ("Few-shot", fewshot_call),
+                                ("Agentic", agentic_conversation),
+                            ]
+                            for wf_name, fn in workflows_to_run:
+                                try:
+                                    dfi = _run_one(fn)
+                                    if not dfi.empty:
+                                        parts.append(dfi)
 
-    # ------------------------------
-    # RIGHT: Multiple output panels
-    # ------------------------------
+                                        # Simple header (no green/black)
+                                        st.markdown(
+                                            f"<div style='padding:4px 0;font-weight:600;font-size:1rem;color:#000;'>{wf_name}</div>",
+                                            unsafe_allow_html=True,
+                                        )
+
+                                        # PFx card
+                                        pfx_preview = _extract_pfx_text(dfi)
+                                        st.markdown(f"<div class='pfx-card'>{pfx_preview}</div>", unsafe_allow_html=True)
+                                        js_text = json.dumps(pfx_preview)
+                                        copy_button(js_text, key=f"all-{wf_name}")
+
+                                        # Pills
+                                        row = dfi.iloc[0]
+                                        icd10 = row.get("ICD10_code", "")
+                                        acc_str = f"{float(row.get('accuracy', 0))*100:.1f}%" if pd.notna(row.get('accuracy')) else ""
+                                        fres_str = f"{float(row.get('Flesch_Score', 0)):.1f}" if pd.notna(row.get('Flesch_Score')) else ""
+                                        pills = []
+                                        if icd10: pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
+                                        if acc_str: pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
+                                        if fres_str: pills.append(f"<div class='pfx-pill'><b>Flesch:</b> {fres_str}</div>")
+                                        if pills:
+                                            st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
+                                        st.divider()
+                                except Exception as e:
+                                    st.error(f"{wf_name} failed: {e}")
+
+                            df = pd.concat(parts, ignore_index=True) if parts else _ensure_schema(None)
+                            st.markdown("### Generation Details")
+                            try:
+                                csv_bytes = df.to_csv(index=False).encode("utf-8")
+                                st.download_button("Download results (CSV)", data=csv_bytes, file_name="pfx_generated.csv", mime="text/csv")
+                            except Exception:
+                                pass
+                    else:
+                        df = _ensure_schema(None)
+
+                    st.session_state.generated_df = df
+                    st.session_state.generated_pfx = _extract_pfx_text(df)
+                    if df.empty:
+                        st.session_state.gen_error = "No results returned by the selected workflow(s)."
+
+                except Exception as e:
+                    st.session_state.gen_error = f"Error during generation: {e}"
+
     with right:
-        for idx in range(st.session_state.gen_panel_count):
-            workflow_choice = st.session_state.get(f"gen_workflow_{idx}", "Zero-shot")
-            df_out = st.session_state.get(f"gen_df_{idx}")
-            pfx_text = (st.session_state.get(f"gen_pfx_{idx}") or "").strip()
+        if workflow_choice != "All":
+            st.markdown("### Patient-Friendly Explanation")
+            if st.session_state.get("gen_error"):
+                st.error(st.session_state.gen_error)
+            pfx_text = (st.session_state.get("generated_pfx") or "").strip()
+            card_html = f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\"pfx-muted\">Your PFx will appear here once generated.</span>'}</div>"
+            st.markdown(card_html, unsafe_allow_html=True)
+            if pfx_text:
+                js_text = json.dumps(pfx_text)
+                copy_button(js_text, key="gen")
 
-            if workflow_choice != "All":
-                st.markdown(f"### Patient-Friendly Explanation ({idx+1})")
-                if st.session_state.get(f"gen_error_{idx}"):
-                    st.error(st.session_state[f"gen_error_{idx}"])
+            df_out = st.session_state.get("generated_df")
+            if isinstance(df_out, pd.DataFrame) and not df_out.empty:
+                row = df_out.iloc[0]
+                icd10 = row.get("ICD10_code", "")
+                acc_str = f"{float(row.get('accuracy', 0))*100:.1f}%" if pd.notna(row.get('accuracy')) else ""
+                fres_str = f"{float(row.get('Flesch_Score', 0)):.1f}" if pd.notna(row.get('Flesch_Score')) else ""
+                pills = []
+                if icd10: pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
+                if acc_str: pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
+                if fres_str: pills.append(f"<div class='pfx-pill'><b>Flesch:</b> {fres_str}</div>")
+                if pills:
+                    st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
 
-                card_html = f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\"pfx-muted\">Your PFx will appear here once generated.</span>'}</div>"
-                st.markdown(card_html, unsafe_allow_html=True)
-                if pfx_text:
-                    js_text = json.dumps(pfx_text)
-                    copy_button(js_text, key=f"copy_gen_{idx}")
-
-                if df_out is not None and isinstance(df_out, pd.DataFrame) and not df_out.empty:
-                    # Pills
-                    row = df_out.iloc[0]
-                    icd10 = row.get("ICD10_code", "")
-                    acc_str = f"{float(row.get('accuracy', 0))*100:.1f}%" if pd.notna(row.get("accuracy")) else ""
-                    fres_str = f"{float(row.get('Flesch_Score', 0)):.1f}" if pd.notna(row.get("Flesch_Score")) else ""
-                    pills = []
-                    if icd10: pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
-                    if acc_str: pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
-                    if fres_str: pills.append(f"<div class='pfx-pill'><b>Flesch:</b> {fres_str}</div>")
-                    if pills: st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
-
-        # --- Combined CSV download for all panels ---
-        all_parts = [st.session_state.get(f"gen_df_{idx}") for idx in range(st.session_state.gen_panel_count) if isinstance(st.session_state.get(f"gen_df_{idx}"), pd.DataFrame)]
-        if all_parts:
-            combined_df = pd.concat(all_parts, ignore_index=True)
-            csv_bytes = combined_df.to_csv(index=False).encode("utf-8")
-            st.download_button("Download All Results (CSV)", data=csv_bytes, file_name="pfx_all_generated.csv", mime="text/csv")
+                st.markdown("### Generation Details")
+                try:
+                    csv_bytes = df_out.to_csv(index=False).encode("utf-8")
+                    st.download_button("Download results (CSV)", data=csv_bytes, file_name="pfx_generated.csv", mime="text/csv")
+                except Exception:
+                    pass
 
 
 # ==========================
