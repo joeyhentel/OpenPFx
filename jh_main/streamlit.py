@@ -502,17 +502,20 @@ elif page == "generate":
                     except Exception as e:
                         st.session_state[f"gen_error_{i}"] = f"Error during generation: {e}"
 
-    btn_cols = st.columns([1, 1, 6])
+    btn_cols = st.columns([1, 1, 6], gap="small")
+
     with btn_cols[0]:
-        if st.button("➕ Add another finding", use_container_width=True):
-            st.session_state.panel_count = min(st.session_state.panel_count + 1, 10)
+        if st.button("➕ Add another finding", use_container_width=True, key="gen_add"):
+            st.session_state.gen_panel_count = min(st.session_state.get("gen_panel_count", 1) + 1, 10)
             st.rerun()
+
     with btn_cols[1]:
-        if st.button("↺ Reset", use_container_width=True):
-            keys_to_clear = [k for k in list(st.session_state.keys()) if k.startswith("wf_") or k.startswith("finding_")]
-            for k in keys_to_clear:
-                del st.session_state[k]
-            st.session_state.panel_count = 1
+        if st.button("↺ Reset", use_container_width=True, key="gen_reset"):
+            for k in list(st.session_state.keys()):
+                if k.startswith(("gen_finding_", "gen_icd10_", "gen_reading_", "gen_workflow_",
+                                "gen_model_", "gen_btn_", "gen_df_", "gen_pfx_", "gen_error_")):
+                    del st.session_state[k]
+            st.session_state.gen_panel_count = 1
             st.rerun()
 
                 
