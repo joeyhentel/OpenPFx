@@ -71,9 +71,6 @@ for k, v in {
 model_options = [
     "gpt-4o-2024-08-06", 
     "gpt-4o-mini",
-    "gpt-5",
-    "gpt-5-mini",
-    "gpt-5-nano"
 ]
 
 # Reading Level options (UI-only for now)
