@@ -296,7 +296,6 @@ def copy_button(js_text: str, key: str, height: int = 60):
 
 
 def render_home_panel(idx: int):
-    st.markdown(f"#### Finding {idx+1}")
     left, right = st.columns([1, 2], gap="large")
 
     with left:
@@ -304,111 +303,117 @@ def render_home_panel(idx: int):
         if not DATASETS:
             st.error("No datasets found. Please place the four CSV files next to this file.")
             return
+
         workflow_names = list(DATASETS.keys())
         workflow = st.selectbox("Select workflow", workflow_names, index=0, key=f"wf_{idx}")
         df = DATASETS[workflow]
-        options = df["Finding"].tolist()
-        finding = st.selectbox("Select a finding", ["— Select —"] + options, index=0, key=f"finding_{idx}")
-        finding = None if finding == "— Select —" else finding
+
+        # find the 'finding' column across possible schemas
+        finding_col = _first_col(df, ["Finding", "finding"])
+        if not finding_col:
+            st.error("No 'Finding' column found in the selected dataset.")
+            return
+
+        # build options cleanly
+        options = sorted(df[finding_col].dropna().astype(str).unique().tolist())
+
+        # true multiselect (no sentinel value)
+        selected_findings = st.multiselect(
+            "Select one or more findings",
+            options,
+            key=f"findings_{idx}",
+        )
 
     with right:
         st.subheader("Patient-Friendly Explanation")
-        if finding:
-            row = df.loc[df["Finding"] == finding].iloc[0]
-            pfx_text = (row.get("PFx") or "").strip()
+
+        if not selected_findings:
             st.markdown(
-                f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\\"pfx-muted\\">No PFx text found for this item.</span>'}</div>",
+                "<div class='pfx-card pfx-muted'>Pick a workflow and one or more findings on the left to view the PFx.</div>",
                 unsafe_allow_html=True,
             )
+            return
+
+        # column fallbacks for content/metrics
+        pfx_cols = ["PFx", "pfx", "PFx_text"]
+        icd_cols = ["ICD10", "ICD10_code", "PFx_ICD10_code"]
+        acc_cols = ["Accuracy", "accuracy"]
+        read_cols = ["Readability(FRES)", "Readability (FRES)", "FRES", "Flesch_Score"]
+
+        for j, f in enumerate(selected_findings):
+            # row lookup
+            row_q = df[df[finding_col].astype(str) == str(f)]
+            if row_q.empty:
+                st.caption(f"⚠️ No row found for: {f}")
+                continue
+            row = row_q.iloc[0]
+
+            # PFx text
+            pfx_text = ""
+            for c in pfx_cols:
+                if c in df.columns:
+                    pfx_text = _safe_str(row.get(c))
+                    if pfx_text:
+                        break
+
+            # meta fields
+            icd10 = ""
+            for c in icd_cols:
+                if c in df.columns:
+                    icd10 = _safe_str(row.get(c))
+                    if icd10:
+                        break
+
+            acc_str = ""
+            for c in acc_cols:
+                if c in df.columns:
+                    acc_str = _fmt_percent(row.get(c))
+                    if acc_str:
+                        break
+
+            read_str = ""
+            # prefer readability value formatted to 1 decimal if numeric
+            for c in read_cols:
+                if c in df.columns:
+                    val = row.get(c)
+                    # If column name implies Flesch score, format as float; otherwise just show string
+                    if c in ("FRES", "Flesch_Score", "Readability(FRES)", "Readability (FRES)"):
+                        read_str = _fmt_float(val)
+                    else:
+                        read_str = _safe_str(val)
+                    if read_str:
+                        break
+
+            # header for each selected finding
+            st.markdown(f"### {f}")
+
+            # PFx card
+            st.markdown(
+                f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\"pfx-muted\">No PFx text found for this item.</span>'}</div>",
+                unsafe_allow_html=True,
+            )
+
+            # copy button if PFx present
             if pfx_text:
                 js_text = json.dumps(pfx_text)
-                copy_button(js_text, key=f"home-{idx}")
+                copy_button(js_text, key=f"home-{idx}-{j}")
 
-            icd10 = (row.get("ICD10") or "").strip()
-            acc_val = row.get("Accuracy")
-            acc_str = ""
-            if pd.notna(acc_val):
-                try:
-                    f_acc = float(acc_val)
-                    acc_str = f"{f_acc*100:.1f}%" if 0 <= f_acc <= 1 else f"{f_acc:.1f}%"
-                except Exception:
-                    acc_str = str(acc_val)
-
-            read_key_options = ["Readability(FRES)", "Readability (FRES)"]
-            read_str = ""
-            for k in read_key_options:
-                v = row.get(k)
-                if v is not None and str(v).strip() != "":
-                    read_str = str(v).strip()
-                    break
-
-            fres_val = row.get("FRES")
-            fres_str = ""
-            if pd.notna(fres_val):
-                try:
-                    fres_str = f"{float(fres_val):.1f}"
-                except Exception:
-                    fres_str = str(fres_val)
-
+            # pills
             pills = []
             if icd10:
                 pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
             if acc_str:
                 pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
-            if read_str or fres_str:
-                pills.append(f"<div class='pfx-pill'><b>Readability(FRES):</b> {read_str} {fres_str}</div>")
+            if read_str:
+                pills.append(f"<div class='pfx-pill'><b>Readability (FRES):</b> {read_str}</div>")
 
             if pills:
                 st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
             else:
                 st.caption("No advanced stats available for this entry.")
-        else:
-            st.markdown("<div class='pfx-card pfx-muted'>Pick a workflow and finding on the left to view the PFx.</div>", unsafe_allow_html=True)
 
-REQUIRED_SCHEMA = ["finding", "ICD10_code", "PFx", "PFx_ICD10_code","_0_agent_icd10_codes", "_0_icd10_matches", "_0_pfx_icd10_matches", "accuracy", "Flesch_Score"]
-
-def _ensure_schema(df):
-    if df is None:
-        return pd.DataFrame(columns=REQUIRED_SCHEMA)
-    if isinstance(df, dict):
-        df = pd.DataFrame([df])
-    if not isinstance(df, pd.DataFrame):
-        try:
-            df = pd.DataFrame(df)
-        except Exception:
-            return pd.DataFrame(columns=REQUIRED_SCHEMA)
-    for col in REQUIRED_SCHEMA:
-        if col not in df.columns:
-            df[col] = ""
-    return df[REQUIRED_SCHEMA]
-
-def _extract_pfx_text(df):
-    if df is None or "PFx" not in df.columns:
-        return ""
-    vals = [str(x).strip() for x in df["PFx"].fillna("").astype(str) if str(x).strip()]
-    return "\n\n---\n".join(vals)
-
-# ==========================
-# HOME PAGE
-# ==========================
-if page in ("", "home"):
-    for i in range(st.session_state.panel_count):
-        render_home_panel(i)
-        if i < st.session_state.panel_count - 1:
-            st.divider()
-
-    btn_cols = st.columns([1, 1, 6])
-    with btn_cols[0]:
-        if st.button("➕ Add another finding", use_container_width=True):
-            st.session_state.panel_count = min(st.session_state.panel_count + 1, 10)
-            st.rerun()
-    with btn_cols[1]:
-        if st.button("↺ Reset", use_container_width=True):
-            keys_to_clear = [k for k in list(st.session_state.keys()) if k.startswith("wf_") or k.startswith("finding_")]
-            for k in keys_to_clear:
-                del st.session_state[k]
-            st.session_state.panel_count = 1
-            st.rerun()
+            if j < len(selected_findings) - 1:
+                st.divider()
 
 # ==========================
 # GENERATE PAGE (LLM-INTEGRATED)
