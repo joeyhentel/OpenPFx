@@ -12,13 +12,13 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 from jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION
 
 # import fewshot examples
-df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
+df_fewshot = pd.read_csv('pfx_fewshot_examples_college.csv')
 
 # ==========================
 # Page Config
 # ==========================
 st.set_page_config(
-    page_title="PFx: Patient Friendly Explanations",
+    page_title="PFx: Patient Friendly Explanations for Incidental Findings",
     page_icon="💬",
     layout="wide",
 )
@@ -233,8 +233,11 @@ st.markdown(
 # ==========================
 lcol, rcol = st.columns([1, 1], gap="small")
 with lcol:
-    st.title("PFx: Patient Friendly Explanations")
-    st.markdown("- Choose a **workflow** (Zero-shot, Few-shot, Multiple Few-shot, Agentic), then a **finding**.")
+    st.title("OpenPFx: Patient Friendly Explanations for Incidental Findings")
+    st.markdown("Open source explanations of medical imaging findings that help patients understand their medical reports")
+    st.markdown("Radiology reports often include incidental findings that can confuse patients. OpenPFx uses generative AI to generate clear, accurate, and empathetic explanations for these findings.")
+    st.markdown("This page includes radiologist-reviewed PFx for 407 different findings.")
+    st.markdown("Choose a **workflow** (Zero-shot, Few-shot, Multiple Few-shot, Agentic), then a **finding**.")
 with rcol:
     st.markdown(
         """
@@ -292,6 +295,32 @@ def copy_button(js_text: str, key: str, height: int = 60):
 
 
 
+# ---------- helpers ----------
+def _first_col(df, candidates):
+    """Return the first existing column name from candidates (or None)."""
+    for c in candidates:
+        if c in df.columns:
+            return c
+    return None
+
+def _safe_str(x):
+    return ("" if x is None or (isinstance(x, float) and pd.isna(x)) else str(x)).strip()
+
+def _fmt_percent(val):
+    try:
+        f = float(val)
+        # accept either 0–1 or 0–100
+        return f"{(f*100) if 0 <= f <= 1 else f:.1f}%"
+    except Exception:
+        return _safe_str(val)
+
+def _fmt_float(val):
+    try:
+        return f"{float(val):.1f}"
+    except Exception:
+        return _safe_str(val)
+
+# ---------- main panel ----------
 def render_home_panel(idx: int):
     left, right = st.columns([1, 2], gap="large")
 
@@ -413,6 +442,14 @@ def render_home_panel(idx: int):
                 st.divider()
 
 # ==========================
+# HOME PAGE (no add/reset buttons; multiselect does it all)
+# ==========================
+if page in ("", "home"):
+    # If you were previously using st.session_state.panel_count, it’s no longer needed.
+    # Keep idx=0 for stable widget keys.
+    render_home_panel(0)
+
+# ==========================
 # GENERATE PAGE (LLM-INTEGRATED)
 # ==========================
 
@@ -436,10 +473,6 @@ elif page == "generate":
             incidental_finding = st.text_input(
                 "Incidental Finding", key=f"gen_finding_{i}",
                 placeholder="e.g., Hepatic hemangioma"
-            )
-            icd10_code = st.text_input(
-                "ICD-10 Code", key=f"gen_icd10_{i}",
-                placeholder="e.g., D18.03"
             )
             reading_level = st.selectbox(
                 "Reading Level", READING_LEVELS, index=6, key=f"gen_reading_{i}"
@@ -475,7 +508,7 @@ elif page == "generate":
                         )
 
                         def _run_one(fn):
-                            out = fn(incidental_finding, icd10_code, reading_level, ai_model)
+                            out = fn(incidental_finding, reading_level, ai_model)
                             return _ensure_schema(out)
 
                         if workflow_choice == "Zero-shot":
@@ -560,12 +593,9 @@ elif page == "generate":
                             # copy button
                             copy_button(json.dumps(pfx_text), key=f"copy_all_{g}_{i}")
                             # pills
-                            icd10 = (row.get("ICD10_code") or "").strip()
                             acc_str = _fmt_percent(row.get("accuracy"))
                             fres_str = _fmt_num(row.get("Flesch_Score"))
                             pills = []
-                            if icd10:   pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
-                            if acc_str: pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
                             if fres_str:pills.append(f"<div class='pfx-pill'><b>Flesch:</b> {fres_str}</div>")
                             if pills: st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
                             st.divider()
@@ -630,9 +660,6 @@ import requests
 from dotenv import load_dotenv
 import math
 import unicodedata
-
-# import fewshot examples
-df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 
 # import prompts 
 from jh_pfx_prompts import example, icd10_example, baseline_zeroshot_prompt, single_fewshot_icd10_labeling_prompt
