@@ -12,7 +12,7 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 from jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION
 
 # import fewshot examples
-df_fewshot = pd.read_csv('pfx_fewshot_examples_college.csv')
+df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
 
 # ==========================
 # Page Config
