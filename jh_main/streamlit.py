@@ -475,7 +475,7 @@ elif page == "generate":
                 placeholder="e.g., Hepatic hemangioma"
             )
             icd10_code = st.text_input(
-                "ICD-10 Code", key=f"gen_icd10_{i}",
+                "ICD-10 Code (Optional)", key=f"gen_icd10_{i}",
                 placeholder="e.g., D18.03"
             )
             reading_level = st.selectbox(
