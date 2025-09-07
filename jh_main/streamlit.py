@@ -452,6 +452,42 @@ if page in ("", "home"):
 # ==========================
 # GENERATE PAGE (LLM-INTEGRATED)
 # ==========================
+def suggest_icd10_code(incidental_finding: str, ai_model: str | None = None) -> dict:
+    """
+    Returns {"code": "D18.03", "desc": "Hepatic hemangioma"} or {} on failure.
+    """
+    model = ai_model or OPENAI_MODEL
+    system = (
+        "You are a meticulous medical coding assistant. "
+        "Given a brief clinical description of an incidental finding, "
+        "return the *single most likely* ICD-10-CM code and a short description. "
+        "If uncertain, return your best-judgment candidate (do not return multiple). "
+        "Output strictly as compact JSON: {\"code\": \"\", \"desc\": \"\"} with no extra text."
+    )
+    user = f'Incidental finding: "{incidental_finding}"'
+    try:
+        resp = _oai_client.chat.completions.create(
+            model=model,
+            temperature=0,
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+        )
+        raw = resp.choices[0].message.content.strip()
+        # Be defensive: try to locate JSON
+        start = raw.find("{")
+        end = raw.rfind("}")
+        if start != -1 and end != -1:
+            payload = json.loads(raw[start:end+1])
+            code = (payload.get("code") or "").strip()
+            desc = (payload.get("desc") or "").strip()
+            if code:
+                return {"code": code, "desc": desc}
+    except Exception as e:
+        # You can log e if desired
+        pass
+    return {}
 
 elif page == "generate":
     st.subheader("Generate Your Own PFx")
