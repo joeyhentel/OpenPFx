@@ -474,6 +474,10 @@ elif page == "generate":
                 "Incidental Finding", key=f"gen_finding_{i}",
                 placeholder="e.g., Hepatic hemangioma"
             )
+            icd10_code = st.text_input(
+                "ICD-10 Code", key=f"gen_icd10_{i}",
+                placeholder="e.g., D18.03"
+            )
             reading_level = st.selectbox(
                 "Reading Level", READING_LEVELS, index=6, key=f"gen_reading_{i}"
             )
@@ -508,7 +512,7 @@ elif page == "generate":
                         )
 
                         def _run_one(fn):
-                            out = fn(incidental_finding, reading_level, ai_model)
+                            out = fn(incidental_finding, icd10_code, reading_level, ai_model)
                             return _ensure_schema(out)
 
                         if workflow_choice == "Zero-shot":
@@ -593,9 +597,12 @@ elif page == "generate":
                             # copy button
                             copy_button(json.dumps(pfx_text), key=f"copy_all_{g}_{i}")
                             # pills
+                            icd10 = (row.get("ICD10_code") or "").strip()
                             acc_str = _fmt_percent(row.get("accuracy"))
                             fres_str = _fmt_num(row.get("Flesch_Score"))
                             pills = []
+                            if icd10:   pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
+                            if acc_str: pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
                             if fres_str:pills.append(f"<div class='pfx-pill'><b>Flesch:</b> {fres_str}</div>")
                             if pills: st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
                             st.divider()
