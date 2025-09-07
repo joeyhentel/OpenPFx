@@ -507,6 +507,17 @@ elif page == "generate":
                     st.session_state[f"gen_error_{i}"] = "Please enter an Incidental Finding before generating."
                 else:
                     try:
+                        # >>> NEW: auto-suggest ICD-10 if blank
+                        if not (icd10_code or "").strip():
+                            suggestion = suggest_icd10_code(incidental_finding, ai_model)
+                            if suggestion:
+                                icd10_code = suggestion["code"]
+                                st.session_state[f"gen_icd10_{i}"] = icd10_code  # populate the UI field
+                                st.info(f'Auto-filled ICD-10: **{icd10_code}**'
+                                        + (f' — {suggestion.get("desc","")}' if suggestion.get("desc") else ""))
+                            else:
+                                st.warning("Couldn’t auto-suggest an ICD-10 code. Proceeding without one.")
+
                         from streamlit_calls import (
                             zeroshot_call, fewshot_call, agentic_conversation,
                         )
@@ -525,10 +536,9 @@ elif page == "generate":
                             df = _run_one(agentic_conversation)
 
                         elif workflow_choice == "All":
-                            # run all three and tag them so we can label in the UI
-                            df_zero = _run_one(zeroshot_call);      df_zero["_workflow"] = "Zero-shot"
-                            df_few  = _run_one(fewshot_call);       df_few["_workflow"]  = "Few-shot"
-                            df_ag   = _run_one(agentic_conversation); df_ag["_workflow"]   = "Agentic"
+                            df_zero = _run_one(zeroshot_call);         df_zero["_workflow"] = "Zero-shot"
+                            df_few  = _run_one(fewshot_call);          df_few["_workflow"]  = "Few-shot"
+                            df_ag   = _run_one(agentic_conversation);  df_ag["_workflow"]   = "Agentic"
                             df = pd.concat([df_zero, df_few, df_ag], ignore_index=True)
                         else:
                             df = _ensure_schema(None)
