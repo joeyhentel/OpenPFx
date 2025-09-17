@@ -328,36 +328,36 @@ def agentic_conversation(finding, code, grade_level, ai_model):
         return agent_results
     
 
-    def suggest_icd10_code(finding: str, ai_model: str):
-        """Return the best ICD-10 code string for a given finding, or None."""
-        prompt = f"""
-        Suggest the most appropriate ICD-10 code for this incidental finding:
-        "{finding}"
+def suggest_icd10_code(finding: str, ai_model: str):
+    """Return the best ICD-10 code string for a given finding, or None."""
+    prompt = f"""
+    Suggest the most appropriate ICD-10 code for this incidental finding:
+    "{finding}"
 
-        Respond only with valid JSON in the form:
-        {{"code":"<ICD-10>"}}
-        """
+    Respond only with valid JSON in the form:
+    {{"code":"<ICD-10>"}}
+    """
 
-        resp = CLIENT.chat.completions.create(
-            model=ai_model,
-            temperature=0.0,
-            messages=[
-                {"role": "system", "content": "You are a medical coding expert. Output strictly JSON."},
-                {"role": "user", "content": prompt}
-            ],
-            stream=False,
-        )
-        raw = resp.choices[0].message.content.strip()
+    resp = CLIENT.chat.completions.create(
+        model=ai_model,
+        temperature=0.0,
+        messages=[
+            {"role": "system", "content": "You are a medical coding expert. Output strictly JSON."},
+            {"role": "user", "content": prompt}
+        ],
+        stream=False,
+    )
+    raw = resp.choices[0].message.content.strip()
 
-        # Try JSON first
-        try:
-            data = json.loads(raw)
-            code = data.get("code")
-        except json.JSONDecodeError:
-            # fallback to regex if model drifts
-            match = re.search(r'[A-Z][0-9]{2}(?:\.[0-9A-Z]{1,4})?', raw)
-            code = match.group(0) if match else None
+    # Try JSON first
+    try:
+        data = json.loads(raw)
+        code = data.get("code")
+    except json.JSONDecodeError:
+        # fallback to regex if model drifts
+        match = re.search(r'[A-Z][0-9]{2}(?:\.[0-9A-Z]{1,4})?', raw)
+        code = match.group(0) if match else None
 
-        return code
+    return code
                 
                 
