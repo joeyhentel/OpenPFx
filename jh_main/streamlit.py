@@ -75,7 +75,7 @@ def _top_nav(active: str):
     c1, c2 = st.columns([1, 1])
     with c1:
         st.title("OpenPFx")
-        st.caption("PLACEHOLDER: Short tagline about patient-friendly explanations of medical findings.")
+        st.caption("Open source explanations of medical imaging findings to help patients understand their medical reports.")
     with c2:
         st.markdown("""
         <div class="pfx-nav">
@@ -314,7 +314,7 @@ def page_home():
     # Hero
     l, r = st.columns([1.2, 1])
     with l:
-        st.header("PLACEHOLDER: Make medical reports understandable.")
+        st.header("Our goal is to make medical reports understandable.")
         st.write("PLACEHOLDER: One-sentence value prop.")
         st.write("PLACEHOLDER: Secondary sentence about accuracy, empathy, and clarity.")
         st.markdown("- PLACEHOLDER bullet 1\n- PLACEHOLDER bullet 2\n- PLACEHOLDER bullet 3")
