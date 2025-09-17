@@ -28,7 +28,7 @@ from jh_pfx_prompts import (
 
 # Core LLM-backed functions implemented in your separate module
 from streamlit_calls import (
-    suggest_icd10_code,      # returns code string or None
+    suggest_icd10_code,      
     zeroshot_call,
     fewshot_call,
     agentic_conversation,
@@ -77,12 +77,42 @@ def _top_nav(active: str):
         st.title("OpenPFx")
         st.caption("PLACEHOLDER: Short tagline about patient-friendly explanations of medical findings.")
     with c2:
-        st.markdown("<div style='text-align:right;'>", unsafe_allow_html=True)
-        _btn("Home", "home")
-        _btn("Browse PFx", "browse")
-        _btn("Generate", "generate")
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("""
+        <div class="pfx-nav">
+        <form action="" method="get">
+            <input type="hidden" name="page" value="home">
+            <button type="submit" class="pfx-nav-btn">Home</button>
+        </form>
+        <form action="" method="get">
+            <input type="hidden" name="page" value="browse">
+            <button type="submit" class="pfx-nav-btn">Browse PFx</button>
+        </form>
+        <form action="" method="get">
+            <input type="hidden" name="page" value="generate">
+            <button type="submit" class="pfx-nav-btn">Generate</button>
+        </form>
+        </div>
+        <style>
+        .pfx-nav{
+            display:flex;
+            justify-content:flex-end;
+            align-items:center;
+            gap:8px;                 /* space between buttons */
+        }
+        .pfx-nav form{ margin:0; } /* remove default form margins */
+        .pfx-nav-btn{
+            padding:.5rem .9rem;
+            border-radius:10px;
+            border:1px solid #e5e7eb;
+            background:#f0f2f6;
+            color:#111;
+            font-weight:600;
+            cursor:pointer;
+        }
+        </style>
+        """, unsafe_allow_html=True)
     st.divider()
+
 
 # ====== STYLE ======
 st.markdown(
