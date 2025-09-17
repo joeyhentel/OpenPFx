@@ -515,7 +515,7 @@ elif page == "generate":
                                 st.session_state[f"gen_icd10_{i}"] = icd10_code
                                 st.info(f'Auto-filled ICD-10: **{icd10_code}**')
                             else:
-                                st.warning("Couldn’t auto-suggest an ICD-10 code. Proceeding without one."
+                                st.warning("Couldn’t auto-suggest an ICD-10 code. Proceeding without one.")
                         from streamlit_calls import (
                             zeroshot_call, fewshot_call, agentic_conversation,
                         )
