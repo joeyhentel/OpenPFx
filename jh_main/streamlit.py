@@ -10,6 +10,7 @@ from streamlit.components.v1 import html as st_html
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 
 from jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION
+from streamlit_calls import suggest_icd10_code
 
 # import fewshot examples
 df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
@@ -509,15 +510,12 @@ elif page == "generate":
                     try:
                         # >>> NEW: auto-suggest ICD-10 if blank
                         if not (icd10_code or "").strip():
-                            suggestion = suggest_icd10_code(incidental_finding, ai_model)
-                            if suggestion:
-                                icd10_code = suggestion["code"]
-                                st.session_state[f"gen_icd10_{i}"] = icd10_code  # populate the UI field
-                                st.info(f'Auto-filled ICD-10: **{icd10_code}**'
-                                        + (f' — {suggestion.get("desc","")}' if suggestion.get("desc") else ""))
+                            icd10_code = suggest_icd10_code(incidental_finding, ai_model)
+                            if icd10_code:
+                                st.session_state[f"gen_icd10_{i}"] = icd10_code
+                                st.info(f'Auto-filled ICD-10: **{icd10_code}**')
                             else:
-                                st.warning("Couldn’t auto-suggest an ICD-10 code. Proceeding without one.")
-
+                                st.warning("Couldn’t auto-suggest an ICD-10 code. Proceeding without one."
                         from streamlit_calls import (
                             zeroshot_call, fewshot_call, agentic_conversation,
                         )
