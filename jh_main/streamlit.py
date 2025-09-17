@@ -1,19 +1,55 @@
-import pandas as pd
-import re
-import dotenv
+# app.py — cleaned & reordered per your requirements
+
 import os
-import streamlit as st
-from pathlib import Path
 import json
+import re
+from pathlib import Path
+from typing import Optional
+
+import pandas as pd
+import streamlit as st
 from streamlit.components.v1 import html as st_html
 
+# ==========================
+# Config / Constants
+# ==========================
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 
-from jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION
-from streamlit_calls import suggest_icd10_code
+# Prompts (used in dataset normalization and labels on the Home page only)
+from jh_pfx_prompts import (
+    example,
+    icd10_example,
+    single_fewshot_icd10_labeling_prompt,
+    baseline_zeroshot_prompt,
+    writer_prompt,
+    doctor_prompt,
+    readability_checker_prompt,
+    ICD10_LABELER_INSTRUCTION,
+)
 
-# import fewshot examples
-df_fewshot = pd.read_csv('jh_main/pfx_fewshot_examples_college.csv')
+# Core LLM-backed functions
+from streamlit_calls import (
+    suggest_icd10_code,      # returns code string or None
+    zeroshot_call,
+    fewshot_call,
+    agentic_conversation,
+)
+
+# ==========================
+# Data Files
+# ==========================
+try:
+    BASE_DIR = Path(__file__).resolve().parent
+except NameError:
+    BASE_DIR = Path.cwd()
+
+WORKFLOW_FILES = {
+    "Zero-shot":         BASE_DIR / "PFx_final - PFx_Zeroshot.csv",
+    "Few-shot":          BASE_DIR / "PFx_final - PFx_Single_Fewshot.csv",
+    "Multiple Few-shot": BASE_DIR / "PFx_final - PFx_Multiple_Few.csv",
+    "Agentic":           BASE_DIR / "PFx_final - PFx_Agentic.csv",
+}
+LEGACY_FALLBACK = BASE_DIR / "pfx_source.csv"
 
 # ==========================
 # Page Config
@@ -23,40 +59,6 @@ st.set_page_config(
     page_icon="💬",
     layout="wide",
 )
-
-# ==========================
-# Helpers
-# ==========================
-def _get_query_param(name: str, default: str = "") -> str:
-    """Resilient way to read a query parameter across Streamlit versions."""
-    try:
-        qs = st.query_params  # new API (1.31+)
-        val = qs.get(name)
-        if isinstance(val, list):
-            return val[0] if val else default
-        return val if val is not None else default
-    except Exception:
-        try:
-            qs = st.experimental_get_query_params()  # legacy API
-            return (qs.get(name, [default]) or [default])[0]
-        except Exception:
-            return default
-
-# Base directory for local CSVs (works both in `streamlit run` and notebooks)
-try:
-    BASE_DIR = Path(__file__).resolve().parent
-except NameError:
-    BASE_DIR = Path.cwd()
-
-# Files expected next to this script
-WORKFLOW_FILES = {
-    "Zero-shot":         BASE_DIR / "PFx_final - PFx_Zeroshot.csv",
-    "Few-shot":          BASE_DIR / "PFx_final - PFx_Single_Fewshot.csv",
-    "Multiple Few-shot": BASE_DIR / "PFx_final - PFx_Multiple_Few.csv",
-    "Agentic":           BASE_DIR / "PFx_final - PFx_Agentic.csv",
-}
-
-LEGACY_FALLBACK = BASE_DIR / "pfx_source.csv"
 
 # ==========================
 # Session State (stable keys)
@@ -69,12 +71,14 @@ for k, v in {
     if k not in st.session_state:
         st.session_state[k] = v
 
+# ==========================
+# Model & Reading Levels
+# ==========================
 model_options = [
-    "gpt-4o-2024-08-06", 
+    "gpt-4o-2024-08-06",
     "gpt-4o-mini",
 ]
 
-# Reading Level options (UI-only for now)
 PROFESSIONAL = "PROFESSIONAL"
 COLLEGE_GRADUATE = "COLLEGE_GRADUATE"
 COLLEGE = "COLLEGE"
@@ -96,9 +100,57 @@ READING_LEVELS = [
 ]
 
 # ==========================
-# Utilities for result handling
+# Helpers
 # ==========================
-import pandas as pd
+def _get_query_param(name: str, default: str = "") -> str:
+    """Resilient way to read a query parameter across Streamlit versions."""
+    try:
+        qs = st.query_params  # new API (1.31+)
+        val = qs.get(name)
+        if isinstance(val, list):
+            return val[0] if val else default
+        return val if val is not None else default
+    except Exception:
+        try:
+            qs = st.experimental_get_query_params()  # legacy API
+            return (qs.get(name, [default]) or [default])[0]
+        except Exception:
+            return default
+
+def _safe_str(x):
+    return ("" if x is None or (isinstance(x, float) and pd.isna(x)) else str(x)).strip()
+
+def copy_button(js_text: str, key: str, height: int = 60):
+    safe_js_text = json.dumps(js_text)
+    st_html(
+        f"""<div style='margin-top:10px'>
+              <button id='copy-pfx-btn-{key}' style='padding:8px 12px;border-radius:6px;border:1px solid #e5e7eb;background:#f0f2f6;cursor:pointer;font-weight:600;'>📋 Copy PFx</button>
+            </div>
+            <script>
+              (function(){{
+                const btn = document.getElementById('copy-pfx-btn-{key}');
+                const txt = {safe_js_text};
+                if (btn) {{
+                  btn.addEventListener('click', async () => {{
+                    try {{
+                      await navigator.clipboard.writeText(txt);
+                    }} catch (e) {{
+                      const ta = document.createElement('textarea');
+                      ta.value = txt; document.body.appendChild(ta); ta.select();
+                      try {{ document.execCommand('copy'); }} catch(_) {{}}
+                      document.body.removeChild(ta);
+                    }}
+                    const msg = document.createElement('div');
+                    msg.textContent = 'Copied to Clipboard!';
+                    msg.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#111;color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.15);';
+                    document.body.appendChild(msg);
+                    setTimeout(() => msg.remove(), 2000);
+                  }});
+                }}
+              }})();
+            </script>""",
+        height=height,
+    )
 
 REQUIRED_SCHEMA = ["finding", "ICD10_code", "PFx", "PFx_ICD10_code"]
 
@@ -124,11 +176,30 @@ def _extract_pfx_text(df: pd.DataFrame | None) -> str:
     vals = [str(x).strip() for x in df["PFx"].fillna("").astype(str).tolist() if str(x).strip()]
     return "\n\n---\n".join(vals)
 
+def _first_col(df, candidates):
+    for c in candidates:
+        if c in df.columns:
+            return c
+    return None
+
+def _fmt_percent(val):
+    try:
+        f = float(val)
+        return f"{(f*100) if 0 <= f <= 1 else f:.1f}%"
+    except Exception:
+        return _safe_str(val)
+
+def _fmt_float(val):
+    try:
+        return f"{float(val):.1f}"
+    except Exception:
+        return _safe_str(val)
+
 # ==========================
 # Data Loading + Normalization
 # ==========================
 @st.cache_data(show_spinner=False)
-def load_any_csv(path: Path) -> pd.DataFrame | None:
+def load_any_csv(path: Path) -> Optional[pd.DataFrame]:
     if not path.exists():
         return None
     try:
@@ -139,19 +210,17 @@ def load_any_csv(path: Path) -> pd.DataFrame | None:
         except Exception:
             return None
 
-
-def _pick_col(df: pd.DataFrame, candidates: list[str]) -> str | None:
+def _pick_col(df: pd.DataFrame, candidates: list[str]) -> Optional[str]:
     lower_map = {str(c).lower().strip(): c for c in df.columns}
     for want in candidates:
         if want in lower_map:
             return lower_map[want]
     return None
 
-
 def normalize_dataframe(raw: pd.DataFrame) -> pd.DataFrame:
     df = raw.copy()
 
-    # If it's a bare CSV exported without headers
+    # Bare CSV (no headers) fallback
     if all(str(c).startswith("Unnamed") for c in df.columns) and df.shape[1] >= 2:
         df = df.iloc[:, :6]
         df.columns = [
@@ -191,10 +260,9 @@ def normalize_dataframe(raw: pd.DataFrame) -> pd.DataFrame:
     })
 
     out = out.dropna(subset=["Finding"]).copy()
-    out["Finding"] = out["Finding"].stripped if hasattr(out["Finding"], 'stripped') else out["Finding"].str.strip()
+    out["Finding"] = out["Finding"].str.strip()
     out = out.drop_duplicates(subset=["Finding"], keep="first")
     return out
-
 
 @st.cache_data(show_spinner=False)
 def load_all_workflows(workflow_files: dict[str, Path]) -> dict[str, pd.DataFrame]:
@@ -209,7 +277,6 @@ def load_all_workflows(workflow_files: dict[str, Path]) -> dict[str, pd.DataFram
             datasets["Zero-shot"] = normalize_dataframe(legacy)
     return datasets
 
-# Load datasets once
 DATASETS = load_all_workflows(WORKFLOW_FILES)
 
 # ==========================
@@ -258,70 +325,7 @@ page = _get_query_param("page", "home").strip().lower()
 if "panel_count" not in st.session_state:
     st.session_state.panel_count = 1
 
-# ---------- Shared UI bits ----------
-def copy_button(js_text: str, key: str, height: int = 60):
-    import json
-    # Escape js_text safely for JS
-    safe_js_text = json.dumps(js_text)
-
-    st_html(
-        f"""<div style='margin-top:10px'>
-              <button id='copy-pfx-btn-{key}' style='padding:8px 12px;border-radius:6px;border:1px solid #e5e7eb;background:#f0f2f6;cursor:pointer;font-weight:600;'>📋 Copy PFx</button>
-            </div>
-            <script>
-              (function(){{
-                const btn = document.getElementById('copy-pfx-btn-{key}');
-                const txt = {safe_js_text};
-                if (btn) {{
-                  btn.addEventListener('click', async () => {{
-                    try {{
-                      await navigator.clipboard.writeText(txt);
-                    }} catch (e) {{
-                      const ta = document.createElement('textarea');
-                      ta.value = txt; document.body.appendChild(ta); ta.select();
-                      try {{ document.execCommand('copy'); }} catch(_) {{}}
-                      document.body.removeChild(ta);
-                    }}
-                    const msg = document.createElement('div');
-                    msg.textContent = 'Copied to Clipboard!';
-                    msg.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#111;color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.15);';
-                    document.body.appendChild(msg);
-                    setTimeout(() => msg.remove(), 2000);
-                  }});
-                }}
-              }})();
-            </script>""",
-        height=height,
-    )
-
-
-
-# ---------- helpers ----------
-def _first_col(df, candidates):
-    """Return the first existing column name from candidates (or None)."""
-    for c in candidates:
-        if c in df.columns:
-            return c
-    return None
-
-def _safe_str(x):
-    return ("" if x is None or (isinstance(x, float) and pd.isna(x)) else str(x)).strip()
-
-def _fmt_percent(val):
-    try:
-        f = float(val)
-        # accept either 0–1 or 0–100
-        return f"{(f*100) if 0 <= f <= 1 else f:.1f}%"
-    except Exception:
-        return _safe_str(val)
-
-def _fmt_float(val):
-    try:
-        return f"{float(val):.1f}"
-    except Exception:
-        return _safe_str(val)
-
-# ---------- main panel ----------
+# ---------- HOME ----------
 def render_home_panel(idx: int):
     left, right = st.columns([1, 2], gap="large")
 
@@ -335,21 +339,13 @@ def render_home_panel(idx: int):
         workflow = st.selectbox("Select workflow", workflow_names, index=0, key=f"wf_{idx}")
         df = DATASETS[workflow]
 
-        # find the 'finding' column across possible schemas
         finding_col = _first_col(df, ["Finding", "finding"])
         if not finding_col:
             st.error("No 'Finding' column found in the selected dataset.")
             return
 
-        # build options cleanly
         options = sorted(df[finding_col].dropna().astype(str).unique().tolist())
-
-        # true multiselect (no sentinel value)
-        selected_findings = st.multiselect(
-            "Select one or more findings",
-            options,
-            key=f"findings_{idx}",
-        )
+        selected_findings = st.multiselect("Select one or more findings", options, key=f"findings_{idx}")
 
     with right:
         st.subheader("Patient-Friendly Explanation")
@@ -361,21 +357,18 @@ def render_home_panel(idx: int):
             )
             return
 
-        # column fallbacks for content/metrics
         pfx_cols = ["PFx", "pfx", "PFx_text"]
         icd_cols = ["ICD10", "ICD10_code", "PFx_ICD10_code"]
         acc_cols = ["Accuracy", "accuracy"]
         read_cols = ["Readability(FRES)", "Readability (FRES)", "FRES", "Flesch_Score"]
 
         for j, f in enumerate(selected_findings):
-            # row lookup
             row_q = df[df[finding_col].astype(str) == str(f)]
             if row_q.empty:
                 st.caption(f"⚠️ No row found for: {f}")
                 continue
             row = row_q.iloc[0]
 
-            # PFx text
             pfx_text = ""
             for c in pfx_cols:
                 if c in df.columns:
@@ -383,7 +376,6 @@ def render_home_panel(idx: int):
                     if pfx_text:
                         break
 
-            # meta fields
             icd10 = ""
             for c in icd_cols:
                 if c in df.columns:
@@ -399,11 +391,9 @@ def render_home_panel(idx: int):
                         break
 
             read_str = ""
-            # prefer readability value formatted to 1 decimal if numeric
             for c in read_cols:
                 if c in df.columns:
                     val = row.get(c)
-                    # If column name implies Flesch score, format as float; otherwise just show string
                     if c in ("FRES", "Flesch_Score", "Readability(FRES)", "Readability (FRES)"):
                         read_str = _fmt_float(val)
                     else:
@@ -411,21 +401,14 @@ def render_home_panel(idx: int):
                     if read_str:
                         break
 
-            # header for each selected finding
             st.markdown(f"### {f}")
-
-            # PFx card
             st.markdown(
                 f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\"pfx-muted\">No PFx text found for this item.</span>'}</div>",
                 unsafe_allow_html=True,
             )
-
-            # copy button if PFx present
             if pfx_text:
-                js_text = json.dumps(pfx_text)
-                copy_button(js_text, key=f"home-{idx}-{j}")
+                copy_button(json.dumps(pfx_text), key=f"home-{idx}-{j}")
 
-            # pills
             pills = []
             if icd10:
                 pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
@@ -433,52 +416,52 @@ def render_home_panel(idx: int):
                 pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
             if read_str:
                 pills.append(f"<div class='pfx-pill'><b>Readability (FRES):</b> {read_str}</div>")
-
             if pills:
                 st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
-            else:
-                st.caption("No advanced stats available for this entry.")
 
             if j < len(selected_findings) - 1:
                 st.divider()
 
-# ==========================
-# HOME PAGE (no add/reset buttons; multiselect does it all)
-# ==========================
+# ---------- RENDER ----------
 if page in ("", "home"):
-    # If you were previously using st.session_state.panel_count, it’s no longer needed.
-    # Keep idx=0 for stable widget keys.
     render_home_panel(0)
-
-# ==========================
-# GENERATE PAGE (LLM-INTEGRATED)
-# ==========================
 
 elif page == "generate":
     st.subheader("Generate Your Own PFx")
     st.caption("Select workflow, enter details, and generate a patient-friendly explanation.")
 
-    # how many generate panels to render
     if "gen_panel_count" not in st.session_state:
         st.session_state.gen_panel_count = 1
 
     left, right = st.columns([1, 2], gap="large")
 
-    # ---------- LEFT: inputs (multiple panels) ----------
+    # ---------- LEFT: inputs ----------
     with left:
         st.markdown("### Inputs")
 
         for i in range(st.session_state.gen_panel_count):
             st.markdown(f"#### Finding {i+1}")
 
+            # Keys
+            finding_key = f"gen_finding_{i}"
+            icd_key     = f"gen_icd10_{i}"
+
+            # 1) Finding
             incidental_finding = st.text_input(
-                "Incidental Finding", key=f"gen_finding_{i}",
-                placeholder="e.g., Hepatic hemangioma"
+                "Incidental Finding",
+                key=finding_key,
+                placeholder="e.g., Hepatic hemangioma",
             )
-            icd10_code = st.text_input(
-                "ICD-10 Code (Optional)", key=f"gen_icd10_{i}",
-                placeholder="e.g., D18.03"
+
+            # 2) Model (must exist before auto-suggest)
+            ai_model = st.selectbox(
+                "Model",
+                model_options,
+                index=0,
+                key=f"gen_model_{i}",
             )
+
+            # 3) Reading level & workflow
             reading_level = st.selectbox(
                 "Reading Level", READING_LEVELS, index=6, key=f"gen_reading_{i}"
             )
@@ -486,11 +469,28 @@ elif page == "generate":
             workflow_choice = st.selectbox(
                 "Workflow", workflow_options, index=0, key=f"gen_workflow_{i}"
             )
-            ai_model = st.selectbox(
-                "Model", model_options, index=0, key=f"gen_model_{i}"
+
+            # 4) Auto-suggest BEFORE rendering ICD widget
+            if incidental_finding and not st.session_state.get(icd_key):
+                try:
+                    code = suggest_icd10_code(incidental_finding, ai_model)
+                except Exception as _e:
+                    code = None
+                if code:
+                    st.session_state[icd_key] = code
+
+            # 5) ICD widget (render once)
+            icd10_code = st.text_input(
+                "ICD-10 Code (Optional)",
+                key=icd_key,
+                placeholder="e.g., D18.03",
             )
 
-            # per-panel state
+            # 6) Info about auto-fill (optional)
+            if incidental_finding and st.session_state.get(icd_key):
+                st.info(f'Auto-filled ICD-10: **{st.session_state[icd_key]}**')
+
+            # 7) Per-panel state
             if f"gen_df_{i}" not in st.session_state:
                 st.session_state[f"gen_df_{i}"] = None
             if f"gen_pfx_{i}" not in st.session_state:
@@ -498,78 +498,65 @@ elif page == "generate":
             if f"gen_error_{i}" not in st.session_state:
                 st.session_state[f"gen_error_{i}"] = ""
 
-            # Generate
+            # 8) Generate button
             if st.button("🚀 Generate PFx", type="primary", key=f"gen_btn_{i}"):
-                st.session_state[f"gen_error_{i}"] = None
-                st.session_state[f"gen_df_{i}"] = None
-                st.session_state[f"gen_pfx_{i}"] = ""
+                try:
+                    st.session_state[f"gen_error_{i}"] = None
+                    st.session_state[f"gen_df_{i}"] = None
+                    st.session_state[f"gen_pfx_{i}"] = ""
 
-                if not incidental_finding.strip():
-                    st.session_state[f"gen_error_{i}"] = "Please enter an Incidental Finding before generating."
-                else:
-                    try:
-                        # >>> NEW: auto-suggest ICD-10 if blank
-                        if not (icd10_code or "").strip():
-                            icd10_code = suggest_icd10_code(incidental_finding, ai_model)
-                            if icd10_code:
-                                st.session_state[f"gen_icd10_{i}"] = icd10_code
-                                st.info(f'Auto-filled ICD-10: **{icd10_code}**')
-                            else:
-                                st.warning("Couldn’t auto-suggest an ICD-10 code. Proceeding without one.")
-                        from streamlit_calls import (
-                            zeroshot_call, fewshot_call, agentic_conversation,
-                        )
+                    def _run_one(fn):
+                        out = fn(incidental_finding, icd10_code, reading_level, ai_model)
+                        return _ensure_schema(out)
 
-                        def _run_one(fn):
-                            out = fn(incidental_finding, icd10_code, reading_level, ai_model)
-                            return _ensure_schema(out)
+                    if not _safe_str(incidental_finding):
+                        raise ValueError("Please enter an Incidental Finding before generating.")
 
-                        if workflow_choice == "Zero-shot":
-                            df = _run_one(zeroshot_call)
+                    if workflow_choice == "Zero-shot":
+                        df = _run_one(zeroshot_call)
 
-                        elif workflow_choice == "Few-shot":
-                            df = _run_one(fewshot_call)
+                    elif workflow_choice == "Few-shot":
+                        df = _run_one(fewshot_call)
 
-                        elif workflow_choice == "Agentic":
-                            df = _run_one(agentic_conversation)
+                    elif workflow_choice == "Agentic":
+                        df = _run_one(agentic_conversation)
 
-                        elif workflow_choice == "All":
-                            df_zero = _run_one(zeroshot_call);         df_zero["_workflow"] = "Zero-shot"
-                            df_few  = _run_one(fewshot_call);          df_few["_workflow"]  = "Few-shot"
-                            df_ag   = _run_one(agentic_conversation);  df_ag["_workflow"]   = "Agentic"
-                            df = pd.concat([df_zero, df_few, df_ag], ignore_index=True)
-                        else:
-                            df = _ensure_schema(None)
+                    elif workflow_choice == "All":
+                        df_zero = _run_one(zeroshot_call);         df_zero["_workflow"] = "Zero-shot"
+                        df_few  = _run_one(fewshot_call);          df_few["_workflow"]  = "Few-shot"
+                        df_ag   = _run_one(agentic_conversation);  df_ag["_workflow"]   = "Agentic"
+                        df = pd.concat([df_zero, df_few, df_ag], ignore_index=True)
+                    else:
+                        df = _ensure_schema(None)
 
-                        st.session_state[f"gen_df_{i}"]  = df
-                        st.session_state[f"gen_pfx_{i}"] = _extract_pfx_text(df)
-                        if df.empty:
-                            st.session_state[f"gen_error_{i}"] = "No results returned by the selected workflow(s)."
+                    st.session_state[f"gen_df_{i}"]  = df
+                    st.session_state[f"gen_pfx_{i}"] = _extract_pfx_text(df)
+                    if df.empty:
+                        st.session_state[f"gen_error_{i}"] = "No results returned by the selected workflow(s)."
 
-                    except Exception as e:
-                        st.session_state[f"gen_error_{i}"] = f"Error during generation: {e}"
+                except Exception as e:
+                    st.session_state[f"gen_error_{i}"] = f"Error during generation: {e}"
 
+    # ---------- LEFT: add/reset ----------
     btn_cols = st.columns([1, 1, 6], gap="small")
-
     with btn_cols[0]:
         if st.button("➕ Add another finding", use_container_width=True, key="gen_add"):
             st.session_state.gen_panel_count = min(st.session_state.get("gen_panel_count", 1) + 1, 10)
             st.rerun()
-
     with btn_cols[1]:
         if st.button("↺ Reset", use_container_width=True, key="gen_reset"):
             for k in list(st.session_state.keys()):
-                if k.startswith(("gen_finding_", "gen_icd10_", "gen_reading_", "gen_workflow_",
-                                "gen_model_", "gen_btn_", "gen_df_", "gen_pfx_", "gen_error_")):
+                if k.startswith((
+                    "gen_finding_", "gen_icd10_", "gen_reading_", "gen_workflow_",
+                    "gen_model_", "gen_btn_", "gen_df_", "gen_pfx_", "gen_error_"
+                )):
                     del st.session_state[k]
             st.session_state.gen_panel_count = 1
             st.rerun()
 
-                
-
-    # ---------- RIGHT: outputs (multiple panels) ----------
+    # ---------- RIGHT: outputs ----------
     with right:
-        def _fmt_percent(v):
+        def _fmt_percent_local(v):
             if pd.isna(v): return ""
             try:
                 f = float(v)
@@ -577,7 +564,7 @@ elif page == "generate":
             except Exception:
                 return str(v).strip()
 
-        def _fmt_num(v):
+        def _fmt_num_local(v):
             if pd.isna(v): return ""
             try:    return f"{float(v):.1f}"
             except: return str(v).strip()
@@ -590,10 +577,8 @@ elif page == "generate":
             if err:
                 st.error(err)
 
-            # "All" -> three stacked sections
             if wf_choice_i == "All":
                 if isinstance(df_out, pd.DataFrame) and not df_out.empty:
-                    # ensure order Zero-shot, Few-shot, Agentic if tags exist
                     order = ["Zero-shot", "Few-shot", "Agentic"]
                     if "_workflow" in df_out.columns:
                         groups = [g for g in order if g in df_out["_workflow"].unique()]
@@ -602,19 +587,18 @@ elif page == "generate":
                             st.markdown(f"<div style='padding:4px 0;font-weight:600;font-size:1rem;color:#000;'>{g}</div>", unsafe_allow_html=True)
                             pfx_text = (row.get("PFx") or "").strip()
                             st.markdown(f"<div class='pfx-card'>{pfx_text}</div>", unsafe_allow_html=True)
-                            # copy button
                             copy_button(json.dumps(pfx_text), key=f"copy_all_{g}_{i}")
-                            # pills
-                            icd10 = (row.get("ICD10_code") or "").strip()
-                            acc_str = _fmt_percent(row.get("accuracy"))
-                            fres_str = _fmt_num(row.get("Flesch_Score"))
+
+                            icd10   = (row.get("ICD10_code") or "").strip()
+                            acc_str = _fmt_percent_local(row.get("accuracy"))
+                            fres_str= _fmt_num_local(row.get("Flesch_Score"))
                             pills = []
                             if icd10:   pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
                             if acc_str: pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
                             if fres_str:pills.append(f"<div class='pfx-pill'><b>Flesch:</b> {fres_str}</div>")
                             if pills: st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
                             st.divider()
-                    # CSV for this panel
+
                     st.markdown("### Generation Details")
                     try:
                         st.download_button(
@@ -627,7 +611,6 @@ elif page == "generate":
                     except Exception:
                         pass
 
-            # Single workflow -> single card + pills
             else:
                 st.markdown(f"### Patient-Friendly Explanation ({i+1})")
                 pfx_text = (st.session_state.get(f"gen_pfx_{i}") or "").strip()
@@ -639,8 +622,8 @@ elif page == "generate":
                 if isinstance(df_out, pd.DataFrame) and not df_out.empty:
                     row = df_out.iloc[0]
                     icd10   = (row.get("ICD10_code") or "").strip()
-                    acc_str = _fmt_percent(row.get("accuracy"))
-                    fres_str= _fmt_num(row.get("Flesch_Score"))
+                    acc_str = _fmt_percent_local(row.get("accuracy"))
+                    fres_str= _fmt_num_local(row.get("Flesch_Score"))
                     pills = []
                     if icd10:   pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
                     if acc_str: pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
@@ -663,49 +646,3 @@ elif page == "generate":
 # ==========================
 else:
     st.info("Unknown page. Use the buttons above to navigate.")
-
-import pandas as pd
-import os
-import textstat
-from openai import OpenAI
-CLIENT = OpenAI()
-import json
-import re
-import requests
-from dotenv import load_dotenv
-import math
-import unicodedata
-
-# import prompts 
-from jh_pfx_prompts import example, icd10_example, baseline_zeroshot_prompt, single_fewshot_icd10_labeling_prompt
-
-from autogen import LLMConfig
-from autogen import ConversableAgent, LLMConfig
-from autogen.agentchat import initiate_group_chat
-from autogen.agentchat.group.patterns import RoundRobinPattern
-from autogen.agentchat.group import OnCondition, StringLLMCondition
-from autogen.agentchat.group import AgentTarget
-from autogen.agentchat.group import TerminateTarget
-
-from pydantic import BaseModel, Field
-from typing import Optional
-from typing import Annotated
-
-from call_functions import extract_json, label_icd10s, extract_json_gpt4o
-from tools import calculate_fres
-
-from typing import Annotated
-
-# import necessary libraries 
-import pandas as pd
-import os
-import textstat
-from openai import OpenAI
-import json
-import re
-import requests
-from dotenv import load_dotenv
-import math
-import unicodedata
-
-from jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION
