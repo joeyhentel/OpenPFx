@@ -1,0 +1,2036 @@
+finding,Word Count,_0_flesch,accuracy,relaxed_accuracy,relaxed_overall_score
+Adrenal Adenoma,89,61.87,1,1,1.676678636
+Adrenal Adenoma,93,64.2,1,1,1.676652602
+Adrenal Adenoma,93,64.2,1,1,1.676652602
+Adrenal Adenoma,93,64.2,1,1,1.676652602
+Adrenal Adenoma,88,56.55,1,1,1.676722678
+Adrenal Hematoma,88,70.53,0,0,0.1974473516
+Adrenal Hematoma,86,70.94,0,0,0.197378768
+Adrenal Hematoma,87,62.27,0,0,0.198328458
+Adrenal Hematoma,87,62.27,0,0,0.198328458
+Adrenal Hematoma,91,72.97,0,0,0.1969765684
+Adrenal Hyperplasia,90,70.13,1,1,1.676552024
+Adrenal Hyperplasia,92,61.26,1,1,1.676684644
+Adrenal Hyperplasia,93,61.06,1,1,1.676686551
+Adrenal Hyperplasia,99,71.65,1,1,1.67651293
+Adrenal Hyperplasia,88,70.53,1,1,1.676542477
+Adrenal Mass,95,72.36,0,0,0.1971098266
+Adrenal Mass,95,72.36,0,0,0.1971098266
+Adrenal Mass,95,72.36,0,0,0.1971098266
+Adrenal Mass,95,72.36,0,0,0.1971098266
+Adrenal Mass,95,72.36,0,0,0.1971098266
+Adrenal Cortical Adenoma,93,61.06,1,1,1.676686551
+Adrenal Cortical Adenoma,93,61.06,1,1,1.676686551
+Adrenal Cortical Adenoma,91,61.46,1,1,1.676682707
+Adrenal Cortical Adenoma,91,61.46,1,1,1.676682707
+Adrenal Cortical Adenoma,96,68.91,1,1,1.676578393
+Adrenal Hyperfunction,91,78.38,1,1,1.676154307
+Adrenal Hyperfunction,88,78.99,1,1,1.676088136
+Adrenal Hyperfunction,92,78.18,1,1,1.676173778
+Adrenal Hyperfunction,87,79.19,1,1,1.676063889
+Adrenal Hyperfunction,88,78.99,1,1,1.676088136
+Adrenal Gland Tumor,95,72.36,0,0,0.1971098266
+Adrenal Gland Tumor,98,71.85,0,0,0.1972125436
+Adrenal Gland Tumor,98,71.85,0,0,0.1972125436
+Adrenal Gland Tumor,99,71.65,0,0,0.1972508591
+Adrenal Gland Tumor,92,72.87,0,0,0.1969992498
+Adrenal Cyst,93,69.52,0.5,0.5,0.9103669971
+Adrenal Cyst,96,68.91,0.5,0.5,0.9103933854
+Adrenal Cyst,93,61.06,0.5,0.5,0.9106182915
+Adrenal Cyst,90,61.67,0.5,0.5,0.9106059917
+Adrenal Cyst,96,68.91,0.5,0.5,0.9103933854
+Bladder Diverticulum,86,70.94,1,1,1.676532168
+Bladder Diverticulum,87,70.73,1,1,1.676537517
+Bladder Diverticulum,86,62.48,1,1,1.676672317
+Bladder Diverticulum,86,62.48,1,1,1.676672317
+Bladder Diverticulum,90,70.13,1,1,1.676552024
+Bladder Mass,94,72.46,0.5,0.5,0.9102067394
+Bladder Mass,98,63.39,0.5,0.5,0.9105677539
+Bladder Mass,94,64,0.5,0.5,0.9105527638
+Bladder Mass,92,64.41,0.5,0.5,0.9105422149
+Bladder Mass,98,63.39,0.5,0.5,0.9105677539
+Bladder Wall Thickening,90,64.71,0.5,0.5,0.9105342402
+Bladder Wall Thickening,91,64.51,0.5,0.5,0.9105395813
+Bladder Wall Thickening,86,65.42,0.5,0.5,0.9105144453
+Bladder Wall Thickening,86,65.42,0.5,0.5,0.9105144453
+Bladder Wall Thickening,86,65.42,0.5,0.5,0.9105144453
+Bladder Stone,94,60.85,1,1,1.67668852
+Bladder Stone,91,61.46,1,1,1.676682707
+Bladder Stone,90,61.67,1,1,1.676680639
+Bladder Stone,92,61.26,1,1,1.676684644
+Bladder Stone,91,61.46,1,1,1.676682707
+Bladder Cyst,85,73.98,0,0,0.1967266776
+Bladder Cyst,87,73.68,0,0,0.1968051118
+Bladder Cyst,89,73.37,0,0,0.1968823071
+Bladder Cyst,91,72.97,0,0,0.1969765684
+Bladder Cyst,86,65.42,0,0,0.1980750722
+Bladder Calculus,90,70.13,1,1,1.676552024
+Bladder Calculus,98,71.85,1,1,1.676507164
+Bladder Calculus,91,72.97,1,1,1.676471624
+Bladder Calculus,97,71.95,1,1,1.67650422
+Bladder Calculus,85,82.44,1,1,1.675296108
+Bladder Cancer,93,64.2,1,1,1.676652602
+Bladder Cancer,96,63.7,1,1,1.676658646
+Bladder Cancer,92,64.41,1,1,1.67664998
+Bladder Cancer,92,64.41,1,1,1.67664998
+Bladder Cancer,93,64.2,1,1,1.676652602
+Bladder Diverticula,85,57.06,1,1,1.676719156
+Bladder Diverticula,82,49.11,1,1,1.676763011
+Bladder Diverticula,95,57.67,1,1,1.676714777
+Bladder Diverticula,95,57.67,1,1,1.676714777
+Bladder Diverticula,95,57.67,1,1,1.676714777
+Neurogenic Bladder,92,35.88,1,1,1.676805198
+Neurogenic Bladder,88,36.69,1,1,1.676803265
+Neurogenic Bladder,92,35.88,1,1,1.676805198
+Neurogenic Bladder,94,35.47,1,1,1.676806153
+Neurogenic Bladder,89,36.49,1,1,1.676803748
+Gallbladder Polyps,83,71.55,0,1,1.797269625
+Gallbladder Polyps,91,64.51,0,1,1.798155832
+Gallbladder Polyps,91,64.51,0,1,1.798155832
+Gallbladder Polyps,92,64.41,0.5,1,1.710542215
+Gallbladder Polyps,89,64.91,0,1,1.798121184
+Cholelithiasis,91,78.38,1,1,1.676154307
+Cholelithiasis,88,73.47,1,1,1.676453719
+Cholelithiasis,87,73.68,1,1,1.676445768
+Cholelithiasis,87,70.73,1,1,1.676537517
+Cholelithiasis,87,73.68,1,1,1.676445768
+Gallstones,92,72.87,1,1,1.676475042
+Gallstones,87,65.22,1,1,1.676639374
+Gallstones,89,73.37,1,1,1.676457413
+Gallstones,92,69.72,1,1,1.676561324
+Gallstones,92,64.41,1,1,1.67664998
+Gallbladder Sludge,89,61.87,0,0,0.1983559392
+Gallbladder Sludge,92,61.26,0,0,0.1983961508
+Gallbladder Sludge,89,61.87,0,0,0.1983559392
+Gallbladder Sludge,91,61.46,0,0,0.1983831851
+Gallbladder Sludge,88,70.53,0,0,0.1974473516
+Gallbladder Wall Thickening,88,62.07,0,0,0.1983423125
+Gallbladder Wall Thickening,87,56.76,0,0,0.1986413043
+Gallbladder Wall Thickening,84,54.42,0,0,0.1987413468
+Gallbladder Wall Thickening,85,57.06,0,0,0.1986273164
+Gallbladder Wall Thickening,84,54.42,0,0,0.1987413468
+Gallbladder Tumor,91,61.46,1,1,1.676682707
+Gallbladder Tumor,90,64.71,0.5,0.5,0.9105342402
+Gallbladder Tumor,90,64.71,0.5,0.5,0.9105342402
+Gallbladder Tumor,91,61.46,1,1,1.676682707
+Gallbladder Tumor,83,63.09,0.5,0.5,0.9105748347
+Adenomyomatosis,83,54.63,1,1,1.676734914
+Adenomyomatosis,83,46.17,1,1,1.676774803
+Adenomyomatosis,89,56.45,1,1,1.676723355
+Adenomyomatosis,83,54.63,0.5,1,1.71071895
+Adenomyomatosis,84,54.42,0.5,1,1.710721548
+Porcelain Gallbladder,96,51.99,1,1,1.676749487
+Porcelain Gallbladder,91,53,1,1,1.676744186
+Porcelain Gallbladder,91,53,1,1,1.676744186
+Porcelain Gallbladder,93,61.06,1,1,1.676686551
+Porcelain Gallbladder,91,53,1,1,1.676744186
+Gallbladder Agenesis,97,55.03,1,1,1.676732489
+Gallbladder Agenesis,84,54.42,1,1,1.676736162
+Gallbladder Agenesis,87,53.81,1,1,1.676739695
+Gallbladder Agenesis,93,52.6,1,1,1.676746324
+Gallbladder Agenesis,86,45.56,1,1,1.676777035
+Intestinal Polyp,93,64.2,1,1,1.676652602
+Intestinal Polyp,90,64.71,1,1,1.676646146
+Intestinal Polyp,91,64.51,1,1,1.676648714
+Intestinal Polyp,90,64.71,1,1,1.676646146
+Intestinal Polyp,84,65.73,1,1,1.676632263
+Diverticulosis,88,62.07,1,1,1.6766766
+Diverticulosis,96,60.45,1,1,1.676692181
+Diverticulosis,86,62.48,1,1,1.676672317
+Diverticulosis,86,62.48,1,1,1.676672317
+Diverticulosis,86,62.48,1,1,1.676672317
+Appendicitis,88,45.15,1,1,1.676778498
+Appendicitis,83,46.17,1,1,1.676774803
+Appendicitis,87,45.35,1,1,1.676777788
+Appendicitis,88,45.15,1,1,1.676778498
+Appendicitis,88,45.15,1,1,1.676778498
+Ileus,90,61.67,1,1,1.676680639
+Ileus,95,63.9,1,1,1.676656261
+Ileus,90,61.67,1,1,1.676680639
+Ileus,94,55.54,1,1,1.676729306
+Ileus,90,61.67,1,1,1.676680639
+Bowel Wall Thickening,92,69.72,0,0,0.1975728155
+Bowel Wall Thickening,92,69.72,0,0,0.1975728155
+Bowel Wall Thickening,90,73.17,0,0,0.1969301612
+Bowel Wall Thickening,92,69.72,0,0,0.1975728155
+Bowel Wall Thickening,92,69.72,0,0,0.1975728155
+Intussusception,82,59.6,1,1,1.676699593
+Intussusception,86,60.51,1,1,1.676691639
+Intussusception,82,59.6,1,1,1.676699593
+Intussusception,86,67.45,1,1,1.67660541
+Intussusception,86,67.45,1,1,1.67660541
+Crohn's Disease,86,65.42,1,1,1.676636628
+Crohn's Disease,87,65.22,1,1,1.676639374
+Crohn's Disease,85,65.52,1,1,1.676635234
+Crohn's Disease,85,65.52,1,1,1.676635234
+Crohn's Disease,87,65.22,1,1,1.676639374
+Intestinal Wall Thickening,92,69.72,0,0,0.1975728155
+Intestinal Wall Thickening,91,69.92,0,0,0.1975429975
+Intestinal Wall Thickening,92,69.72,0,0,0.1975728155
+Intestinal Wall Thickening,91,69.92,0,0,0.1975429975
+Intestinal Wall Thickening,91,72.97,0,0,0.1969765684
+Colonic Diverticula,89,73.37,1,1,1.676457413
+Colonic Diverticula,85,71.14,1,1,1.676526934
+Colonic Diverticula,91,64.51,1,1,1.676648714
+Colonic Diverticula,83,63.09,1,1,1.676665663
+Colonic Diverticula,89,73.37,1,1,1.676457413
+Colonic Polyp,85,71.14,1,1,1.676526934
+Colonic Polyp,92,72.87,1,1,1.676475042
+Colonic Polyp,91,78.38,1,1,1.676154307
+Colonic Polyp,91,78.38,1,1,1.676154307
+Colonic Polyp,95,69.11,1,1,1.67657433
+Mesenteric Cyst,98,71.85,0,0,0.1972125436
+Mesenteric Cyst,98,71.85,0,0,0.1972125436
+Mesenteric Cyst,98,71.85,0,0,0.1972125436
+Mesenteric Cyst,98,71.85,0,0,0.1972125436
+Mesenteric Cyst,96,72.16,0,0,0.1971509972
+Intestinal Stricture,89,65.76,1,1,1.676631834
+Intestinal Stricture,88,57.61,1,1,1.676715216
+Intestinal Stricture,89,73.37,1,1,1.676457413
+Intestinal Stricture,91,56.79,1,1,1.676721036
+Intestinal Stricture,97,68.7,1,1,1.676582559
+Simple Renal Cyst,84,71.34,1,1,1.676521558
+Simple Renal Cyst,87,70.73,1,1,1.676537517
+Simple Renal Cyst,91,69.92,1,1,1.676556846
+Simple Renal Cyst,99,71.65,1,1,1.67651293
+Simple Renal Cyst,94,60.85,1,1,1.67668852
+Angiomyolipoma,88,62.07,1,1,1.6766766
+Angiomyolipoma,87,62.27,1,1,1.676674529
+Angiomyolipoma,90,61.67,1,1,1.676680639
+Angiomyolipoma,86,62.48,1,1,1.676672317
+Angiomyolipoma,87,62.27,1,1,1.676674529
+Hydronephrosis,92,65.05,1,1,1.676641668
+Hydronephrosis,92,69.72,1,1,1.676561324
+Hydronephrosis,99,68.3,1,1,1.676590221
+Hydronephrosis,98,68.5,1,1,1.676586433
+Hydronephrosis,99,76.76,1,1,1.676287979
+Kidney Stones,89,75.5,1,1,1.676363636
+Kidney Stones,89,75.5,1,1,1.676363636
+Kidney Stones,89,75.5,1,1,1.676363636
+Kidney Stones,90,75.3,1,1,1.676374019
+Kidney Stones,90,75.3,1,1,1.676374019
+Renal Atrophy,91,72.97,0,1,1.796976568
+Renal Atrophy,92,72.87,0,1,1.79699925
+Renal Atrophy,91,72.97,0.5,1,1.710171641
+Renal Atrophy,93,72.66,0.5,1,1.710193293
+Renal Atrophy,91,72.97,0,1,1.796976568
+Renal Mass,87,62.27,0,0,0.198328458
+Renal Mass,90,56.25,0,0,0.1986644407
+Renal Mass,90,64.71,0,0,0.1981386691
+Renal Mass,90,64.71,0,0,0.1981386691
+Renal Mass,92,72.87,0,0,0.1969992498
+Polycystic Kidney Disease,89,64.91,1,1,1.676643529
+Polycystic Kidney Disease,102,54.22,1,1,1.676737335
+Polycystic Kidney Disease,91,72.97,1,1,1.676471624
+Polycystic Kidney Disease,97,71.95,1,1,1.67650422
+Polycystic Kidney Disease,95,55.44,1,1,1.676729939
+Renal Cortical Thinning,99,54.73,0,0,0.1987289482
+Renal Cortical Thinning,99,54.73,0,0,0.1987289482
+Renal Cortical Thinning,99,54.73,0,0,0.1987289482
+Renal Cortical Thinning,87,53.81,0,0,0.1987650509
+Renal Cortical Thinning,98,46.47,0,0,0.1989932041
+Renal Cyst with Septations,89,78.79,1,1,1.676111052
+Renal Cyst with Septations,94,69.31,1,1,1.67657017
+Renal Cyst with Septations,89,78.79,1,1,1.676111052
+Renal Cyst with Septations,95,69.11,1,1,1.67657433
+Renal Cyst with Septations,89,78.79,1,1,1.676111052
+Medullary Sponge Kidney,94,72.46,1,1,1.676488532
+Medullary Sponge Kidney,89,64.91,1,1,1.676643529
+Medullary Sponge Kidney,89,64.91,1,1,1.676643529
+Medullary Sponge Kidney,87,65.22,1,1,1.676639374
+Medullary Sponge Kidney,94,72.46,1,1,1.676488532
+Renal Artery Aneurysm,91,81.43,1,1,1.675649727
+Renal Artery Aneurysm,96,80.62,1,1,1.675838737
+Renal Artery Aneurysm,95,80.82,1,1,1.675797483
+Renal Artery Aneurysm,99,80.11,1,1,1.675931417
+Renal Artery Aneurysm,95,69.11,1,1,1.67657433
+Hepatic Cyst,96,51.99,0.5,1,1.710749292
+Hepatic Cyst,97,60.24,0.5,1,1.710633912
+Hepatic Cyst,88,57.61,0,1,1.798600909
+Hepatic Cyst,97,60.24,0.5,1,1.710633912
+Hepatic Cyst,96,51.99,0.5,1,1.710749292
+Hepatic Hemangioma,86,54.02,1,1,1.676738494
+Hepatic Hemangioma,88,62.07,1,1,1.6766766
+Hepatic Hemangioma,88,62.07,1,1,1.6766766
+Hepatic Hemangioma,86,54.02,1,1,1.676738494
+Hepatic Hemangioma,88,62.07,1,1,1.6766766
+Hepatomegaly,115,60.45,1,1,1.676692181
+Hepatomegaly,104,70.84,1,1,1.676534733
+Hepatomegaly,92,61.26,1,1,1.676684644
+Hepatomegaly,93,55.74,1,1,1.676728029
+Hepatomegaly,92,64.41,1,1,1.67664998
+Liver Steatosis,93,66.44,1,1,1.676621749
+Liver Steatosis,89,56.45,1,1,1.676723355
+Liver Steatosis,94,55.54,1,1,1.676729306
+Liver Steatosis,92,52.8,1,1,1.676745261
+Liver Steatosis,92,55.95,1,1,1.676726669
+Liver Cirrhosis,91,53,0.5,1,1.710738255
+Liver Cirrhosis,91,53,0.5,1,1.710738255
+Liver Cirrhosis,93,61.06,0.5,1,1.710618291
+Liver Cirrhosis,94,52.39,0.5,1,1.710745
+Liver Cirrhosis,89,61.87,0.5,1,1.710601824
+Liver Mass,92,69.72,0,0.5,0.9975728155
+Liver Mass,100,68.1,0,0.5,0.9977900552
+Liver Mass,98,71.85,0,1,1.797212544
+Liver Mass,96,68.91,0,0.5,0.997686524
+Liver Mass,100,68.1,0,0.5,0.9977900552
+Hepatic Adenoma,94,72.46,1,1,1.676488532
+Hepatic Adenoma,93,64.2,1,1,1.676652602
+Hepatic Adenoma,92,55.95,1,1,1.676726669
+Hepatic Adenoma,92,55.95,1,1,1.676726669
+Hepatic Adenoma,94,60.85,1,1,1.67668852
+Liver Metastasis,92,61.26,1,1,1.676684644
+Liver Metastasis,92,61.26,1,1,1.676684644
+Liver Metastasis,92,61.26,1,1,1.676684644
+Liver Metastasis,92,61.26,1,1,1.676684644
+Liver Metastasis,86,62.48,1,1,1.676672317
+Liver Hemangioma,92,69.72,1,1,1.676561324
+Liver Hemangioma,89,70.33,1,1,1.676547311
+Liver Hemangioma,89,70.33,1,1,1.676547311
+Liver Hemangioma,89,70.33,1,1,1.676547311
+Liver Hemangioma,92,69.72,1,1,1.676561324
+Focal Nodular Hyperplasia,89,53.41,0,0,0.1987801159
+Focal Nodular Hyperplasia,90,61.67,0,0,0.1983693437
+Focal Nodular Hyperplasia,96,60.45,0,0,0.1984466019
+Focal Nodular Hyperplasia,91,53,0,0,0.1987951807
+Focal Nodular Hyperplasia,89,61.87,0,0,0.1983559392
+Hepatic Steatosis,88,62.07,1,1,1.6766766
+Hepatic Steatosis,88,62.07,1,1,1.6766766
+Hepatic Steatosis,97,51.78,1,1,1.676750549
+Hepatic Steatosis,96,51.99,1,1,1.676749487
+Hepatic Steatosis,92,52.8,1,1,1.676745261
+Hepatic Calcification,95,46.98,0.5,1,1.710795616
+Hepatic Calcification,89,56.45,0.5,1,1.710694887
+Hepatic Calcification,95,46.98,0.5,1,1.710795616
+Hepatic Calcification,91,56.05,0.5,1,1.710700425
+Hepatic Calcification,89,56.45,0.5,1,1.710694887
+Liver Abscess,83,63.09,1,1,1.676665663
+Liver Abscess,92,69.72,1,1,1.676561324
+Liver Abscess,91,69.92,1,1,1.676556846
+Liver Abscess,91,69.92,1,1,1.676556846
+Liver Abscess,94,72.46,1,1,1.676488532
+Hepatic Regeneration Nodule,90,61.67,1,1,1.676680639
+Hepatic Regeneration Nodule,94,52.39,1,1,1.676747425
+Hepatic Regeneration Nodule,92,61.26,1,1,1.676684644
+Hepatic Regeneration Nodule,93,61.06,1,1,1.676686551
+Hepatic Regeneration Nodule,90,61.67,1,1,1.676680639
+Pancreatic Cyst,86,62.48,1,1,1.676672317
+Pancreatic Cyst,93,64.2,1,1,1.676652602
+Pancreatic Cyst,90,61.67,1,1,1.676680639
+Pancreatic Cyst,86,62.48,1,1,1.676672317
+Pancreatic Cyst,91,72.97,1,1,1.676471624
+Pancreatic Pseudocyst,91,56.05,1,1,1.676726015
+Pancreatic Pseudocyst,93,61.06,1,1,1.676686551
+Pancreatic Pseudocyst,93,61.06,1,1,1.676686551
+Pancreatic Pseudocyst,92,61.26,1,1,1.676684644
+Pancreatic Pseudocyst,91,56.05,1,1,1.676726015
+Pancreatic Mass,92,69.72,0,0,0.1975728155
+Pancreatic Mass,92,69.72,0,0,0.1975728155
+Pancreatic Mass,98,63.39,0.5,0.5,0.9105677539
+Pancreatic Mass,101,62.88,0,0,0.1982847341
+Pancreatic Mass,92,69.72,0,0,0.1975728155
+Pancreatitis,87,48.3,1,1,1.676766443
+Pancreatitis,86,48.5,1,1,1.676765609
+Pancreatitis,86,48.5,1,1,1.676765609
+Pancreatitis,87,48.3,1,1,1.676766443
+Pancreatitis,87,56.76,1,1,1.676721243
+Pancreatic Atrophy,95,52.19,0,1,1.798823875
+Pancreatic Atrophy,87,62.27,0,1,1.798328458
+Pancreatic Atrophy,96,51.99,0,1,1.798830751
+Pancreatic Atrophy,90,61.67,0,1,1.798369344
+Pancreatic Atrophy,91,53,0,1,1.798795181
+Intraductal Papillary Mucinous Neoplasm,85,65.52,0,1,1.798065764
+Intraductal Papillary Mucinous Neoplasm,86,62.48,0,1,1.798313659
+Intraductal Papillary Mucinous Neoplasm,93,72.66,0,1,1.79704579
+Intraductal Papillary Mucinous Neoplasm,88,73.47,0,1,1.796857816
+Intraductal Papillary Mucinous Neoplasm,89,73.37,0,1,1.796882307
+Pancreatic Calcification,92,47.49,0,1,1.798966675
+Pancreatic Calcification,93,47.28,0,1,1.798972251
+Pancreatic Calcification,90,40.18,0,1,1.799130813
+Pancreatic Calcification,87,48.3,0,0.5,0.998944591
+Pancreatic Calcification,96,46.78,0,0.5,0.9989852867
+Pancreatic Fatty Infiltration,84,48.81,0,1,1.798930195
+Pancreatic Fatty Infiltration,84,48.81,0,1,1.798930195
+Pancreatic Fatty Infiltration,90,44.75,0,1,1.799034982
+Pancreatic Fatty Infiltration,84,48.81,0,1,1.798930195
+Pancreatic Fatty Infiltration,94,55.54,0,1,1.798695369
+Retroperitoneal Fibrosis,89,70.33,0,1,1.797479521
+Retroperitoneal Fibrosis,94,69.31,0,1,1.797631735
+Retroperitoneal Fibrosis,89,70.33,0,1,1.797479521
+Retroperitoneal Fibrosis,94,69.31,0,1,1.797631735
+Retroperitoneal Fibrosis,89,70.33,0,1,1.797479521
+Retroperitoneal Mass,92,72.87,0,0,0.1969992498
+Retroperitoneal Mass,86,79.4,0,0,0.1941176471
+Retroperitoneal Mass,92,72.87,0,0,0.1969992498
+Retroperitoneal Mass,99,71.65,0,0,0.1972508591
+Retroperitoneal Mass,86,65.42,0,0,0.1980750722
+Retroperitoneal Tumor,92,61.26,0,1,1.798396151
+Retroperitoneal Tumor,93,64.2,0,1,1.798181818
+Retroperitoneal Tumor,90,70.13,0,1,1.79751089
+Retroperitoneal Tumor,88,62.07,0,1,1.798342312
+Retroperitoneal Tumor,93,64.2,0,1,1.798181818
+Retroperitoneal Hematoma,88,53.61,0,0,0.1987726296
+Retroperitoneal Hematoma,91,69.92,0,0,0.1975429975
+Retroperitoneal Hematoma,94,69.31,0,0,0.1976317348
+Retroperitoneal Hematoma,87,70.73,0,0,0.1974143504
+Retroperitoneal Hematoma,92,69.72,0,0,0.1975728155
+Retroperitoneal Fibromatosis,91,53,0,0,0.1987951807
+Retroperitoneal Fibromatosis,95,60.65,0,0,0.1984344423
+Retroperitoneal Fibromatosis,92,52.8,0,0.5,0.9988023952
+Retroperitoneal Fibromatosis,93,52.6,0,0.5,0.9988095238
+Retroperitoneal Fibromatosis,91,53,0,0,0.1987951807
+Retroperitoneal Lymphadenopathy,89,70.33,0,1,1.797479521
+Retroperitoneal Lymphadenopathy,90,61.67,0,1,1.798369344
+Retroperitoneal Lymphadenopathy,90,61.67,0,1,1.798369344
+Retroperitoneal Lymphadenopathy,92,64.41,0,1,1.798164296
+Retroperitoneal Lymphadenopathy,88,70.53,0,1,1.797447352
+Splenomegaly,103,67.49,1,1,1.676604726
+Splenomegaly,102,67.69,1,1,1.676601263
+Splenomegaly,100,71.44,1,1,1.676518814
+Splenomegaly,98,80.31,1,1,1.675897025
+Splenomegaly,103,67.49,1,1,1.676604726
+Splenic Cyst,94,64.54,1,1,1.676648332
+Splenic Cyst,94,64.54,1,1,1.676648332
+Splenic Cyst,86,73.88,1,1,1.676437941
+Splenic Cyst,91,81.43,1,1,1.675649727
+Splenic Cyst,87,73.68,1,1,1.676445768
+Splenic Infarction,96,72.16,1,1,1.6764979
+Splenic Infarction,93,81.12,1,1,1.675729361
+Splenic Infarction,95,80.82,1,1,1.675797483
+Splenic Infarction,93,81.12,1,1,1.675729361
+Splenic Infarction,96,80.62,1,1,1.675838737
+Accessory Spleen,95,69.11,0,0.5,0.99765945
+Accessory Spleen,92,61.26,0,0.5,0.9983961508
+Accessory Spleen,93,69.52,0,0.5,0.9976019185
+Accessory Spleen,95,69.11,0,0.5,0.99765945
+Accessory Spleen,93,69.52,0,0.5,0.9976019185
+Splenic Mass,85,58.32,0,0,0.1985652798
+Splenic Mass,85,58.32,0,0,0.1985652798
+Splenic Mass,90,65.56,0,0,0.1980620155
+Splenic Mass,86,66.57,0,0,0.1979623026
+Splenic Mass,85,66.78,0,0,0.1979402678
+Splenic Calcification,83,57.47,0,0,0.1986077271
+Splenic Calcification,86,56.96,0,0,0.1986320109
+Splenic Calcification,86,56.96,0,0,0.1986320109
+Splenic Calcification,86,56.96,0,0,0.1986320109
+Splenic Calcification,81,57.77,0,0,0.1985930355
+Splenic Laceration,88,62.07,0,1,1.798342312
+Splenic Laceration,85,58.32,0,1,1.79856528
+Splenic Laceration,89,61.87,0,1,1.798355939
+Splenic Laceration,88,62.07,0,1,1.798342312
+Splenic Laceration,88,62.07,0,1,1.798342312
+Gastric Polyp,93,81.12,0,0,0.1921259843
+Gastric Polyp,91,78.38,0,0,0.1948849105
+Gastric Polyp,98,80.31,0,0,0.1932088285
+Gastric Polyp,93,81.12,0,0,0.1921259843
+Gastric Polyp,95,72.36,0,0,0.1971098266
+Gastric Ulcer,86,65.42,1,1,1.676636628
+Gastric Ulcer,96,66.03,1,1,1.676627911
+Gastric Ulcer,96,66.03,1,1,1.676627911
+Gastric Ulcer,96,66.03,1,1,1.676627911
+Gastric Ulcer,96,74.49,1,1,1.676412401
+Gastric Wall Thickening,89,73.37,0,0,0.1968823071
+Gastric Wall Thickening,89,73.37,0,0,0.1968823071
+Gastric Wall Thickening,93,64.2,0,0,0.1981818182
+Gastric Wall Thickening,93,64.2,0,0,0.1981818182
+Gastric Wall Thickening,93,72.66,0,0,0.1970457903
+Bezoar,84,74.19,0,0,0.1966694421
+Bezoar,86,73.88,0,0,0.1967532468
+Bezoar,86,73.88,0,0,0.1967532468
+Bezoar,84,74.19,0,0,0.1966694421
+Bezoar,86,73.88,0,0,0.1967532468
+Gastritis,89,53.41,1,1,1.676741941
+Gastritis,85,54.22,1,1,1.676737335
+Gastritis,97,55.03,1,1,1.676732489
+Gastritis,91,58.28,1,1,1.676710206
+Gastritis,90,61.67,1,1,1.676680639
+Hiatal Hernia,94,64,1,1,1.676655052
+Hiatal Hernia,90,56.25,1,1,1.676724694
+Hiatal Hernia,89,64.91,1,1,1.676643529
+Hiatal Hernia,85,65.52,1,1,1.676635234
+Hiatal Hernia,86,73.88,1,1,1.676437941
+Hiatal Hernia,93,74.9,1,1,1.676393668
+Hiatal Hernia,88,65.01,1,1,1.676642203
+Hiatal Hernia,88,65.01,1,1,1.676642203
+Hiatal Hernia,88,65.01,1,1,1.676642203
+Hiatal Hernia,91,64.51,1,1,1.676648714
+Abdominal Aortic Aneurysm,94,74.79,1,1,1.676398828
+Abdominal Aortic Aneurysm,94,74.79,1,1,1.676398828
+Abdominal Aortic Aneurysm,94,74.79,1,1,1.676398828
+Abdominal Aortic Aneurysm,94,74.79,1,1,1.676398828
+Abdominal Aortic Aneurysm,94,74.79,1,1,1.676398828
+Renal Artery Stenosis,87,73.68,1,1,1.676445768
+Renal Artery Stenosis,87,73.68,1,1,1.676445768
+Renal Artery Stenosis,93,72.66,1,1,1.676482055
+Renal Artery Stenosis,87,73.68,1,1,1.676445768
+Renal Artery Stenosis,88,65.01,1,1,1.676642203
+Mesenteric Ischemia,83,49.01,0,1,1.798924442
+Mesenteric Ischemia,84,57.27,0,1,1.798617352
+Mesenteric Ischemia,87,56.76,0,1,1.798641304
+Mesenteric Ischemia,84,57.27,0,1,1.798617352
+Mesenteric Ischemia,84,57.27,0,1,1.798617352
+Inferior Vena Cava Thrombosis,91,61.46,0,1,1.798383185
+Inferior Vena Cava Thrombosis,91,61.46,0,1,1.798383185
+Inferior Vena Cava Thrombosis,91,61.46,0,1,1.798383185
+Inferior Vena Cava Thrombosis,91,61.46,0,1,1.798383185
+Inferior Vena Cava Thrombosis,91,61.46,0,1,1.798383185
+Aortic Dissection,91,61.46,1,1,1.676682707
+Aortic Dissection,91,61.46,1,1,1.676682707
+Aortic Dissection,92,61.26,1,1,1.676684644
+Aortic Dissection,88,62.07,1,1,1.6766766
+Aortic Dissection,91,61.46,1,1,1.676682707
+Aortic Dissection,92,61.26,1,1,1.676684644
+Aortic Dissection,89,61.87,1,1,1.676678636
+Aortic Dissection,91,61.46,1,1,1.676682707
+Aortic Dissection,87,57.81,1,1,1.676713745
+Aortic Dissection,93,61.06,1,1,1.676686551
+Aortic Aneurysm,96,72.16,0,1,1.797150997
+Aortic Aneurysm,88,78.99,0,1,1.79445215
+Aortic Aneurysm,85,71.14,0,1,1.797343958
+Aortic Aneurysm,95,72.36,0,1,1.797109827
+Aortic Aneurysm,94,69.31,0,1,1.797631735
+Aortic Aneurysm,89,78.79,1,1,1.676111052
+Aortic Aneurysm,87,79.19,1,1,1.676063889
+Aortic Aneurysm,96,72.16,1,1,1.6764979
+Aortic Aneurysm,95,80.82,1,1,1.675797483
+Aortic Aneurysm,92,78.18,1,1,1.676173778
+Portal Vein Thrombosis,87,62.27,1,1,1.676674529
+Portal Vein Thrombosis,90,61.67,1,1,1.676680639
+Portal Vein Thrombosis,92,52.8,1,1,1.676745261
+Portal Vein Thrombosis,87,62.27,1,1,1.676674529
+Portal Vein Thrombosis,88,57.61,1,1,1.676715216
+Hepatic Vein Thrombosis,92,61.26,1,1,1.676684644
+Hepatic Vein Thrombosis,91,53,1,1,1.676744186
+Hepatic Vein Thrombosis,84,48.81,1,1,1.676764299
+Hepatic Vein Thrombosis,84,48.81,1,1,1.676764299
+Hepatic Vein Thrombosis,87,57.81,1,1,1.676713745
+Ovarian Cyst,96,63.7,0.5,1,1.710560238
+Ovarian Cyst,92,64.41,0,1,1.798164296
+Ovarian Cyst,92,72.87,0,1,1.79699925
+Ovarian Cyst,91,56.05,0,1,1.7986733
+Ovarian Cyst,92,55.95,0,1,1.798677686
+Splenic Vein Thrombosis,100,68.1,1,1,1.676593924
+Splenic Vein Thrombosis,93,61.06,1,1,1.676686551
+Splenic Vein Thrombosis,88,66.07,1,1,1.676627321
+Splenic Vein Thrombosis,90,61.67,1,1,1.676680639
+Splenic Vein Thrombosis,86,66.57,1,1,1.676619741
+Fibroadenoma,93,64.2,0,0.5,0.9981818182
+Fibroadenoma,93,64.2,0,0.5,0.9981818182
+Fibroadenoma,93,66.44,0,0.5,0.9979757085
+Fibroadenoma,89,64.91,0,0.5,0.9981211837
+Fibroadenoma,91,64.51,0,0.5,0.9981558322
+Breast Cyst,84,62.88,1,1,1.676667993
+Breast Cyst,84,62.88,1,1,1.676667993
+Breast Cyst,84,62.88,1,1,1.676667993
+Breast Cyst,84,62.88,1,1,1.676667993
+Breast Cyst,84,62.88,1,1,1.676667993
+Gynecomastia,84,54.42,1,1,1.676736162
+Gynecomastia,87,56.76,1,1,1.676721243
+Gynecomastia,88,56.55,1,1,1.676722678
+Gynecomastia,93,52.6,1,1,1.676746324
+Gynecomastia,87,36.89,1,1,1.676802777
+Ductal Carcinoma In Situ,95,60.65,0,1,1.798434442
+Ductal Carcinoma In Situ,90,53.21,0,1,1.798787511
+Ductal Carcinoma In Situ,90,53.21,0,1,1.798787511
+Ductal Carcinoma In Situ,95,60.65,0,1,1.798434442
+Ductal Carcinoma In Situ,95,60.65,0,1,1.798434442
+Lobular Neoplasia,91,53,0,0.5,0.9987951807
+Lobular Neoplasia,100,51.18,0,0.5,0.9988577955
+Lobular Neoplasia,90,61.67,0,0.5,0.9983693437
+Lobular Neoplasia,98,46.61,0,0.5,0.9989896438
+Lobular Neoplasia,89,48.84,0,0.5,0.9989293362
+Breast Lipoma,84,71.34,0,1,1.79730821
+Breast Lipoma,84,71.34,0,1,1.79730821
+Breast Lipoma,84,71.34,0,1,1.79730821
+Breast Lipoma,84,71.34,0,1,1.79730821
+Breast Lipoma,84,71.34,0,1,1.79730821
+Breast Abscess,91,64.51,0,1,1.798155832
+Breast Abscess,91,64.51,0,1,1.798155832
+Breast Abscess,78,64.1,0,1,1.798190045
+Breast Abscess,91,64.51,0,1,1.798155832
+Breast Abscess,91,64.51,0,1,1.798155832
+Breast Hematoma,90,70.13,1,1,1.676552024
+Breast Hematoma,90,70.13,1,1,1.676552024
+Breast Hematoma,90,78.59,1,1,1.676132744
+Breast Hematoma,92,78.18,1,1,1.676173778
+Breast Hematoma,93,72.66,1,1,1.676482055
+Intraductal Papilloma,93,64.2,0,1,1.798181818
+Intraductal Papilloma,87,70.73,0,1,1.79741435
+Intraductal Papilloma,95,60.65,0,1,1.798434442
+Intraductal Papilloma,90,64.71,0,1,1.798138669
+Intraductal Papilloma,96,51.99,0,1,1.798830751
+Esophageal Diverticulum,89,70.33,1,1,1.676547311
+Esophageal Diverticulum,92,78.18,1,1,1.676173778
+Esophageal Diverticulum,90,70.13,1,1,1.676552024
+Esophageal Diverticulum,90,70.13,1,1,1.676552024
+Esophageal Diverticulum,89,70.33,1,1,1.676547311
+Achalasia,86,70.94,1,1,1.676532168
+Achalasia,87,57.81,1,1,1.676713745
+Achalasia,88,66.07,1,1,1.676627321
+Achalasia,86,58.11,1,1,1.6767115
+Achalasia,83,67.28,1,1,1.676608283
+Barrett's Esophagus,90,61.67,0.5,1,1.710605992
+Barrett's Esophagus,91,53,0.5,1,1.710738255
+Barrett's Esophagus,91,53,0.5,1,1.710738255
+Barrett's Esophagus,91,53,0.5,1,1.710738255
+Barrett's Esophagus,88,53.61,0.5,1,1.710731257
+Esophageal Perforation,86,54.02,1,1,1.676738494
+Esophageal Perforation,81,55.03,1,1,1.676732489
+Esophageal Perforation,90,53.21,1,1,1.676743043
+Esophageal Perforation,86,54.02,1,1,1.676738494
+Esophageal Perforation,87,45.35,1,1,1.676777788
+Esophageal Carcinoma,85,54.22,1,1,1.676737335
+Esophageal Carcinoma,90,53.21,1,1,1.676743043
+Esophageal Carcinoma,89,48.84,1,1,1.676764171
+Esophageal Carcinoma,90,53.21,1,1,1.676743043
+Esophageal Carcinoma,96,51.99,1,1,1.676749487
+Pericardial Effusion,92,81.33,1,1,1.675676552
+Pericardial Effusion,92,81.33,1,1,1.675676552
+Pericardial Effusion,92,81.33,1,1,1.675676552
+Pericardial Effusion,92,81.33,1,1,1.675676552
+Pericardial Effusion,93,72.66,1,1,1.676482055
+Left Ventricular Hypertrophy,92,61.26,1,1,1.676684644
+Left Ventricular Hypertrophy,86,62.48,1,1,1.676672317
+Left Ventricular Hypertrophy,86,62.48,1,1,1.676672317
+Left Ventricular Hypertrophy,88,62.07,1,1,1.6766766
+Left Ventricular Hypertrophy,88,62.07,1,1,1.6766766
+Myocardial Fibrosis,90,61.67,1,1,1.676680639
+Myocardial Fibrosis,99,63.19,0.5,1,1.710572495
+Myocardial Fibrosis,92,61.26,1,1,1.676684644
+Myocardial Fibrosis,101,62.88,1,1,1.676667993
+Myocardial Fibrosis,108,61.67,0.5,1,1.710605992
+Pericardial Cyst,87,62.27,0,0,0.198328458
+Pericardial Cyst,82,63.29,0,0,0.1982540375
+Pericardial Cyst,83,67.28,0,0,0.1978858351
+Pericardial Cyst,87,62.27,0,0,0.198328458
+Pericardial Cyst,91,69.92,0,0,0.1975429975
+Mitral Valve Calcification,94,64,1,1,1.676655052
+Mitral Valve Calcification,94,64,1,1,1.676655052
+Mitral Valve Calcification,94,64,1,1,1.676655052
+Mitral Valve Calcification,94,74.79,1,1,1.676398828
+Mitral Valve Calcification,86,65.42,1,1,1.676636628
+Right Ventricular Hypertrophy,91,69.92,0,0,0.1975429975
+Right Ventricular Hypertrophy,91,69.92,0,0,0.1975429975
+Right Ventricular Hypertrophy,91,69.92,0,0,0.1975429975
+Right Ventricular Hypertrophy,87,66.27,0,0,0.1979929754
+Right Ventricular Hypertrophy,87,66.27,0,0,0.1979929754
+Coronary Artery Calcification,93,69.52,1,1,1.676565694
+Coronary Artery Calcification,91,72.97,1,1,1.676471624
+Coronary Artery Calcification,89,53.41,1,1,1.676741941
+Coronary Artery Calcification,94,66.33,1,1,1.676623427
+Coronary Artery Calcification,89,61.87,1,1,1.676678636
+Pericarditis,87,62.27,1,1,1.676674529
+Pericarditis,87,53.81,1,1,1.676739695
+Pericarditis,95,60.65,1,1,1.676690365
+Pericarditis,90,64.71,1,1,1.676646146
+Pericarditis,87,53.81,1,1,1.676739695
+Dilated Cardiomyopathy,80,55.24,1,1,1.676731191
+Dilated Cardiomyopathy,79,59.84,1,1,1.676697549
+Dilated Cardiomyopathy,93,55.74,1,1,1.676728029
+Dilated Cardiomyopathy,87,53.81,1,1,1.676739695
+Dilated Cardiomyopathy,80,59.64,1,1,1.676699255
+Hypertrophic Cardiomyopathy,85,65.52,1,1,1.676635234
+Hypertrophic Cardiomyopathy,85,65.52,1,1,1.676635234
+Hypertrophic Cardiomyopathy,85,65.52,1,1,1.676635234
+Hypertrophic Cardiomyopathy,85,65.52,1,1,1.676635234
+Hypertrophic Cardiomyopathy,88,65.01,1,1,1.676642203
+Restrictive Cardiomyopathy,92,69.72,1,1,1.676561324
+Restrictive Cardiomyopathy,93,69.52,1,1,1.676565694
+Restrictive Cardiomyopathy,93,69.52,1,1,1.676565694
+Restrictive Cardiomyopathy,93,61.06,1,1,1.676686551
+Restrictive Cardiomyopathy,92,61.26,1,1,1.676684644
+Aortic Valve Stenosis,87,70.73,1,1,1.676537517
+Aortic Valve Stenosis,95,69.11,1,1,1.67657433
+Aortic Valve Stenosis,87,70.73,1,1,1.676537517
+Aortic Valve Stenosis,95,69.11,1,1,1.67657433
+Aortic Valve Stenosis,95,69.11,1,1,1.67657433
+Mitral Valve Prolapse,92,64.41,1,1,1.67664998
+Mitral Valve Prolapse,92,64.41,1,1,1.67664998
+Mitral Valve Prolapse,90,56.25,1,1,1.676724694
+Mitral Valve Prolapse,88,56.55,1,1,1.676722678
+Mitral Valve Prolapse,88,56.55,1,1,1.676722678
+Cardiac Tumor,88,56.55,1,1,1.676722678
+Cardiac Tumor,85,62.68,1,1,1.676670174
+Cardiac Tumor,90,73.17,1,1,1.676464628
+Cardiac Tumor,85,62.68,1,1,1.676670174
+Cardiac Tumor,86,62.48,1,1,1.676672317
+Pulmonary Nodule,90,78.59,1,1,1.676132744
+Pulmonary Nodule,90,78.59,1,1,1.676132744
+Pulmonary Nodule,88,70.53,1,1,1.676542477
+Pulmonary Nodule,88,70.53,1,1,1.676542477
+Pulmonary Nodule,97,60.24,1,1,1.676694057
+Lung Mass,95,80.82,0,1,1.792565056
+Lung Mass,96,74.49,0,1,1.796584116
+Lung Mass,94,80.92,0,1,1.792424242
+Lung Mass,94,80.92,0,1,1.792424242
+Lung Mass,94,80.92,0,1,1.792424242
+Lung Cyst,94,80.92,1,1,1.675775656
+Lung Cyst,97,77.16,1,1,1.676259489
+Lung Cyst,92,72.87,1,1,1.676475042
+Lung Cyst,90,73.17,1,1,1.676464628
+Lung Cyst,94,72.46,1,1,1.676488532
+Bronchiectasis,85,57.06,0,1,1.798627316
+Bronchiectasis,98,63.39,0,1,1.798246383
+Bronchiectasis,93,69.52,0,1,1.797601918
+Bronchiectasis,92,61.26,0,1,1.798396151
+Bronchiectasis,97,63.49,0,1,1.798238661
+Emphysema,91,64.51,1,1,1.676648714
+Emphysema,91,64.51,1,1,1.676648714
+Emphysema,91,64.51,1,1,1.676648714
+Emphysema,90,56.25,1,1,1.676724694
+Emphysema,92,55.95,1,1,1.676726669
+Pulmonary Fibrosis,96,72.16,1,1,1.6764979
+Pulmonary Fibrosis,95,63.9,1,1,1.676656261
+Pulmonary Fibrosis,96,72.16,1,1,1.6764979
+Pulmonary Fibrosis,96,72.16,1,1,1.6764979
+Pulmonary Fibrosis,97,71.95,1,1,1.67650422
+Pleural Effusion,91,69.92,1,1,1.676556846
+Pleural Effusion,91,69.92,1,1,1.676556846
+Pleural Effusion,87,70.73,1,1,1.676537517
+Pleural Effusion,87,70.73,1,1,1.676537517
+Pleural Effusion,87,70.73,1,1,1.676537517
+Pneumothorax,83,58.82,1,1,1.676705989
+Pneumothorax,83,58.82,1,1,1.676705989
+Pneumothorax,81,67.79,1,1,1.676599504
+Pneumothorax,83,58.82,1,1,1.676705989
+Pneumothorax,83,58.82,1,1,1.676705989
+Interstitial Lung Disease,89,70.33,0,1,1.797479521
+Interstitial Lung Disease,97,65.83,0,1,1.798036328
+Interstitial Lung Disease,100,65.42,0.5,1,1.710514445
+Interstitial Lung Disease,99,80.11,0,1,1.793431856
+Interstitial Lung Disease,100,79.9,0,1,1.793650794
+Atelectasis,90,70.13,1,1,1.676552024
+Atelectasis,92,69.72,1,1,1.676561324
+Atelectasis,91,69.92,1,1,1.676556846
+Atelectasis,93,61.06,1,1,1.676686551
+Atelectasis,90,70.13,1,1,1.676552024
+Pulmonary Arteriovenous Malformation,100,62.98,1,1,1.676666889
+Pulmonary Arteriovenous Malformation,85,57.06,1,1,1.676719156
+Pulmonary Arteriovenous Malformation,98,63.39,1,1,1.676662259
+Pulmonary Arteriovenous Malformation,92,64.41,1,1,1.67664998
+Pulmonary Arteriovenous Malformation,92,61.26,1,1,1.676684644
+Pneumonia,89,56.45,1,1,1.676723355
+Pneumonia,89,61.87,1,1,1.676678636
+Pneumonia,89,61.87,1,1,1.676678636
+Pneumonia,82,59.13,1,1,1.676703491
+Pneumonia,89,56.45,1,1,1.676723355
+Chronic Obstructive Pulmonary Disease (COPD),87,65.22,1,1,1.676639374
+Chronic Obstructive Pulmonary Disease (COPD),87,65.22,1,1,1.676639374
+Chronic Obstructive Pulmonary Disease (COPD),90,64.71,1,1,1.676646146
+Chronic Obstructive Pulmonary Disease (COPD),91,56.05,1,1,1.676726015
+Chronic Obstructive Pulmonary Disease (COPD),85,62.68,1,1,1.676670174
+Lung Hyperinflation,99,59.84,0,0,0.1984825493
+Lung Hyperinflation,89,73.37,0,0,0.1968823071
+Lung Hyperinflation,91,78.38,0,0,0.1948849105
+Lung Hyperinflation,91,69.92,0,0,0.1975429975
+Lung Hyperinflation,91,61.46,0,0,0.1983831851
+Ground-Glass Opacities,91,61.46,1,1,1.676682707
+Ground-Glass Opacities,89,70.33,1,1,1.676547311
+Ground-Glass Opacities,89,53.41,1,1,1.676741941
+Ground-Glass Opacities,89,56.45,1,1,1.676723355
+Ground-Glass Opacities,91,69.92,1,1,1.676556846
+Pulmonary Edema,82,71.75,1,1,1.676510067
+Pulmonary Edema,85,65.52,1,1,1.676635234
+Pulmonary Edema,91,64.51,1,1,1.676648714
+Pulmonary Edema,93,64.2,1,1,1.676652602
+Pulmonary Edema,92,64.41,1,1,1.67664998
+Asbestosis,91,72.97,1,1,1.676471624
+Asbestosis,86,65.42,1,1,1.676636628
+Asbestosis,91,56.05,1,1,1.676726015
+Asbestosis,91,72.97,1,1,1.676471624
+Asbestosis,92,55.95,1,1,1.676726669
+Silicosis,87,70.73,1,1,1.676537517
+Silicosis,89,64.91,1,1,1.676643529
+Silicosis,92,64.41,1,1,1.67664998
+Silicosis,90,64.71,1,1,1.676646146
+Silicosis,92,64.41,1,1,1.67664998
+Lymphangioleiomyomatosis,92,55.95,0.5,0.5,0.9107017867
+Lymphangioleiomyomatosis,91,47.59,0.5,0.5,0.9107906199
+Lymphangioleiomyomatosis,89,56.45,0.5,0.5,0.9106948867
+Lymphangioleiomyomatosis,89,56.45,0.5,0.5,0.9106948867
+Lymphangioleiomyomatosis,84,65.73,0.5,0.5,0.9105053699
+Pulmonary Alveolar Proteinosis,98,71.85,0,1,1.797212544
+Pulmonary Alveolar Proteinosis,90,70.13,0,1,1.79751089
+Pulmonary Alveolar Proteinosis,91,78.38,0,1,1.79488491
+Pulmonary Alveolar Proteinosis,90,70.13,0,1,1.79751089
+Pulmonary Alveolar Proteinosis,85,75.24,0,1,1.796350365
+Lung Metastases,89,73.37,1,1,1.676457413
+Lung Metastases,91,72.97,1,1,1.676471624
+Lung Metastases,90,78.59,1,1,1.676132744
+Lung Metastases,93,64.2,1,1,1.676652602
+Lung Metastases,88,74.53,1,1,1.676410632
+Pulmonary Hamartoma,87,66.27,1,1,1.676624335
+Pulmonary Hamartoma,85,66.78,1,1,1.676616439
+Pulmonary Hamartoma,90,78.59,1,1,1.676132744
+Pulmonary Hamartoma,90,78.59,1,1,1.676132744
+Pulmonary Hamartoma,90,78.59,1,1,1.676132744
+Chronic Bronchitis,82,54.83,0,0.5,0.9987248964
+Chronic Bronchitis,82,54.83,0,0,0.1987248964
+Chronic Bronchitis,93,55.74,0,0.5,0.9986868024
+Chronic Bronchitis,94,55.54,0,0.5,0.9986953686
+Chronic Bronchitis,83,54.63,0,0.5,0.9987329743
+Hypersensitivity Pneumonitis,91,61.46,1,1,1.676682707
+Hypersensitivity Pneumonitis,91,61.46,1,1,1.676682707
+Hypersensitivity Pneumonitis,87,62.27,1,1,1.676674529
+Hypersensitivity Pneumonitis,91,69.92,1,1,1.676556846
+Hypersensitivity Pneumonitis,91,61.46,1,1,1.676682707
+Bronchiolitis Obliterans,95,63.9,0,0.5,0.998206278
+Bronchiolitis Obliterans,87,65.22,0,0.5,0.9980934223
+Bronchiolitis Obliterans,94,72.46,0,0.5,0.9970887918
+Bronchiolitis Obliterans,90,53.21,0,0.5,0.9987875114
+Bronchiolitis Obliterans,89,44.95,0,0.5,0.999030303
+Pulmonary Sequestration,84,54.42,1,1,1.676736162
+Pulmonary Sequestration,84,54.42,1,1,1.676736162
+Pulmonary Sequestration,83,54.63,1,1,1.676734914
+Pulmonary Sequestration,88,53.61,1,1,1.676740825
+Pulmonary Sequestration,88,62.07,1,1,1.6766766
+Pleural Effusion,87,70.73,1,1,1.676537517
+Pleural Effusion,96,68.91,1,1,1.676578393
+Pleural Effusion,87,70.73,1,1,1.676537517
+Pleural Effusion,87,70.73,1,1,1.676537517
+Pleural Effusion,91,69.92,1,1,1.676556846
+Pulmonary Hypertension,89,61.87,0.5,1,1.710601824
+Pulmonary Hypertension,89,61.87,0.5,1,1.710601824
+Pulmonary Hypertension,89,61.87,0.5,1,1.710601824
+Pulmonary Hypertension,92,69.72,0.5,1,1.710357918
+Pulmonary Hypertension,93,81.12,0.5,1,1.708637578
+Mediastinal Mass,95,63.9,0,0,0.198206278
+Mediastinal Mass,96,63.7,0,0,0.1982222222
+Mediastinal Mass,101,62.88,0,0,0.1982847341
+Mediastinal Mass,110,64,0,0,0.1981981982
+Mediastinal Mass,89,57.3,0,0,0.198615917
+Thymoma,92,72.87,0.5,0.5,0.9101787363
+Thymoma,92,64.41,1,1,1.67664998
+Thymoma,94,60.85,1,1,1.67668852
+Thymoma,89,61.87,1,1,1.676678636
+Thymoma,90,61.67,1,1,1.676680639
+Thymic Hyperplasia,86,54.02,0,0,0.1987569919
+Thymic Hyperplasia,92,55.95,0,0,0.198677686
+Thymic Hyperplasia,90,56.25,0,0,0.1986644407
+Thymic Hyperplasia,87,62.27,0,0,0.198328458
+Thymic Hyperplasia,83,63.09,0,0,0.1982691476
+Esophageal Cyst,96,60.45,0.5,1,1.710630006
+Esophageal Cyst,89,57.3,0.5,1,1.710682607
+Esophageal Cyst,93,69.52,0.5,1,1.710366997
+Esophageal Cyst,94,69.31,0.5,1,1.710376298
+Esophageal Cyst,86,58.11,0.5,1,1.710670211
+Esophageal Cyst,89,57.3,0.5,1,1.710682607
+Esophageal Cyst,90,57.1,0.5,1,1.710685561
+Esophageal Cyst,94,69.31,0.5,1,1.710376298
+Esophageal Cyst,86,58.11,0.5,1,1.710670211
+Esophageal Cyst,89,57.3,0.5,1,1.710682607
+Bronchogenic Cyst,93,64.2,0,0,0.1981818182
+Bronchogenic Cyst,89,61.87,0,0,0.1983559392
+Bronchogenic Cyst,93,72.66,0,0,0.1970457903
+Bronchogenic Cyst,84,71.34,0,0,0.19730821
+Bronchogenic Cyst,85,62.68,0,0,0.1982993197
+Mediastinal Fat Necrosis,82,63.29,0,0,0.1982540375
+Mediastinal Fat Necrosis,90,61.67,0,0,0.1983693437
+Mediastinal Fat Necrosis,90,61.67,0,0,0.1983693437
+Mediastinal Fat Necrosis,91,64.51,0,0.5,0.9981558322
+Mediastinal Fat Necrosis,90,61.67,0,0,0.1983693437
+Sarcoidosis,89,61.87,0,1,1.798355939
+Sarcoidosis,88,62.07,0,1,1.798342312
+Sarcoidosis,88,53.61,0,1,1.79877263
+Sarcoidosis,88,53.61,0,1,1.79877263
+Sarcoidosis,90,53.21,0,1,1.798787511
+Mediastinal Lymphadenopathy,91,64.51,0.5,1,1.710539581
+Mediastinal Lymphadenopathy,91,64.51,0.5,1,1.710539581
+Mediastinal Lymphadenopathy,86,73.88,0.5,1,1.710101744
+Mediastinal Lymphadenopathy,87,73.68,0.5,1,1.710117984
+Mediastinal Lymphadenopathy,91,64.51,0.5,1,1.710539581
+Teratoma,89,64.91,0,0,0.1981211837
+Teratoma,95,66.13,0,0,0.1980069756
+Teratoma,115,60.45,0,0,0.1984466019
+Teratoma,116,60.35,0,0,0.1984526112
+Teratoma,94,66.33,0,0,0.1979869149
+Pleural Plaques,92,55.95,1,1,1.676726669
+Pleural Plaques,90,56.25,1,1,1.676724694
+Pleural Plaques,90,56.25,1,1,1.676724694
+Pleural Plaques,90,56.25,1,1,1.676724694
+Pleural Plaques,91,61.46,1,1,1.676682707
+Pleural Thickening,90,64.71,1,1,1.676646146
+Pleural Thickening,90,64.71,1,1,1.676646146
+Pleural Thickening,88,70.53,1,1,1.676542477
+Pleural Thickening,88,62.07,1,1,1.6766766
+Pleural Thickening,93,61.06,1,1,1.676686551
+Pleural Calcifications,91,53,0,1,1.798795181
+Pleural Calcifications,98,51.58,0,1,1.798844598
+Pleural Calcifications,98,51.58,0,1,1.798844598
+Pleural Calcifications,90,53.21,0,1,1.798787511
+Pleural Calcifications,98,51.58,0,1,1.798844598
+Hemothorax,88,73.47,0.5,0.5,0.9101344818
+Hemothorax,92,69.72,0,0,0.1975728155
+Hemothorax,92,69.72,0.5,0.5,0.9103579176
+Hemothorax,92,69.72,0.5,0.5,0.9103579176
+Hemothorax,89,81.83,0.5,0.5,0.9082273553
+Pleural Mass,96,60.45,0,0,0.1984466019
+Pleural Mass,92,64.41,0,0,0.1981642955
+Pleural Mass,84,57.27,0,0,0.1986173522
+Pleural Mass,84,57.27,0,0,0.1986173522
+Pleural Mass,108,61.67,0,0,0.1983693437
+Chylothorax,89,56.45,1,1,1.676723355
+Chylothorax,85,71.14,1,1,1.676526934
+Chylothorax,85,71.14,1,1,1.676526934
+Chylothorax,85,71.14,1,1,1.676526934
+Chylothorax,92,69.72,1,1,1.676561324
+Empyema,88,62.07,1,1,1.6766766
+Empyema,82,63.29,1,1,1.676663403
+Empyema,82,63.29,1,1,1.676663403
+Empyema,90,56.25,1,1,1.676724694
+Empyema,95,63.9,1,1,1.676656261
+Pleuropericardial Cyst,87,62.27,0,0,0.198328458
+Pleuropericardial Cyst,87,62.27,0,0,0.198328458
+Pleuropericardial Cyst,85,62.68,0,0,0.1982993197
+Pleuropericardial Cyst,87,62.27,0,0,0.198328458
+Pleuropericardial Cyst,87,62.27,0,0,0.198328458
+Rib Fracture,93,89.58,0,1,1.793079585
+Rib Fracture,93,74.9,0,1,1.796460177
+Rib Fracture,90,90.09,0,1,1.7936407
+Rib Fracture,93,89.58,0,1,1.793079585
+Rib Fracture,96,89.08,0,1,1.792424242
+Rib Lesion,89,65.76,0,0,0.1980430528
+Rib Lesion,89,65.76,0,0,0.1980430528
+Rib Lesion,94,60.85,0,0,0.1984220907
+Rib Lesion,89,65.76,0,0,0.1980430528
+Rib Lesion,88,66.07,0,0,0.198012916
+Costochondritis,94,72.46,1,1,1.676488532
+Costochondritis,94,72.46,1,1,1.676488532
+Costochondritis,92,72.87,1,1,1.676475042
+Costochondritis,92,72.87,1,1,1.676475042
+Costochondritis,96,68.91,1,1,1.676578393
+Rib Osteomyelitis,87,65.22,0,1,1.798093422
+Rib Osteomyelitis,88,65.01,0,1,1.798112317
+Rib Osteomyelitis,85,57.06,0,1,1.798627316
+Rib Osteomyelitis,89,56.45,0,1,1.798655462
+Rib Osteomyelitis,85,57.06,0,1,1.798627316
+Rib Hemangioma,89,70.33,1,1,1.676547311
+Rib Hemangioma,89,70.33,1,1,1.676547311
+Rib Hemangioma,86,79.4,1,1,1.676036866
+Rib Hemangioma,85,71.14,1,1,1.676526934
+Rib Hemangioma,86,79.4,1,1,1.676036866
+Flail Chest,88,62.07,0,1,1.798342312
+Flail Chest,88,62.07,0,1,1.798342312
+Flail Chest,88,62.07,0,1,1.798342312
+Flail Chest,88,62.07,0,1,1.798342312
+Flail Chest,88,62.07,0,1,1.798342312
+Costal Cartilage Calcification,88,53.61,0,1,1.79877263
+Costal Cartilage Calcification,94,60.85,0,1,1.798422091
+Costal Cartilage Calcification,85,54.22,0,1,1.798749218
+Costal Cartilage Calcification,90,61.67,0,1,1.798369344
+Costal Cartilage Calcification,94,60.85,0,1,1.798422091
+Tracheal Stenosis,88,62.07,1,1,1.6766766
+Tracheal Stenosis,83,63.09,1,1,1.676665663
+Tracheal Stenosis,88,73.47,1,1,1.676453719
+Tracheal Stenosis,80,63.7,1,1,1.676658646
+Tracheal Stenosis,106,61.97,1,1,1.676677622
+Tracheal Stenosis,85,65.52,1,1,1.676635234
+Tracheal Stenosis,90,73.17,1,1,1.676464628
+Tracheal Stenosis,104,70.84,1,1,1.676534733
+Tracheal Stenosis,85,73.98,1,1,1.676433931
+Tracheal Stenosis,89,64.91,1,1,1.676643529
+Tracheomalacia,87,48.3,1,1,1.676766443
+Tracheomalacia,91,56.05,0.5,0.5,0.9107004251
+Tracheomalacia,86,62.48,1,1,1.676672317
+Tracheomalacia,86,62.48,1,1,1.676672317
+Tracheomalacia,88,56.55,1,1,1.676722678
+Tracheomalacia,88,56.55,0,0,0.1986509275
+Tracheomalacia,90,56.25,0,0,0.1986644407
+Tracheomalacia,87,48.3,0,0,0.198944591
+Tracheomalacia,91,56.05,0,0,0.1986733002
+Tracheomalacia,91,64.51,0,0,0.1981558322
+Tracheal Mass,86,70.94,0,0,0.197378768
+Tracheal Mass,88,70.53,0,0,0.1974473516
+Tracheal Mass,102,76.15,0,0,0.1960199005
+Tracheal Mass,87,70.73,0,0,0.1974143504
+Tracheal Mass,86,70.94,0,0,0.197378768
+Tracheal Mass,86,70.94,0,0,0.197378768
+Tracheal Mass,93,81.12,0,0,0.1921259843
+Tracheal Mass,86,70.94,0,0,0.197378768
+Tracheal Mass,86,70.94,0,0,0.197378768
+Tracheal Mass,87,70.73,0,0,0.1974143504
+Tracheal Deviation,87,70.73,0,0,0.1974143504
+Tracheal Deviation,95,69.11,0,0,0.19765945
+Tracheal Deviation,94,69.31,0,0,0.1976317348
+Tracheal Deviation,87,70.73,0,0,0.1974143504
+Tracheal Deviation,90,81.63,0,0,0.1912472648
+Tracheal Wall Thickening,88,53.61,1,1,1.676740825
+Tracheal Wall Thickening,96,63.7,1,1,1.676658646
+Tracheal Wall Thickening,88,62.07,1,1,1.6766766
+Tracheal Wall Thickening,102,71.14,1,1,1.676526934
+Tracheal Wall Thickening,95,63.9,1,1,1.676656261
+Thoracic Aortic Aneurysm,99,76.76,1,1,1.676287979
+Thoracic Aortic Aneurysm,98,76.96,1,1,1.676274047
+Thoracic Aortic Aneurysm,92,78.18,1,1,1.676173778
+Thoracic Aortic Aneurysm,95,77.57,1,1,1.676227507
+Thoracic Aortic Aneurysm,91,73.71,1,1,1.67644461
+Pulmonary Embolism,88,62.07,0,1,1.798342312
+Pulmonary Embolism,86,70.94,0,1,1.797378768
+Pulmonary Embolism,92,64.41,0,1,1.798164296
+Pulmonary Embolism,89,61.87,0,1,1.798355939
+Pulmonary Embolism,85,62.68,0,1,1.79829932
+Superior Vena Cava Syndrome,89,57.3,0,1,1.798615917
+Superior Vena Cava Syndrome,88,57.61,0,1,1.798600909
+Superior Vena Cava Syndrome,91,56.79,0,1,1.798639918
+Superior Vena Cava Syndrome,89,57.3,0,1,1.798615917
+Superior Vena Cava Syndrome,91,56.79,0,1,1.798639918
+Subclavian Artery Stenosis,90,70.13,0,0,0.1975108899
+Subclavian Artery Stenosis,91,64.51,0,0,0.1981558322
+Subclavian Artery Stenosis,90,70.13,0,0,0.1975108899
+Subclavian Artery Stenosis,94,64,0,0,0.1981981982
+Subclavian Artery Stenosis,93,69.52,0,0,0.1976019185
+Pulmonary Artery Hypertension,87,70.73,0,1,1.79741435
+Pulmonary Artery Hypertension,86,62.48,0,1,1.798313659
+Pulmonary Artery Hypertension,88,65.01,0,1,1.798112317
+Pulmonary Artery Hypertension,95,63.9,0,1,1.798206278
+Pulmonary Artery Hypertension,87,70.73,0,1,1.79741435
+Thoracic Aortic Dissection,90,61.67,0,1,1.798369344
+Thoracic Aortic Dissection,89,61.87,0,1,1.798355939
+Thoracic Aortic Dissection,89,61.87,0,1,1.798355939
+Thoracic Aortic Dissection,89,61.87,0,1,1.798355939
+Thoracic Aortic Dissection,90,61.67,0,1,1.798369344
+Pulmonary Venous Stenosis,89,61.87,0,0,0.1983559392
+Pulmonary Venous Stenosis,89,61.87,0,0,0.1983559392
+Pulmonary Venous Stenosis,87,70.73,0,0,0.1974143504
+Pulmonary Venous Stenosis,90,78.59,0,0,0.1947437582
+Pulmonary Venous Stenosis,89,70.33,0,0,0.1974795211
+Systemic Venous Aneurysm,87,70.73,1,1,1.676537517
+Systemic Venous Aneurysm,93,72.66,1,1,1.676482055
+Systemic Venous Aneurysm,92,72.87,1,1,1.676475042
+Systemic Venous Aneurysm,84,71.34,1,1,1.676521558
+Systemic Venous Aneurysm,89,70.33,1,1,1.676547311
+Thoracic Outlet Syndrome,88,57.61,1,1,1.676715216
+Thoracic Outlet Syndrome,89,57.3,1,1,1.676717455
+Thoracic Outlet Syndrome,91,69.92,1,1,1.676556846
+Thoracic Outlet Syndrome,89,57.3,1,1,1.676717455
+Thoracic Outlet Syndrome,89,57.3,1,1,1.676717455
+Arachnoid Cyst,93,72.66,0,0,0.1970457903
+Arachnoid Cyst,89,73.37,0,0,0.1968823071
+Arachnoid Cyst,98,71.85,0.5,0.5,0.9102454227
+Arachnoid Cyst,93,72.66,0,0,0.1970457903
+Arachnoid Cyst,86,62.48,0,0,0.1983136594
+Cavernous Malformation,86,79.4,0,0,0.1941176471
+Cavernous Malformation,89,78.79,0,0,0.1946018893
+Cavernous Malformation,89,78.79,0,0,0.1946018893
+Cavernous Malformation,90,73.17,0,0,0.1969301612
+Cavernous Malformation,89,78.79,0,0,0.1946018893
+Chiari Malformation,84,62.88,1,1,1.676667993
+Chiari Malformation,81,63.49,1,1,1.676661104
+Chiari Malformation,82,71.75,1,1,1.676510067
+Chiari Malformation,91,64.51,1,1,1.676648714
+Chiari Malformation,88,73.47,1,1,1.676453719
+Enlarged Virchow-Robin Spaces,88,78.99,1,1,1.676088136
+Enlarged Virchow-Robin Spaces,91,72.97,1,1,1.676471624
+Enlarged Virchow-Robin Spaces,89,61.87,1,1,1.676678636
+Enlarged Virchow-Robin Spaces,91,61.46,1,1,1.676682707
+Enlarged Virchow-Robin Spaces,89,61.87,0.5,0.5,0.9106018243
+Microangiopathy,82,46.37,0.5,0.5,0.9108004585
+Microangiopathy,92,64.41,1,1,1.67664998
+Microangiopathy,85,73.98,1,1,1.676433931
+Microangiopathy,93,64.2,1,1,1.676652602
+Microangiopathy,94,60.85,0.5,1,1.710622388
+Pineal Cyst,83,74.39,0,0,0.1966130398
+Pineal Cyst,95,74.59,0,0,0.1965546942
+Pineal Cyst,95,74.59,0,0,0.1965546942
+Pineal Cyst,95,74.59,0,0,0.1965546942
+Pineal Cyst,97,74.29,0,0,0.1966414777
+Porencephalic Cyst,91,78.38,1,1,1.676154307
+Porencephalic Cyst,92,81.33,1,1,1.675676552
+Porencephalic Cyst,91,78.38,1,1,1.676154307
+Porencephalic Cyst,89,64.91,1,1,1.676643529
+Porencephalic Cyst,94,60.85,1,1,1.67668852
+Subependymal Nodules,89,61.87,0,0.5,0.9983559392
+Subependymal Nodules,86,62.48,0,0,0.1983136594
+Subependymal Nodules,90,53.21,0,0,0.1987875114
+Subependymal Nodules,92,78.18,0,0.5,0.9950124688
+Subependymal Nodules,89,61.87,0,0.5,0.9983559392
+Perivascular Spaces Dilatation,91,61.46,1,1,1.676682707
+Perivascular Spaces Dilatation,87,62.27,1,1,1.676674529
+Perivascular Spaces Dilatation,91,53,1,1,1.676744186
+Perivascular Spaces Dilatation,84,45.96,1,1,1.676775579
+Perivascular Spaces Dilatation,88,53.61,1,1,1.676740825
+White Matter Disease,104,62.38,0,0.5,0.9983207389
+White Matter Disease,100,62.98,0,0.5,0.9982773471
+White Matter Disease,87,57.81,0,0.5,0.9985910532
+White Matter Disease,95,69.11,0,1,1.79765945
+White Matter Disease,110,61.36,0,0.5,0.998389694
+Gliosis,105,70.63,1,1,1.676540013
+Gliosis,104,79.3,1,1,1.676049943
+Gliosis,88,70.53,1,1,1.676542477
+Gliosis,104,79.3,1,1,1.676049943
+Gliosis,90,81.63,1,1,1.675592458
+Cerebral Atrophy,91,61.46,1,1,1.676682707
+Cerebral Atrophy,90,61.67,1,1,1.676680639
+Cerebral Atrophy,86,54.02,0.5,0.5,0.910726404
+Cerebral Atrophy,89,61.87,0.5,0.5,0.9106018243
+Cerebral Atrophy,95,69.11,1,1,1.67657433
+White Matter Hyperintensity,86,73.88,1,1,1.676437941
+White Matter Hyperintensity,83,71.55,1,1,1.676515753
+White Matter Hyperintensity,87,73.68,1,1,1.676445768
+White Matter Hyperintensity,91,81.43,1,1,1.675649727
+White Matter Hyperintensity,92,64.41,1,1,1.67664998
+Colloid Cyst,95,77.57,0,0,0.1953650058
+Colloid Cyst,97,77.16,0,0,0.1955752212
+Colloid Cyst,93,77.98,0,0,0.19513382
+Colloid Cyst,98,76.96,0,0,0.1956709957
+Colloid Cyst,99,76.76,0,0,0.1957627119
+Cerebral Microbleeds,89,70.33,1,1,1.676547311
+Cerebral Microbleeds,91,69.92,1,1,1.676556846
+Cerebral Microbleeds,89,70.33,1,1,1.676547311
+Cerebral Microbleeds,94,77.77,1,1,1.67621076
+Cerebral Microbleeds,93,69.52,1,1,1.676565694
+Dilated Ventricles,92,61.26,0.5,0.5,0.9106143253
+Dilated Ventricles,87,62.27,0.5,0.5,0.9105932796
+Dilated Ventricles,93,61.06,0.5,0.5,0.9106182915
+Dilated Ventricles,87,57.81,0.5,0.5,0.9106748852
+Dilated Ventricles,94,69.31,0.5,0.5,0.9103762979
+Cystic Lesion of Choroid Plexus,94,60.85,0,1,1.798422091
+Cystic Lesion of Choroid Plexus,86,62.48,0,1,1.798313659
+Cystic Lesion of Choroid Plexus,94,60.85,0,1,1.798422091
+Cystic Lesion of Choroid Plexus,94,60.85,0,1,1.798422091
+Cystic Lesion of Choroid Plexus,84,67.08,0.5,1,1.710462401
+Empty Sella Syndrome,90,61.67,1,1,1.676680639
+Empty Sella Syndrome,87,53.81,1,1,1.676739695
+Empty Sella Syndrome,85,58.32,1,1,1.676709899
+Empty Sella Syndrome,86,58.11,1,1,1.6767115
+Empty Sella Syndrome,87,57.81,1,1,1.676713745
+Developmental Venous Anomaly,84,71.34,1,1,1.676521558
+Developmental Venous Anomaly,93,72.66,1,1,1.676482055
+Developmental Venous Anomaly,98,71.85,1,1,1.676507164
+Developmental Venous Anomaly,98,71.85,1,1,1.676507164
+Developmental Venous Anomaly,98,71.85,1,1,1.676507164
+Cerebral Calcifications,95,69.11,0,0.5,0.99765945
+Cerebral Calcifications,86,56.96,0,0.5,0.9986320109
+Cerebral Calcifications,86,56.96,0,0.5,0.9986320109
+Cerebral Calcifications,88,65.01,0,0.5,0.9981123171
+Cerebral Calcifications,90,56.25,0,0.5,0.9986644407
+Hemangioblastoma,93,61.06,0.5,1,1.710618291
+Hemangioblastoma,91,64.51,0,1,1.798155832
+Hemangioblastoma,89,61.87,0,1,1.798355939
+Hemangioblastoma,89,70.33,0,1,1.797479521
+Hemangioblastoma,91,64.51,0.5,1,1.710539581
+Cortical Dysplasia,89,56.45,1,1,1.676723355
+Cortical Dysplasia,94,55.54,1,1,1.676729306
+Cortical Dysplasia,89,56.45,1,1,1.676723355
+Cortical Dysplasia,88,53.61,1,1,1.676740825
+Cortical Dysplasia,92,55.95,1,1,1.676726669
+Diffuse Axonal Injury,93,69.52,0,1,1.797601918
+Diffuse Axonal Injury,96,60.45,0,1,1.798446602
+Diffuse Axonal Injury,91,69.92,0,1,1.797542998
+Diffuse Axonal Injury,88,62.07,0,1,1.798342312
+Diffuse Axonal Injury,91,69.92,0,1,1.797542998
+Ependymoma,88,70.53,0,0,0.1974473516
+Ependymoma,100,62.98,0,0,0.1982773471
+Ependymoma,92,69.72,0,0,0.1975728155
+Ependymoma,99,71.65,0,0,0.1972508591
+Ependymoma,101,79.8,0,0.5,0.99375
+Focal Cortical Dysplasia,85,62.68,1,1,1.676670174
+Focal Cortical Dysplasia,86,67.45,1,1,1.67660541
+Focal Cortical Dysplasia,88,62.07,1,1,1.6766766
+Focal Cortical Dysplasia,84,62.88,1,1,1.676667993
+Focal Cortical Dysplasia,87,65.22,1,1,1.676639374
+Infarct (Old),97,68.7,0,1,1.797714286
+Infarct (Old),86,58.11,0,1,1.798576006
+Infarct (Old),92,61.26,0,1,1.798396151
+Infarct (Old),94,56.08,0,1,1.798671979
+Infarct (Old),87,57.81,0,1,1.798591053
+Lacunar Infarction,86,70.94,0,1,1.797378768
+Lacunar Infarction,96,72.16,0,1,1.797150997
+Lacunar Infarction,93,64.2,0,1,1.798181818
+Lacunar Infarction,93,61.06,0,1,1.79840891
+Lacunar Infarction,95,72.36,0,1,1.797109827
+Leukoencephalopathy,92,64.41,1,1,1.67664998
+Leukoencephalopathy,94,66.33,0.5,0.5,0.9104869966
+Leukoencephalopathy,88,65.01,1,1,1.676642203
+Leukoencephalopathy,88,78.99,0.5,0.5,0.909377438
+Leukoencephalopathy,91,69.92,0.5,0.5,0.9103486138
+Low-Grade Glioma,99,59.84,1,1,1.676697549
+Low-Grade Glioma,92,69.72,1,1,1.676561324
+Low-Grade Glioma,85,58.32,1,1,1.676709899
+Low-Grade Glioma,89,70.33,1,1,1.676547311
+Low-Grade Glioma,90,70.13,1,1,1.676552024
+Meningioma,100,71.44,0,1,1.797289973
+Meningioma,96,80.62,0,1,1.792831541
+Meningioma,95,72.36,0,1,1.797109827
+Meningioma,107,70.33,0,1,1.797479521
+Meningioma,96,72.16,0,1,1.797150997
+Multiple Sclerosis Plaques,88,62.07,1,1,1.6766766
+Multiple Sclerosis Plaques,87,65.22,1,1,1.676639374
+Multiple Sclerosis Plaques,85,62.68,1,1,1.676670174
+Multiple Sclerosis Plaques,85,62.68,1,1,1.676670174
+Multiple Sclerosis Plaques,93,64.2,1,1,1.676652602
+Normal Pressure Hydrocephalus,87,49.35,1,1,1.676761965
+Normal Pressure Hydrocephalus,85,49.86,1,1,1.676759696
+Normal Pressure Hydrocephalus,87,49.35,1,1,1.676761965
+Normal Pressure Hydrocephalus,87,49.35,1,1,1.676761965
+Normal Pressure Hydrocephalus,94,52.39,1,1,1.676747425
+Periventricular Leukomalacia,82,57.57,1,1,1.676715508
+Periventricular Leukomalacia,88,56.55,1,1,1.676722678
+Periventricular Leukomalacia,89,56.45,1,1,1.676723355
+Periventricular Leukomalacia,88,56.55,1,1,1.676722678
+Periventricular Leukomalacia,88,56.55,1,1,1.676722678
+Septo-Optic Dysplasia,83,49.01,0,1,1.798924442
+Septo-Optic Dysplasia,89,50.12,0,1,1.798891353
+Septo-Optic Dysplasia,88,53.61,0,1,1.79877263
+Septo-Optic Dysplasia,88,48.09,0,1,1.798950407
+Septo-Optic Dysplasia,94,55.54,0,1,1.798695369
+Spinal Canal Stenosis,99,63.19,1,1,1.676664538
+Spinal Canal Stenosis,86,66.57,1,1,1.676619741
+Spinal Canal Stenosis,89,65.76,1,1,1.676631834
+Spinal Canal Stenosis,91,61.46,1,1,1.676682707
+Spinal Canal Stenosis,94,69.31,1,1,1.67657017
+Thalamic Gliosis,96,77.37,1,1,1.676243484
+Thalamic Gliosis,87,79.19,1,1,1.676063889
+Thalamic Gliosis,89,70.33,1,1,1.676547311
+Thalamic Gliosis,89,70.33,1,1,1.676547311
+Thalamic Gliosis,87,79.19,1,1,1.676063889
+Trigeminal Neuralgia,85,62.68,1,1,1.676670174
+Trigeminal Neuralgia,99,71.65,1,1,1.67651293
+Trigeminal Neuralgia,96,72.16,1,1,1.6764979
+Trigeminal Neuralgia,99,71.65,1,1,1.67651293
+Trigeminal Neuralgia,85,71.14,1,1,1.676526934
+Ulegyria,96,43.53,0.5,0.5,0.9108211779
+Ulegyria,96,43.53,0.5,0.5,0.9108211779
+Ulegyria,90,44.75,0.5,0.5,0.9108126259
+Ulegyria,94,52.39,0.5,0.5,0.9107449998
+Ulegyria,88,45.15,0.5,0.5,0.9108097111
+Cystic Craniopharyngioma,91,56.05,0,0,0.1986733002
+Cystic Craniopharyngioma,95,63.9,0,0,0.198206278
+Cystic Craniopharyngioma,91,64.51,0,0,0.1981558322
+Cystic Craniopharyngioma,91,56.05,0,0,0.1986733002
+Cystic Craniopharyngioma,90,64.71,0,0,0.1981386691
+Heterotopia,91,72.97,0,1,1.796976568
+Heterotopia,90,73.17,0,1,1.796930161
+Heterotopia,94,72.46,0,1,1.797088792
+Heterotopia,88,65.01,0,1,1.798112317
+Heterotopia,94,72.46,0,1,1.797088792
+Ischemic White Matter Disease,88,74.53,0,0,0.1965724079
+Ischemic White Matter Disease,95,63.9,0,0,0.198206278
+Ischemic White Matter Disease,95,63.9,0,0,0.198206278
+Ischemic White Matter Disease,95,63.9,0,0,0.198206278
+Ischemic White Matter Disease,87,74.73,0,0,0.1965126417
+Juvenile Pilocytic Astrocytoma,101,50.97,1,1,1.67675453
+Juvenile Pilocytic Astrocytoma,94,60.85,1,1,1.67668852
+Juvenile Pilocytic Astrocytoma,97,51.78,0.5,1,1.710751505
+Juvenile Pilocytic Astrocytoma,92,48.13,1,1,1.676767144
+Juvenile Pilocytic Astrocytoma,92,48.13,1,1,1.676767144
+Moyamoya Disease,84,71.34,1,1,1.676521558
+Moyamoya Disease,86,70.94,1,1,1.676532168
+Moyamoya Disease,88,70.53,1,1,1.676542477
+Moyamoya Disease,84,71.34,1,1,1.676521558
+Moyamoya Disease,88,70.53,1,1,1.676542477
+Pseudotumor Cerebri,90,44.75,1,1,1.676779898
+Pseudotumor Cerebri,86,62.48,1,1,1.676672317
+Pseudotumor Cerebri,91,61.46,1,1,1.676682707
+Pseudotumor Cerebri,86,62.48,1,1,1.676672317
+Pseudotumor Cerebri,90,53.21,1,1,1.676743043
+Schwannoma,87,65.22,0,0,0.1980934223
+Schwannoma,88,65.01,0,0,0.1981123171
+Schwannoma,86,62.48,0,0,0.1983136594
+Schwannoma,86,62.48,0,0,0.1983136594
+Schwannoma,86,62.48,0,0,0.1983136594
+Spongiform Changes in Brain,89,70.33,0.5,0.5,0.9103288038
+Spongiform Changes in Brain,92,72.87,0.5,0.5,0.9101787363
+Spongiform Changes in Brain,93,64.2,0.5,0.5,0.9105476673
+Spongiform Changes in Brain,92,61.26,1,1,1.676684644
+Spongiform Changes in Brain,94,52.39,0.5,0.5,0.9107449998
+Stroke (Old),90,65.56,0,0,0.1980620155
+Stroke (Old),90,65.56,0,0,0.1980620155
+Stroke (Old),91,69.92,0,0,0.1975429975
+Stroke (Old),99,63.22,0,0,0.198259356
+Stroke (Old),90,65.56,0,0,0.1980620155
+Subarachnoid Cyst,90,70.13,1,1,1.676552024
+Subarachnoid Cyst,89,70.33,1,1,1.676547311
+Subarachnoid Cyst,89,70.33,1,1,1.676547311
+Subarachnoid Cyst,92,61.26,1,1,1.676684644
+Subarachnoid Cyst,91,69.92,1,1,1.676556846
+Cholesteatoma,91,72.97,0,1,1.796976568
+Cholesteatoma,87,79.19,0,1,1.794293866
+Cholesteatoma,91,78.38,0,1,1.79488491
+Cholesteatoma,91,78.38,0,1,1.79488491
+Cholesteatoma,91,78.38,0,1,1.79488491
+Mastoiditis,87,62.27,0,1,1.798328458
+Mastoiditis,87,62.27,0,1,1.798328458
+Mastoiditis,87,62.27,0,1,1.798328458
+Mastoiditis,92,64.41,0,1,1.798164296
+Mastoiditis,87,62.27,0,1,1.798328458
+Otitis Media,86,56.96,0,1,1.798632011
+Otitis Media,90,66.84,0,1,1.797933884
+Otitis Media,86,56.96,0,1,1.798632011
+Otitis Media,90,66.84,0,1,1.797933884
+Otitis Media,86,56.96,0,1,1.798632011
+Otosclerosis,93,72.66,0,1,1.79704579
+Otosclerosis,88,70.53,0,1,1.797447352
+Otosclerosis,87,70.73,0,1,1.79741435
+Otosclerosis,92,78.18,0,1,1.795012469
+Otosclerosis,94,64,0,1,1.798198198
+Vestibular Schwannoma,90,73.17,1,1,1.676464628
+Vestibular Schwannoma,95,55.44,1,1,1.676729939
+Vestibular Schwannoma,91,64.51,1,1,1.676648714
+Vestibular Schwannoma,94,72.46,1,1,1.676488532
+Vestibular Schwannoma,94,64,1,1,1.676655052
+TMJ Disorder,95,80.82,0,1,1.792565056
+TMJ Disorder,93,69.52,0,1,1.797601918
+TMJ Disorder,95,80.82,0,1,1.792565056
+TMJ Disorder,92,83.56,0,1,1.784848485
+TMJ Disorder,94,80.92,0,1,1.792424242
+Mandibular Fracture,91,75.2,0,1,1.796363636
+Mandibular Fracture,89,83.96,0,1,1.782142857
+Mandibular Fracture,83,74.39,0,1,1.79661304
+Mandibular Fracture,98,80.31,0,1,1.793208829
+Mandibular Fracture,87,82.14,0,1,1.790147783
+Odontogenic Cyst,85,73.98,1,1,1.676433931
+Odontogenic Cyst,94,69.31,1,1,1.67657017
+Odontogenic Cyst,91,72.97,1,1,1.676471624
+Odontogenic Cyst,93,69.52,1,1,1.676565694
+Odontogenic Cyst,89,73.37,1,1,1.676457413
+Ameloblastoma,87,65.22,1,1,1.676639374
+Ameloblastoma,86,65.42,1,1,1.676636628
+Ameloblastoma,87,62.27,1,1,1.676674529
+Ameloblastoma,82,63.29,1,1,1.676663403
+Ameloblastoma,85,71.14,1,1,1.676526934
+Deviated Nasal Septum,86,62.48,1,1,1.676672317
+Deviated Nasal Septum,86,62.48,1,1,1.676672317
+Deviated Nasal Septum,81,63.49,1,1,1.676661104
+Deviated Nasal Septum,83,63.09,1,1,1.676665663
+Deviated Nasal Septum,88,62.07,1,1,1.6766766
+Nasal Cavity Mass,89,78.79,0,0,0.1946018893
+Nasal Cavity Mass,89,78.79,0,0,0.1946018893
+Nasal Cavity Mass,89,87.25,0,0,0.1884057971
+Nasal Cavity Mass,84,74.19,0,0,0.1966694421
+Nasal Cavity Mass,85,71.14,0,0,0.1973439575
+Turbinate Hypertrophy,91,72.97,1,1,1.676471624
+Turbinate Hypertrophy,81,63.49,1,1,1.676661104
+Turbinate Hypertrophy,85,71.14,1,1,1.676526934
+Turbinate Hypertrophy,88,73.47,1,1,1.676453719
+Turbinate Hypertrophy,88,65.01,1,1,1.676642203
+Cervical Lymphadenopathy,91,78.38,1,1,1.676154307
+Cervical Lymphadenopathy,95,80.82,1,1,1.675797483
+Cervical Lymphadenopathy,87,79.19,1,1,1.676063889
+Cervical Lymphadenopathy,87,79.19,1,1,1.676063889
+Cervical Lymphadenopathy,90,78.59,1,1,1.676132744
+Branchial Cleft Cyst,94,72.46,1,1,1.676488532
+Branchial Cleft Cyst,94,72.46,1,1,1.676488532
+Branchial Cleft Cyst,95,74.59,1,1,1.676407956
+Branchial Cleft Cyst,95,72.36,1,1,1.6764917
+Branchial Cleft Cyst,91,64.51,1,1,1.676648714
+Branchial Cleft Cyst,94,80.92,0,1,1.792424242
+Branchial Cleft Cyst,94,72.46,0,1,1.797088792
+Branchial Cleft Cyst,93,81.12,0,1,1.792125984
+Branchial Cleft Cyst,93,81.12,0,1,1.792125984
+Branchial Cleft Cyst,94,80.92,0,1,1.792424242
+Thyroglossal Duct Cyst,87,73.68,1,1,1.676445768
+Thyroglossal Duct Cyst,91,75.2,1,1,1.676379066
+Thyroglossal Duct Cyst,89,81.83,1,1,1.675529795
+Thyroglossal Duct Cyst,85,82.44,1,1,1.675296108
+Thyroglossal Duct Cyst,86,73.88,1,1,1.676437941
+Cyst of Oral Mucosa,89,78.79,1,1,1.676111052
+Cyst of Oral Mucosa,95,80.82,1,1,1.675797483
+Cyst of Oral Mucosa,89,78.79,1,1,1.676111052
+Cyst of Oral Mucosa,84,71.34,1,1,1.676521558
+Cyst of Oral Mucosa,87,70.73,1,1,1.676537517
+Leukoplakia of Tongue,88,74.53,1,1,1.676410632
+Leukoplakia of Tongue,89,56.45,1,1,1.676723355
+Leukoplakia of Tongue,85,71.14,1,1,1.676526934
+Leukoplakia of Tongue,92,72.87,1,1,1.676475042
+Leukoplakia of Tongue,93,72.66,1,1,1.676482055
+Mucocele of Oral Mucosa,86,70.94,1,1,1.676532168
+Mucocele of Oral Mucosa,89,70.33,1,1,1.676547311
+Mucocele of Oral Mucosa,83,71.55,1,1,1.676515753
+Mucocele of Oral Mucosa,86,70.94,1,1,1.676532168
+Mucocele of Oral Mucosa,83,71.55,1,1,1.676515753
+Orbital Mass,94,69.31,1,1,1.67657017
+Orbital Mass,97,71.95,1,1,1.67650422
+Orbital Mass,101,67.89,1,1,1.676597724
+Orbital Mass,105,75.54,1,1,1.676361513
+Orbital Mass,94,69.31,1,1,1.67657017
+Proptosis,91,73.71,0.5,1,1.710115581
+Proptosis,92,73.51,0,1,1.796847912
+Proptosis,91,73.71,0.5,1,1.710115581
+Proptosis,89,74.22,0,1,1.796661102
+Proptosis,84,58.62,0,1,1.798549674
+Optic Nerve Glioma,98,71.85,1,1,1.676507164
+Optic Nerve Glioma,100,62.98,1,1,1.676666889
+Optic Nerve Glioma,91,69.92,1,1,1.676556846
+Optic Nerve Glioma,90,61.67,1,1,1.676680639
+Optic Nerve Glioma,96,63.7,1,1,1.676658646
+Orbital Cellulitis,90,56.25,1,1,1.676724694
+Orbital Cellulitis,89,56.45,1,1,1.676723355
+Orbital Cellulitis,86,65.42,1,1,1.676636628
+Orbital Cellulitis,89,56.45,1,1,1.676723355
+Orbital Cellulitis,93,49.52,1,1,1.676761215
+Orbital Fracture,90,78.59,0,1,1.794743758
+Orbital Fracture,91,81.43,0,1,1.791614256
+Orbital Fracture,92,78.18,0,1,1.795012469
+Orbital Fracture,92,78.18,0,1,1.795012469
+Orbital Fracture,92,81.33,0,1,1.791786448
+Tonsillar Asymmetry,91,61.46,1,1,1.676682707
+Tonsillar Asymmetry,90,53.21,1,1,1.676743043
+Tonsillar Asymmetry,90,53.21,1,1,1.676743043
+Tonsillar Asymmetry,91,64.51,1,1,1.676648714
+Tonsillar Asymmetry,88,62.07,1,1,1.6766766
+Tonsillar Asymmetry,90,53.21,0,0,0.1987875114
+Tonsillar Asymmetry,87,62.27,0,0,0.198328458
+Tonsillar Asymmetry,90,53.21,0,0,0.1987875114
+Tonsillar Asymmetry,90,53.21,0,0,0.1987875114
+Tonsillar Asymmetry,86,62.48,0,0,0.1983136594
+Tonsillar Hypertrophy,89,53.41,1,1,1.676741941
+Tonsillar Hypertrophy,87,62.27,1,1,1.676674529
+Tonsillar Hypertrophy,89,61.87,1,1,1.676678636
+Tonsillar Hypertrophy,83,63.09,1,1,1.676665663
+Tonsillar Hypertrophy,84,50.16,1,1,1.676758331
+Pharyngeal Wall Mass,89,53.41,0,0,0.1987801159
+Pharyngeal Wall Mass,89,53.41,0,0,0.1987801159
+Pharyngeal Wall Mass,90,53.21,0,0,0.1987875114
+Pharyngeal Wall Mass,90,61.67,0,0,0.1983693437
+Pharyngeal Wall Mass,88,53.61,0,0,0.1987726296
+Pituitary Microadenoma,87,53.81,1,1,1.676739695
+Pituitary Microadenoma,87,53.81,1,1,1.676739695
+Pituitary Microadenoma,87,62.27,1,1,1.676674529
+Pituitary Microadenoma,90,61.67,1,1,1.676680639
+Pituitary Microadenoma,94,60.85,1,1,1.67668852
+Parotid Cyst,88,70.53,0,1,1.797447352
+Parotid Cyst,92,69.72,0,1,1.797572816
+Parotid Cyst,88,70.53,0,1,1.797447352
+Parotid Cyst,88,70.53,0,1,1.797447352
+Parotid Cyst,92,78.18,0,1,1.795012469
+Parotid Cyst,88,70.53,1,1,1.676542477
+Parotid Cyst,88,70.53,1,1,1.676542477
+Parotid Cyst,88,70.53,1,1,1.676542477
+Parotid Cyst,88,70.53,1,1,1.676542477
+Parotid Cyst,88,70.53,1,1,1.676542477
+Sialadenitis,82,63.29,1,1,1.676663403
+Sialadenitis,89,61.87,1,1,1.676678636
+Sialadenitis,89,61.87,1,1,1.676678636
+Sialadenitis,87,62.27,1,1,1.676674529
+Sialadenitis,87,65.22,1,1,1.676639374
+Sialadenitis,91,72.97,1,1,1.676471624
+Sialadenitis,82,63.29,1,1,1.676663403
+Sialadenitis,90,70.13,1,1,1.676552024
+Sialadenitis,87,62.27,1,1,1.676674529
+Sialadenitis,86,62.48,1,1,1.676672317
+Salivary Gland Stone,89,74.22,1,1,1.67642403
+Salivary Gland Stone,97,77.16,1,1,1.676259489
+Salivary Gland Stone,88,74.53,1,1,1.676410632
+Salivary Gland Stone,90,65.56,1,1,1.676634673
+Salivary Gland Stone,88,74.53,1,1,1.676410632
+Salivary Gland Stone,88,74.53,1,1,1.676410632
+Salivary Gland Stone,91,65.25,1,1,1.676638966
+Salivary Gland Stone,87,74.73,1,1,1.6764016
+Salivary Gland Stone,91,65.25,1,1,1.676638966
+Salivary Gland Stone,89,74.22,1,1,1.67642403
+Pleomorphic Adenoma,90,61.67,1,1,1.676680639
+Pleomorphic Adenoma,94,52.39,1,1,1.676747425
+Pleomorphic Adenoma,93,52.6,1,1,1.676746324
+Pleomorphic Adenoma,94,43.93,1,1,1.676782683
+Pleomorphic Adenoma,94,52.39,1,1,1.676747425
+Scalp Hematoma,93,77.98,0.5,1,1.709592785
+Scalp Hematoma,93,77.98,0.5,1,1.709592785
+Scalp Hematoma,93,81.12,0.5,1,1.708637578
+Scalp Hematoma,90,78.59,0.5,1,1.709469641
+Scalp Hematoma,93,77.98,0.5,1,1.709592785
+Mucosal Thickening in Sinuses,91,61.46,1,1,1.676682707
+Mucosal Thickening in Sinuses,95,63.9,1,1,1.676656261
+Mucosal Thickening in Sinuses,87,70.73,1,1,1.676537517
+Mucosal Thickening in Sinuses,88,70.53,1,1,1.676542477
+Mucosal Thickening in Sinuses,86,70.94,1,1,1.676532168
+Sinus Polyp,93,69.52,0,1,1.797601918
+Sinus Polyp,89,78.79,0,1,1.794601889
+Sinus Polyp,94,69.31,0,1,1.797631735
+Sinus Polyp,94,69.31,0,1,1.797631735
+Sinus Polyp,96,77.37,0,1,1.795469989
+Mucosal Thickening in Maxillary Sinus,85,54.22,1,1,1.676737335
+Mucosal Thickening in Maxillary Sinus,87,79.19,1,1,1.676063889
+Mucosal Thickening in Maxillary Sinus,91,65.25,1,1,1.676638966
+Mucosal Thickening in Maxillary Sinus,92,69.72,1,1,1.676561324
+Mucosal Thickening in Maxillary Sinus,92,52.8,1,1,1.676745261
+Frontal Sinus Retention Cyst,91,69.92,1,1,1.676556846
+Frontal Sinus Retention Cyst,93,69.52,1,1,1.676565694
+Frontal Sinus Retention Cyst,89,78.79,1,1,1.676111052
+Frontal Sinus Retention Cyst,92,86.64,1,1,1.674745187
+Frontal Sinus Retention Cyst,89,78.79,1,1,1.676111052
+Ethmoid Sinusitis,90,81.63,1,1,1.675592458
+Ethmoid Sinusitis,91,61.46,1,1,1.676682707
+Ethmoid Sinusitis,85,65.52,0.5,0.5,0.9105115476
+Ethmoid Sinusitis,88,65.01,1,1,1.676642203
+Ethmoid Sinusitis,92,64.41,1,1,1.67664998
+Maxillary Sinus Hypoplasia,91,69.92,0.5,0.5,0.9103486138
+Maxillary Sinus Hypoplasia,91,69.92,0.5,0.5,0.9103486138
+Maxillary Sinus Hypoplasia,92,61.26,0.5,0.5,0.9106143253
+Maxillary Sinus Hypoplasia,85,58.32,0.5,0.5,0.9106668799
+Maxillary Sinus Hypoplasia,93,64.75,0,0,0.1981351981
+Skull Fracture,101,79.8,0,1,1.79375
+Skull Fracture,90,75.3,0,1,1.796330275
+Skull Fracture,87,79.19,0,1,1.794293866
+Skull Fracture,87,73.68,0,1,1.796805112
+Skull Fracture,101,79.8,0,1,1.79375
+Cranial Meningioma,90,70.13,1,1,1.676552024
+Cranial Meningioma,96,68.91,1,1,1.676578393
+Cranial Meningioma,96,60.45,1,1,1.676692181
+Cranial Meningioma,96,68.91,1,1,1.676578393
+Cranial Meningioma,97,68.7,1,1,1.676582559
+Fibrous Dysplasia of Skull,86,62.48,1,1,1.676672317
+Fibrous Dysplasia of Skull,85,71.14,1,1,1.676526934
+Fibrous Dysplasia of Skull,84,71.34,1,1,1.676521558
+Fibrous Dysplasia of Skull,80,63.7,1,1,1.676658646
+Fibrous Dysplasia of Skull,86,70.94,1,1,1.676532168
+PagetÔøΩÔøΩÔøΩs Disease of Skull,79,63.9,1,1,1.676656261
+PagetÔøΩÔøΩÔøΩs Disease of Skull,92,69.72,1,1,1.676561324
+PagetÔøΩÔøΩÔøΩs Disease of Skull,93,69.52,1,1,1.676565694
+PagetÔøΩÔøΩÔøΩs Disease of Skull,96,68.91,1,1,1.676578393
+PagetÔøΩÔøΩÔøΩs Disease of Skull,89,70.33,1,1,1.676547311
+Hemangioma of Head,89,73.37,1,1,1.676457413
+Hemangioma of Head,83,74.39,1,1,1.676416771
+Hemangioma of Head,94,64,1,1,1.676655052
+Hemangioma of Head,85,73.98,1,1,1.676433931
+Hemangioma of Head,85,73.98,1,1,1.676433931
+Lipoma of Face,93,66.44,1,1,1.676621749
+Lipoma of Face,89,75.5,1,1,1.676363636
+Lipoma of Face,89,75.5,1,1,1.676363636
+Lipoma of Face,93,66.44,1,1,1.676621749
+Lipoma of Face,94,74.79,1,1,1.676398828
+Cutaneous Abscess of Scalp,99,71.65,0,1,1.797250859
+Cutaneous Abscess of Scalp,99,71.65,0,1,1.797250859
+Cutaneous Abscess of Scalp,99,71.65,0,1,1.797250859
+Cutaneous Abscess of Scalp,99,80.11,0,1,1.793431856
+Cutaneous Abscess of Scalp,94,72.46,0,1,1.797088792
+Scalp Lipoma,86,82.34,1,1,1.675339646
+Scalp Lipoma,86,84.37,1,1,1.673456512
+Scalp Lipoma,83,82.85,1,1,1.675089392
+Scalp Lipoma,86,82.34,1,1,1.675339646
+Scalp Lipoma,83,82.85,1,1,1.675089392
+Dental Abscess,87,73.68,1,1,1.676445768
+Dental Abscess,90,61.67,1,1,1.676680639
+Dental Abscess,91,64.51,1,1,1.676648714
+Dental Abscess,82,63.29,1,1,1.676663403
+Dental Abscess,86,54.02,1,1,1.676738494
+Impacted Tooth,93,72.66,1,1,1.676482055
+Impacted Tooth,93,72.66,1,1,1.676482055
+Impacted Tooth,84,62.88,1,1,1.676667993
+Impacted Tooth,82,71.75,1,1,1.676510067
+Impacted Tooth,92,72.87,1,1,1.676475042
+Dental Caries,93,61.06,1,1,1.676686551
+Dental Caries,88,62.07,1,1,1.6766766
+Dental Caries,97,51.78,1,1,1.676750549
+Dental Caries,95,60.65,1,1,1.676690365
+Dental Caries,86,62.48,1,1,1.676672317
+Zenker's Diverticulum,91,61.46,1,1,1.676682707
+Zenker's Diverticulum,91,69.92,1,1,1.676556846
+Zenker's Diverticulum,91,61.46,1,1,1.676682707
+Zenker's Diverticulum,91,61.46,1,1,1.676682707
+Zenker's Diverticulum,89,61.87,1,1,1.676678636
+Esophageal Web,88,70.53,0,0,0.1974473516
+Esophageal Web,94,69.31,0,0,0.1976317348
+Esophageal Web,92,72.87,0,0,0.1969992498
+Esophageal Web,96,72.16,0,0,0.1971509972
+Esophageal Web,92,72.87,0,0,0.1969992498
+Cervical Esophageal Stricture,88,62.07,1,1,1.6766766
+Cervical Esophageal Stricture,96,63.7,1,1,1.676658646
+Cervical Esophageal Stricture,90,53.21,1,1,1.676743043
+Cervical Esophageal Stricture,92,52.8,1,1,1.676745261
+Cervical Esophageal Stricture,94,55.54,1,1,1.676729306
+Cervical Esophageal Ulcer,106,75.34,1,1,1.676371973
+Cervical Esophageal Ulcer,95,69.11,1,1,1.67657433
+Cervical Esophageal Ulcer,92,69.72,1,1,1.676561324
+Cervical Esophageal Ulcer,94,64.54,1,1,1.676648332
+Cervical Esophageal Ulcer,92,69.72,1,1,1.676561324
+Achalasia of Esophagus,86,58.11,1,1,1.6767115
+Achalasia of Esophagus,86,70.94,1,1,1.676532168
+Achalasia of Esophagus,86,70.94,1,1,1.676532168
+Achalasia of Esophagus,86,70.94,1,1,1.676532168
+Achalasia of Esophagus,92,65.05,1,1,1.676641668
+Esophageal Varices,95,69.11,1,1,1.67657433
+Esophageal Varices,94,60.85,1,1,1.67668852
+Esophageal Varices,92,61.26,1,1,1.676684644
+Esophageal Varices,96,63.7,1,1,1.676658646
+Esophageal Varices,91,61.46,1,1,1.676682707
+Cervical Esophageal Web,99,76.76,0,0,0.1957627119
+Cervical Esophageal Web,99,76.76,0,0,0.1957627119
+Cervical Esophageal Web,91,69.92,0,0,0.1975429975
+Cervical Esophageal Web,93,77.98,0,0,0.19513382
+Cervical Esophageal Web,92,78.18,0,0,0.1950124688
+Esophageal Dysmotility,90,61.67,1,1,1.676680639
+Esophageal Dysmotility,85,66.78,1,1,1.676616439
+Esophageal Dysmotility,82,59.13,1,1,1.676703491
+Esophageal Dysmotility,90,61.67,1,1,1.676680639
+Esophageal Dysmotility,90,61.67,1,1,1.676680639
+Vocal Cord Paralysis,85,82.44,0.5,1,1.707748184
+Vocal Cord Paralysis,85,79.6,0.5,1,1.709215017
+Vocal Cord Paralysis,97,68.7,0.5,1,1.710402042
+Vocal Cord Paralysis,94,72.46,0.5,1,1.710206739
+Vocal Cord Paralysis,90,73.17,0.5,1,1.710157122
+Laryngeal Cyst,85,71.14,0.5,1,1.710286478
+Laryngeal Cyst,95,77.57,0.5,1,1.709665669
+Laryngeal Cyst,93,81.12,0,1,1.792125984
+Laryngeal Cyst,93,69.52,0,1,1.797601918
+Laryngeal Cyst,95,77.57,0.5,1,1.709665669
+Laryngeal Carcinoma,90,53.21,0,1,1.798787511
+Laryngeal Carcinoma,90,53.21,0,1,1.798787511
+Laryngeal Carcinoma,93,52.6,0,1,1.798809524
+Laryngeal Carcinoma,93,52.6,0,1,1.798809524
+Laryngeal Carcinoma,91,56.05,0,1,1.7986733
+Enlarged Cervical Lymph Nodes,91,69.92,1,1,1.676556846
+Enlarged Cervical Lymph Nodes,91,69.92,1,1,1.676556846
+Enlarged Cervical Lymph Nodes,94,77.77,1,1,1.67621076
+Enlarged Cervical Lymph Nodes,94,77.77,1,1,1.67621076
+Enlarged Cervical Lymph Nodes,88,70.53,1,1,1.676542477
+Reactive Lymphadenopathy,91,78.38,0,0,0.1948849105
+Reactive Lymphadenopathy,85,79.6,0,0,0.1939393939
+Reactive Lymphadenopathy,88,78.99,0,0,0.1944521498
+Reactive Lymphadenopathy,91,78.38,0,0,0.1948849105
+Reactive Lymphadenopathy,87,79.19,0,0,0.1942938659
+Lymphoma,87,70.73,0,1,1.79741435
+Lymphoma,97,71.95,0,1,1.797192982
+Lymphoma,87,70.73,0,1,1.79741435
+Lymphoma,96,72.16,0,1,1.797150997
+Lymphoma,88,70.53,0,1,1.797447352
+Cystic Hygroma,90,70.13,0,0,0.1975108899
+Cystic Hygroma,94,64,0,0,0.1981981982
+Cystic Hygroma,94,72.46,0,0,0.1970887918
+Cystic Hygroma,91,69.92,0,0,0.1975429975
+Cystic Hygroma,90,70.13,0,0,0.1975108899
+Calcified Lymph Node,95,77.57,0,0,0.1953650058
+Calcified Lymph Node,102,79.6,0,0,0.1939393939
+Calcified Lymph Node,97,71.95,0,0,0.1971929825
+Calcified Lymph Node,96,80.62,0,0,0.1928315412
+Calcified Lymph Node,93,77.98,0,0,0.19513382
+Metastatic Lymphadenopathy,100,68.1,0,1,1.797790055
+Metastatic Lymphadenopathy,97,63.49,0,1,1.798238661
+Metastatic Lymphadenopathy,95,63.9,0,1,1.798206278
+Metastatic Lymphadenopathy,92,64.41,0,1,1.798164296
+Metastatic Lymphadenopathy,91,61.46,0,1,1.798383185
+Lymph Node Calcification,90,81.63,0,0,0.1912472648
+Lymph Node Calcification,86,73.88,0,0,0.1967532468
+Lymph Node Calcification,90,75.3,0,0,0.1963302752
+Lymph Node Calcification,87,73.68,0,0,0.1968051118
+Lymph Node Calcification,94,74.79,0,0,0.1964943032
+Granulomatous Lymphadenitis,90,64.71,0,0,0.1981386691
+Granulomatous Lymphadenitis,85,65.52,0,0,0.198065764
+Granulomatous Lymphadenitis,93,64.2,0,0,0.1981818182
+Granulomatous Lymphadenitis,87,65.22,0.5,0.5,0.9105201574
+Granulomatous Lymphadenitis,87,56.76,0,0,0.1986413043
+Lymph Node Enlargement,96,72.5,0.5,1,1.710204082
+Lymph Node Enlargement,89,74.22,0.5,1,1.710072884
+Lymph Node Enlargement,90,65.56,0.5,1,1.710510381
+Lymph Node Enlargement,95,72.7,0.5,1,1.710190555
+Lymph Node Enlargement,89,74.22,0.5,1,1.710072884
+Fibromatosis Colli,90,64.71,0.5,0.5,0.9105342402
+Fibromatosis Colli,92,61.26,0.5,0.5,0.9106143253
+Fibromatosis Colli,95,69.11,0.5,0.5,0.9103849422
+Fibromatosis Colli,89,64.91,0.5,0.5,0.9105287983
+Fibromatosis Colli,93,72.66,0.5,0.5,0.9101932926
+Muscle Atrophy in Neck,89,53.41,0.5,1,1.71073358
+Muscle Atrophy in Neck,88,53.61,0.5,1,1.710731257
+Muscle Atrophy in Neck,90,61.67,0.5,1,1.710605992
+Muscle Atrophy in Neck,93,61.06,0.5,1,1.710618291
+Muscle Atrophy in Neck,90,61.67,0.5,1,1.710605992
+Myositis Ossificans,90,66.84,0,1,1.797933884
+Myositis Ossificans,90,61.67,0,1,1.798369344
+Myositis Ossificans,84,74.19,0,1,1.796669442
+Myositis Ossificans,92,83.56,0,1,1.784848485
+Myositis Ossificans,86,70.94,0,1,1.797378768
+Cervical Muscle Spasm,91,72.97,1,1,1.676471624
+Cervical Muscle Spasm,91,72.97,0.5,1,1.710171641
+Cervical Muscle Spasm,98,80.31,0.5,1,1.708982953
+Cervical Muscle Spasm,91,72.97,0,1,1.796976568
+Cervical Muscle Spasm,91,69.92,0.5,1,1.710348614
+Torticollis,83,65.93,1,1,1.676629377
+Torticollis,90,64.71,1,1,1.676646146
+Torticollis,94,55.54,1,1,1.676729306
+Torticollis,91,64.51,1,1,1.676648714
+Torticollis,95,63.9,1,1,1.676656261
+Cervical Nerve Root Compression,90,73.17,0,1,1.796930161
+Cervical Nerve Root Compression,90,70.13,0,1,1.79751089
+Cervical Nerve Root Compression,94,77.77,0,1,1.795255042
+Cervical Nerve Root Compression,91,72.97,0,1,1.796976568
+Cervical Nerve Root Compression,91,72.97,0,1,1.796976568
+Brachial Plexus Lesion,96,68.91,1,1,1.676578393
+Brachial Plexus Lesion,87,74.73,1,1,1.6764016
+Brachial Plexus Lesion,96,68.91,1,1,1.676578393
+Brachial Plexus Lesion,94,69.31,1,1,1.67657017
+Brachial Plexus Lesion,96,77.37,1,1,1.676243484
+Glossopharyngeal Neuralgia,93,72.66,1,1,1.676482055
+Glossopharyngeal Neuralgia,95,69.11,1,1,1.67657433
+Glossopharyngeal Neuralgia,93,64.2,1,1,1.676652602
+Glossopharyngeal Neuralgia,94,72.46,1,1,1.676488532
+Glossopharyngeal Neuralgia,94,72.46,1,1,1.676488532
+Phrenic Nerve Palsy,88,70.53,0,0,0.1974473516
+Phrenic Nerve Palsy,89,61.87,0,0,0.1983559392
+Phrenic Nerve Palsy,91,65.25,0,0,0.1980906921
+Phrenic Nerve Palsy,92,69.72,0,0,0.1975728155
+Phrenic Nerve Palsy,92,69.72,0,0,0.1975728155
+Accessory Nerve Palsy,85,62.68,0,1,1.79829932
+Accessory Nerve Palsy,85,62.68,0,1,1.79829932
+Accessory Nerve Palsy,87,53.81,0,1,1.798765051
+Accessory Nerve Palsy,79,55.44,0,1,1.79869961
+Accessory Nerve Palsy,89,53.41,0,1,1.798780116
+Vagus Nerve Lesion,101,71.18,0,1,1.797336884
+Vagus Nerve Lesion,100,63.02,0,1,1.798274374
+Vagus Nerve Lesion,103,73.47,0,1,1.796857816
+Vagus Nerve Lesion,91,73.71,0,1,1.796797438
+Vagus Nerve Lesion,95,72.7,0,1,1.797037037
+Cervical Plexopathy,85,37.3,0,1,1.799182004
+Cervical Plexopathy,85,45.76,0,1,1.79901088
+Cervical Plexopathy,89,44.95,0,1,1.799030303
+Cervical Plexopathy,86,54.02,0,1,1.798756992
+Cervical Plexopathy,85,45.76,0,1,1.79901088
+Cervical Sympathetic Chain Schwannoma,85,62.68,1,1,1.676670174
+Cervical Sympathetic Chain Schwannoma,95,60.65,1,1,1.676690365
+Cervical Sympathetic Chain Schwannoma,90,61.67,1,1,1.676680639
+Cervical Sympathetic Chain Schwannoma,94,69.31,1,1,1.67657017
+Cervical Sympathetic Chain Schwannoma,91,64.51,1,1,1.676648714
+Parathyroid Adenoma,90,61.67,0.5,0.5,0.9106059917
+Parathyroid Adenoma,88,70.53,0.5,0.5,0.910318762
+Parathyroid Adenoma,93,72.66,0,0,0.1970457903
+Parathyroid Adenoma,89,70.33,0.5,0.5,0.9103288038
+Parathyroid Adenoma,89,70.33,0.5,0.5,0.9103288038
+Hyperplasia of Parathyroid,96,72.16,0,1,1.797150997
+Hyperplasia of Parathyroid,91,64.51,0,1,1.798155832
+Hyperplasia of Parathyroid,102,65.12,0,1,1.798102467
+Hyperplasia of Parathyroid,88,73.47,0,1,1.796857816
+Hyperplasia of Parathyroid,88,73.47,0,1,1.796857816
+Parathyroid Carcinoma,92,61.26,1,1,1.676684644
+Parathyroid Carcinoma,89,53.41,1,1,1.676741941
+Parathyroid Carcinoma,86,54.02,1,1,1.676738494
+Parathyroid Carcinoma,90,61.67,1,1,1.676680639
+Parathyroid Carcinoma,94,60.85,1,1,1.67668852
+Parathyroid Cyst,86,65.42,1,1,1.676636628
+Parathyroid Cyst,86,65.42,1,1,1.676636628
+Parathyroid Cyst,97,74.29,1,1,1.676421066
+Parathyroid Cyst,83,63.09,1,1,1.676665663
+Parathyroid Cyst,89,75.5,1,1,1.676363636
+Parathyroid Hyperplasia,93,64.2,0,1,1.798181818
+Parathyroid Hyperplasia,93,64.2,0,1,1.798181818
+Parathyroid Hyperplasia,102,65.12,0,1,1.798102467
+Parathyroid Hyperplasia,102,65.12,0,1,1.798102467
+Parathyroid Hyperplasia,102,65.12,0.5,1,1.710522973
+Ectopic Parathyroid Tissue,89,73.37,0,0,0.1968823071
+Ectopic Parathyroid Tissue,82,63.29,0,0,0.1982540375
+Ectopic Parathyroid Tissue,86,54.02,0,0,0.1987569919
+Ectopic Parathyroid Tissue,83,63.09,0,0,0.1982691476
+Ectopic Parathyroid Tissue,83,71.55,0,0,0.1972696246
+Pharyngeal Diverticulum,88,73.47,0,0,0.1968578162
+Pharyngeal Diverticulum,87,65.22,0,0,0.1980934223
+Pharyngeal Diverticulum,92,72.87,0,0,0.1969992498
+Pharyngeal Diverticulum,89,70.33,0,0,0.1974795211
+Pharyngeal Diverticulum,89,70.33,0,0,0.1974795211
+Hypertrophy of Pharyngeal Tonsils,90,61.67,0,1,1.798369344
+Hypertrophy of Pharyngeal Tonsils,89,61.87,0,1,1.798355939
+Hypertrophy of Pharyngeal Tonsils,92,61.26,0,1,1.798396151
+Hypertrophy of Pharyngeal Tonsils,87,57.81,0,1,1.798591053
+Hypertrophy of Pharyngeal Tonsils,88,62.07,0,1,1.798342312
+Pharyngeal Wall Thickening,84,62.88,0.5,0.5,0.9105796824
+Pharyngeal Wall Thickening,84,62.88,0.5,0.5,0.9105796824
+Pharyngeal Wall Thickening,84,62.88,0.5,0.5,0.9105796824
+Pharyngeal Wall Thickening,92,61.26,0.5,0.5,0.9106143253
+Pharyngeal Wall Thickening,88,62.07,0.5,0.5,0.9105975875
+Pharyngitis,93,72.66,1,1,1.676482055
+Pharyngitis,93,72.66,1,1,1.676482055
+Pharyngitis,93,72.66,1,1,1.676482055
+Pharyngitis,93,72.66,1,1,1.676482055
+Pharyngitis,93,72.66,1,1,1.676482055
+Peritonsillar Abscess,86,54.02,1,1,1.676738494
+Peritonsillar Abscess,89,44.95,1,1,1.676779201
+Peritonsillar Abscess,92,47.49,1,1,1.676769731
+Peritonsillar Abscess,87,53.81,1,1,1.676739695
+Peritonsillar Abscess,86,54.02,1,1,1.676738494
+Tonsillar Calcifications,90,56.25,0,0,0.1986644407
+Tonsillar Calcifications,88,45.15,0,0,0.1990255786
+Tonsillar Calcifications,85,54.22,0,0,0.1987492183
+Tonsillar Calcifications,81,46.57,0,0,0.1989906636
+Tonsillar Calcifications,86,62.48,0,0,0.1983136594
+Parotid Gland Mass,95,69.11,1,1,1.67657433
+Parotid Gland Mass,93,69.52,1,1,1.676565694
+Parotid Gland Mass,95,69.11,1,1,1.67657433
+Parotid Gland Mass,94,69.31,1,1,1.67657017
+Parotid Gland Mass,93,77.98,1,1,1.676192286
+Mucocele of Salivary Gland,89,70.33,1,1,1.676547311
+Mucocele of Salivary Gland,94,72.46,1,1,1.676488532
+Mucocele of Salivary Gland,87,73.68,1,1,1.676445768
+Mucocele of Salivary Gland,89,73.37,1,1,1.676457413
+Mucocele of Salivary Gland,81,71.95,1,1,1.67650422
+Submandibular Gland Tumor,96,72.16,0,1,1.797150997
+Submandibular Gland Tumor,94,72.46,0,1,1.797088792
+Submandibular Gland Tumor,97,63.49,0,1,1.798238661
+Submandibular Gland Tumor,97,63.49,0,1,1.798238661
+Submandibular Gland Tumor,94,72.46,0,1,1.797088792
+Sialolithiasis in Sublingual Gland,87,66.27,1,1,1.676624335
+Sialolithiasis in Sublingual Gland,81,67.79,1,1,1.676599504
+Sialolithiasis in Sublingual Gland,88,66.07,1,1,1.676627321
+Sialolithiasis in Sublingual Gland,88,81.93,1,1,1.675496197
+Sialolithiasis in Sublingual Gland,91,78.38,1,1,1.676154307
+Salivary Gland Atrophy,94,80.92,0,1,1.792424242
+Salivary Gland Atrophy,87,70.73,0,1,1.79741435
+Salivary Gland Atrophy,87,70.73,0,1,1.79741435
+Salivary Gland Atrophy,87,70.73,0,1,1.79741435
+Salivary Gland Atrophy,87,70.73,0,1,1.79741435
+Lipoma of Neck,93,66.44,1,1,1.676621749
+Lipoma of Neck,93,66.44,1,1,1.676621749
+Lipoma of Neck,89,67.04,1,1,1.676612251
+Lipoma of Neck,95,63.9,1,1,1.676656261
+Lipoma of Neck,89,67.04,1,1,1.676612251
+Hemangioma of Neck,85,82.44,1,1,1.675296108
+Hemangioma of Neck,91,64.51,1,1,1.676648714
+Hemangioma of Neck,86,82.34,1,1,1.675339646
+Hemangioma of Neck,87,73.68,1,1,1.676445768
+Hemangioma of Neck,88,73.47,1,1,1.676453719
+Cervical Abscess,84,62.88,1,1,1.676667993
+Cervical Abscess,82,54.83,1,1,1.676733709
+Cervical Abscess,84,62.88,1,1,1.676667993
+Cervical Abscess,92,64.41,1,1,1.67664998
+Cervical Abscess,87,62.27,1,1,1.676674529
+Sebaceous Cyst of Neck,88,81.93,0,1,1.790632319
+Sebaceous Cyst of Neck,88,81.93,0,1,1.790632319
+Sebaceous Cyst of Neck,82,82.95,0,1,1.787692308
+Sebaceous Cyst of Neck,91,81.43,0,1,1.791614256
+Sebaceous Cyst of Neck,89,81.83,0,1,1.790846682
+Soft Tissue Sarcoma of Neck,90,70.13,1,1,1.676552024
+Soft Tissue Sarcoma of Neck,93,61.06,1,1,1.676686551
+Soft Tissue Sarcoma of Neck,90,53.21,1,1,1.676743043
+Soft Tissue Sarcoma of Neck,95,60.65,1,1,1.676690365
+Soft Tissue Sarcoma of Neck,85,62.68,1,1,1.676670174
+Cervical Cystic Lesion,90,61.67,0.5,0.5,0.9106059917
+Cervical Cystic Lesion,90,61.67,0.5,0.5,0.9106059917
+Cervical Cystic Lesion,91,61.46,0.5,0.5,0.9106102948
+Cervical Cystic Lesion,90,61.67,0.5,0.5,0.9106059917
+Cervical Cystic Lesion,86,70.94,0,0,0.197378768
+Fat Necrosis of Neck,86,79.4,0,1,1.794117647
+Fat Necrosis of Neck,85,79.6,0,1,1.793939394
+Fat Necrosis of Neck,86,79.4,0,1,1.794117647
+Fat Necrosis of Neck,92,78.18,0,1,1.795012469
+Fat Necrosis of Neck,86,79.4,0,1,1.794117647
+Cervical Fibrosis,84,62.88,0,0,0.1982847341
+Cervical Fibrosis,89,61.87,0,0,0.1983559392
+Cervical Fibrosis,96,51.99,0,0,0.1988307512
+Cervical Fibrosis,88,62.07,0,0,0.1983423125
+Cervical Fibrosis,90,57.1,0,0,0.1986254296
+Cervical Disc Herniation,91,69.92,1,1,1.676556846
+Cervical Disc Herniation,84,67.08,1,1,1.676611597
+Cervical Disc Herniation,84,67.08,1,1,1.676611597
+Cervical Disc Herniation,83,71.55,1,1,1.676515753
+Cervical Disc Herniation,94,69.31,1,1,1.67657017
+Cervical Spondylosis,89,70.33,1,1,1.676547311
+Cervical Spondylosis,90,70.13,1,1,1.676552024
+Cervical Spondylosis,90,70.13,1,1,1.676552024
+Cervical Spondylosis,92,69.72,1,1,1.676561324
+Cervical Spondylosis,89,70.33,1,1,1.676547311
+Cervical Spinal Stenosis,88,70.53,1,1,1.676542477
+Cervical Spinal Stenosis,88,70.53,1,1,1.676542477
+Cervical Spinal Stenosis,88,70.53,1,1,1.676542477
+Cervical Spinal Stenosis,88,70.53,1,1,1.676542477
+Cervical Spinal Stenosis,88,70.53,1,1,1.676542477
+Ossification of the Posterior Longitudinal Ligament,91,61.46,0,1,1.798383185
+Ossification of the Posterior Longitudinal Ligament,89,61.87,0,1,1.798355939
+Ossification of the Posterior Longitudinal Ligament,90,70.13,0,1,1.79751089
+Ossification of the Posterior Longitudinal Ligament,96,60.45,0,1,1.798446602
+Ossification of the Posterior Longitudinal Ligament,84,62.88,0,1,1.798284734
+Cervical Kyphosis,89,61.87,0,1,1.798355939
+Cervical Kyphosis,93,69.52,0,1,1.797601918
+Cervical Kyphosis,91,61.46,0,1,1.798383185
+Cervical Kyphosis,87,70.73,0,1,1.79741435
+Cervical Kyphosis,89,61.87,0,1,1.798355939
+Cervical Vertebral Fracture,82,63.29,0,1,1.798254038
+Cervical Vertebral Fracture,82,63.29,0,1,1.798254038
+Cervical Vertebral Fracture,89,64.91,0,1,1.798121184
+Cervical Vertebral Fracture,88,73.47,0,1,1.796857816
+Cervical Vertebral Fracture,88,62.07,0,1,1.798342312
+Cervical Rib,91,78.38,1,1,1.676154307
+Cervical Rib,93,69.52,1,1,1.676565694
+Cervical Rib,92,69.72,1,1,1.676561324
+Cervical Rib,91,69.92,1,1,1.676556846
+Cervical Rib,94,69.31,1,1,1.67657017
+Atlantoaxial Instability,101,67.89,0,1,1.797815401
+Atlantoaxial Instability,100,68.1,0,1,1.797790055
+Atlantoaxial Instability,99,68.3,0,1,1.797765363
+Atlantoaxial Instability,94,60.85,0,1,1.798422091
+Atlantoaxial Instability,99,68.3,0,1,1.797765363
+Degenerative Disc Disease,91,61.46,0,0,0.1983831851
+Degenerative Disc Disease,88,62.07,0,0,0.1983423125
+Degenerative Disc Disease,78,60.14,0,0,0.1984650806
+Degenerative Disc Disease,78,60.14,0,0,0.1984650806
+Degenerative Disc Disease,91,61.46,0,0,0.1983831851
+Thyroid Nodule,88,70.53,1,1,1.676542477
+Thyroid Nodule,95,72.36,1,1,1.6764917
+Thyroid Nodule,91,61.46,1,1,1.676682707
+Thyroid Nodule,95,72.36,1,1,1.6764917
+Thyroid Nodule,92,69.72,1,1,1.676561324
+Thyroid Cyst,92,61.26,1,1,1.676684644
+Thyroid Cyst,96,72.16,1,1,1.6764979
+Thyroid Cyst,96,72.16,1,1,1.6764979
+Thyroid Cyst,84,62.88,1,1,1.676667993
+Thyroid Cyst,84,62.88,1,1,1.676667993
+Thyroid Goiter,90,56.25,0.5,1,1.710697674
+Thyroid Goiter,89,56.45,0.5,1,1.710694887
+Thyroid Goiter,89,56.45,0.5,1,1.710694887
+Thyroid Goiter,91,56.05,1,1,1.676726015
+Thyroid Goiter,88,65.01,0.5,1,1.710526039
+Thyroiditis,98,63.39,1,1,1.676662259
+Thyroiditis,91,64.51,1,1,1.676648714
+Thyroiditis,94,64,1,1,1.676655052
+Thyroiditis,93,64.2,1,1,1.676652602
+Thyroiditis,87,53.81,1,1,1.676739695
+Papillary Thyroid Carcinoma,88,45.15,1,1,1.676778498
+Papillary Thyroid Carcinoma,86,62.48,1,1,1.676672317
+Papillary Thyroid Carcinoma,81,55.03,1,1,1.676732489
+Papillary Thyroid Carcinoma,86,54.02,1,1,1.676738494
+Papillary Thyroid Carcinoma,91,61.46,1,1,1.676682707
+Multinodular Goiter,88,70.53,1,1,1.676542477
+Multinodular Goiter,89,70.33,1,1,1.676547311
+Multinodular Goiter,87,70.73,1,1,1.676537517
+Multinodular Goiter,92,72.87,1,1,1.676475042
+Multinodular Goiter,91,64.51,1,1,1.676648714
+Hyperthyroidism,82,66.03,1,1,1.676627911
+Hyperthyroidism,84,74.19,1,1,1.67642529
+Hyperthyroidism,89,61.87,1,1,1.676678636
+Hyperthyroidism,92,65.05,1,1,1.676641668
+Hyperthyroidism,82,59.13,1,1,1.676703491
+Thyroid Hematoma,85,62.68,0,0,0.1982993197
+Thyroid Hematoma,89,70.33,0,0,0.1974795211
+Thyroid Hematoma,89,61.87,0,0,0.1983559392
+Thyroid Hematoma,88,65.01,0,0,0.1981123171
+Thyroid Hematoma,85,62.68,0,0,0.1982993197
+Thyroid Calcifications,88,40.69,0,0,0.1991210723
+Thyroid Calcifications,89,61.87,0,0,0.1983559392
+Thyroid Calcifications,85,32.94,0,0,0.1992489673
+Thyroid Calcifications,91,53,0,0,0.1987951807
+Thyroid Calcifications,85,32.94,0,0,0.1992489673
+Tracheal Diverticulum,94,60.85,0,0,0.1984220907
+Tracheal Diverticulum,87,66.27,0,0,0.1979929754
+Tracheal Diverticulum,85,71.14,0,0,0.1973439575
+Tracheal Diverticulum,90,61.67,0,0,0.1983693437
+Tracheal Diverticulum,87,66.27,0,0,0.1979929754
+Tracheal Calcifications,85,54.22,0,0.5,0.9987492183
+Tracheal Calcifications,87,62.27,0,0.5,0.998328458
+Tracheal Calcifications,85,54.22,0,0.5,0.9987492183
+Tracheal Calcifications,90,61.67,0,0.5,0.9983693437
+Tracheal Calcifications,85,54.22,0,0.5,0.9987492183
+Tracheoesophageal Fistula,93,52.6,1,1,1.676746324
+Tracheoesophageal Fistula,93,52.6,1,1,1.676746324
+Tracheoesophageal Fistula,90,61.67,1,1,1.676680639
+Tracheoesophageal Fistula,93,52.6,1,1,1.676746324
+Tracheoesophageal Fistula,93,52.6,1,1,1.676746324
+Carotid Artery Stenosis,96,72.16,1,1,1.6764979
+Carotid Artery Stenosis,92,64.41,1,1,1.67664998
+Carotid Artery Stenosis,93,64.2,1,1,1.676652602
+Carotid Artery Stenosis,98,68.5,1,1,1.676586433
+Carotid Artery Stenosis,94,72.46,1,1,1.676488532
+Jugular Vein Thrombosis,93,61.06,1,1,1.676686551
+Jugular Vein Thrombosis,94,69.31,1,1,1.67657017
+Jugular Vein Thrombosis,93,61.06,1,1,1.676686551
+Jugular Vein Thrombosis,98,68.5,1,1,1.676586433
+Jugular Vein Thrombosis,95,77.57,1,1,1.676227507
+Vertebral Artery Dissection,93,64.2,1,1,1.676652602
+Vertebral Artery Dissection,91,69.92,1,1,1.676556846
+Vertebral Artery Dissection,90,64.71,1,1,1.676646146
+Vertebral Artery Dissection,89,73.37,1,1,1.676457413
+Vertebral Artery Dissection,91,64.51,1,1,1.676648714
+Arteriovenous Malformation,89,64.91,1,1,1.676643529
+Arteriovenous Malformation,96,63.7,1,1,1.676658646
+Arteriovenous Malformation,95,72.36,1,1,1.6764917
+Arteriovenous Malformation,92,72.87,1,1,1.676475042
+Arteriovenous Malformation,85,62.68,1,1,1.676670174
+Carotid Body Tumor,89,73.37,0,0,0.1968823071
+Carotid Body Tumor,93,69.52,0,0,0.1976019185
+Carotid Body Tumor,101,67.89,0,0,0.1978154014
+Carotid Body Tumor,96,68.91,0,0,0.197686524
+Carotid Body Tumor,96,68.91,0,0,0.197686524
+Carotid Artery Aneurysm,87,82.14,1,1,1.675420086
+Carotid Artery Aneurysm,90,87.05,1,1,1.67503075
+Carotid Artery Aneurysm,90,81.63,1,1,1.675592458
+Carotid Artery Aneurysm,91,89.89,1,1,1.675931417
+Carotid Artery Aneurysm,87,82.14,1,1,1.675420086
+Vertebral Artery Stenosis,91,64.51,0,1,1.798155832
+Vertebral Artery Stenosis,91,64.51,0,1,1.798155832
+Vertebral Artery Stenosis,88,70.53,0,1,1.797447352
+Vertebral Artery Stenosis,93,61.06,0,1,1.79840891
+Vertebral Artery Stenosis,89,61.87,0,1,1.798355939
+Carotid Artery Dissection,95,77.57,1,1,1.676227507
+Carotid Artery Dissection,92,56.59,1,1,1.676722406
+Carotid Artery Dissection,90,70.13,1,1,1.676552024
+Carotid Artery Dissection,92,56.59,1,1,1.676722406
+Carotid Artery Dissection,90,70.13,1,1,1.676552024
+Subclavian Artery Aneurysm,93,77.98,0,1,1.79513382
+Subclavian Artery Aneurysm,91,72.97,0,1,1.796976568
+Subclavian Artery Aneurysm,88,81.93,0,1,1.790632319
+Subclavian Artery Aneurysm,93,77.98,0,1,1.79513382
+Subclavian Artery Aneurysm,94,80.92,0,1,1.792424242
+Jugular Venous Dilatation,89,78.79,0,1,1.794601889
+Jugular Venous Dilatation,91,78.38,0,1,1.79488491
+Jugular Venous Dilatation,87,79.19,0,1,1.794293866
+Jugular Venous Dilatation,84,71.34,0,1,1.79730821
+Jugular Venous Dilatation,90,78.59,0,1,1.794743758
+Vocal Cord Polyp,98,76.96,1,1,1.676274047
+Vocal Cord Polyp,106,83.8,1,1,1.674324324
+Vocal Cord Polyp,93,77.98,1,1,1.676192286
+Vocal Cord Polyp,106,83.8,1,1,1.674324324
+Vocal Cord Polyp,106,83.8,1,1,1.674324324
+Uterine Fibroid,86,70.94,1,1,1.676532168
+Uterine Fibroid,89,53.41,1,1,1.676741941
+Uterine Fibroid,87,70.73,1,1,1.676537517
+Uterine Fibroid,89,61.87,1,1,1.676678636
+Uterine Fibroid,89,53.41,1,1,1.676741941
+Prostatic Hyperplasia,90,61.67,0.5,1,1.710605992
+Prostatic Hyperplasia,93,52.6,0.5,1,1.710742706
+Prostatic Hyperplasia,94,60.85,0.5,1,1.710622388
+Prostatic Hyperplasia,93,64.2,0.5,1,1.710547667
+Prostatic Hyperplasia,86,54.02,0.5,1,1.710726404
+Pelvic Lymphadenopathy,89,73.37,0.5,1,1.710142147
+Pelvic Lymphadenopathy,90,73.17,1,1,1.676464628
+Pelvic Lymphadenopathy,92,72.87,1,1,1.676475042
+Pelvic Lymphadenopathy,90,73.17,0.5,1,1.710157122
+Pelvic Lymphadenopathy,90,81.63,1,1,1.675592458
+Hemorrhagic Cyst,85,73.98,0,1,1.796726678
+Hemorrhagic Cyst,91,64.51,0,1,1.798155832
+Hemorrhagic Cyst,91,64.51,0,1,1.798155832
+Hemorrhagic Cyst,86,62.48,0,1,1.798313659
+Hemorrhagic Cyst,83,65.93,0,1,1.79802664
+Para-ovarian Cyst,86,65.42,0,1,1.798075072
+Para-ovarian Cyst,86,65.42,0,1,1.798075072
+Para-ovarian Cyst,86,65.42,0,1,1.798075072
+Para-ovarian Cyst,86,65.42,0,1,1.798075072
+Para-ovarian Cyst,86,65.42,0,1,1.798075072
+Peritoneal Cyst,82,71.75,0.5,0.5,0.9102514507
+Peritoneal Cyst,83,71.55,0.5,0.5,0.9102632583
+Peritoneal Cyst,88,78.99,0.5,0.5,0.909377438
+Peritoneal Cyst,84,71.34,0.5,0.5,0.9102753122
+Peritoneal Cyst,82,71.75,0.5,0.5,0.9102514507
+Simple Hydrosalpinx,89,61.87,0,0,0.1983559392
+Simple Hydrosalpinx,82,63.29,0,0,0.1982540375
+Simple Hydrosalpinx,82,63.29,0,0,0.1982540375
+Simple Hydrosalpinx,82,63.29,0,0,0.1982540375
+Simple Hydrosalpinx,80,51.18,0,0,0.1988577955
+Ovarian Fibroma,90,66.84,1,1,1.676615483
+Ovarian Fibroma,96,66.03,1,1,1.676627911
+Ovarian Fibroma,90,64.71,1,1,1.676646146
+Ovarian Fibroma,91,64.51,1,1,1.676648714
+Ovarian Fibroma,92,66.64,1,1,1.676618648
+Endometrioma,88,53.61,0,1,1.79877263
+Endometrioma,91,72.97,0,1,1.796976568
+Endometrioma,95,52.19,0,1,1.798823875
+Endometrioma,94,64,0,1,1.798198198
+Endometrioma,85,71.14,0,1,1.797343958
+Ovarian Dermoid,96,72.16,0,1,1.797150997
+Ovarian Dermoid,96,72.16,0,1,1.797150997
+Ovarian Dermoid,96,72.16,0,1,1.797150997
+Ovarian Dermoid,96,72.16,0,1,1.797150997
+Ovarian Dermoid,96,72.16,0,1,1.797150997
+Pelvic Floor Relaxation,90,53.21,0,1,1.798787511
+Pelvic Floor Relaxation,86,49.65,0,1,1.798905609
+Pelvic Floor Relaxation,90,53.21,0,1,1.798787511
+Pelvic Floor Relaxation,87,53.81,0,1,1.798765051
+Pelvic Floor Relaxation,90,53.21,0,1,1.798787511
+Asymmetric Appearance of the Vallecula,90,53.21,0,0.5,0.9987875114
+Asymmetric Appearance of the Vallecula,88,62.07,0,0.5,0.9983423125
+Asymmetric Appearance of the Vallecula,82,54.83,0,0.5,0.9987248964
+Asymmetric Appearance of the Vallecula,82,54.83,0,0.5,0.9987248964
+Asymmetric Appearance of the Vallecula,88,53.61,0,0.5,0.9987726296
+Perinueral (Tarlov) Cysts,91,78.38,0,1,1.79488491
+Perinueral (Tarlov) Cysts,90,70.13,0,1,1.79751089
+Perinueral (Tarlov) Cysts,93,77.98,0,1,1.79513382
+Perinueral (Tarlov) Cysts,89,78.79,0,1,1.794601889
+Perinueral (Tarlov) Cysts,89,78.79,0,1,1.794601889
+Inguinal hernia,105,58.62,0,1,1.798549674
+Inguinal hernia,90,65.56,0,1,1.798062016
+Inguinal hernia,92,56.59,0,1,1.798649105
+Inguinal hernia,94,56.08,0,1,1.798671979
+Inguinal hernia,103,67.49,0,1,1.797862106
