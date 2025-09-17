@@ -314,7 +314,7 @@ def page_home():
     # Hero
     l, r = st.columns([1.2, 1])
     with l:
-        st.header("Our goal is to make medical reports understandable.")
+        st.header("Making medical reports understandable.")
         st.write("PLACEHOLDER: One-sentence value prop.")
         st.write("PLACEHOLDER: Secondary sentence about accuracy, empathy, and clarity.")
         st.markdown("- PLACEHOLDER bullet 1\n- PLACEHOLDER bullet 2\n- PLACEHOLDER bullet 3")
