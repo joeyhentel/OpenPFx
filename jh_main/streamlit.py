@@ -452,42 +452,104 @@ if page in ("", "home"):
 # ==========================
 # GENERATE PAGE (LLM-INTEGRATED)
 # ==========================
-def suggest_icd10_code(incidental_finding: str, ai_model: str | None = None) -> dict:
-    """
-    Returns {"code": "D18.03", "desc": "Hepatic hemangioma"} or {} on failure.
-    """
-    model = ai_model or OPENAI_MODEL
-    system = (
-        "You are a meticulous medical coding assistant. "
-        "Given a brief clinical description of an incidental finding, "
-        "return the *single most likely* ICD-10-CM code and a short description. "
-        "If uncertain, return your best-judgment candidate (do not return multiple). "
-        "Output strictly as compact JSON: {\"code\": \"\", \"desc\": \"\"} with no extra text."
-    )
-    user = f'Incidental finding: "{incidental_finding}"'
-    try:
-        resp = _oai_client.chat.completions.create(
-            model=model,
-            temperature=0,
-            messages=[
-                {"role": "system", "content": system},
-                {"role": "user", "content": user},
-            ],
-        )
-        raw = resp.choices[0].message.content.strip()
-        # Be defensive: try to locate JSON
-        start = raw.find("{")
-        end = raw.rfind("}")
-        if start != -1 and end != -1:
-            payload = json.loads(raw[start:end+1])
-            code = (payload.get("code") or "").strip()
-            desc = (payload.get("desc") or "").strip()
-            if code:
-                return {"code": code, "desc": desc}
-    except Exception as e:
-        # You can log e if desired
-        pass
-    return {}
+
+elif page == "generate":
+    st.subheader("Generate Your Own PFx")
+    st.caption("Select workflow, enter details, and generate a patient-friendly explanation.")
+
+    # how many generate panels to render
+    if "gen_panel_count" not in st.session_state:
+        st.session_state.gen_panel_count = 1
+
+    left, right = st.columns([1, 2], gap="large")
+
+    # ---------- LEFT: inputs (multiple panels) ----------
+    with left:
+        st.markdown("### Inputs")
+
+        for i in range(st.session_state.gen_panel_count):
+            st.markdown(f"#### Finding {i+1}")
+
+            incidental_finding = st.text_input(
+                "Incidental Finding", key=f"gen_finding_{i}",
+                placeholder="e.g., Hepatic hemangioma"
+            )
+            icd10_code = st.text_input(
+                "ICD-10 Code (Optional)", key=f"gen_icd10_{i}",
+                placeholder="e.g., D18.03"
+            )
+            reading_level = st.selectbox(
+                "Reading Level", READING_LEVELS, index=6, key=f"gen_reading_{i}"
+            )
+            workflow_options = ["Zero-shot", "Few-shot", "Agentic", "All"]
+            workflow_choice = st.selectbox(
+                "Workflow", workflow_options, index=0, key=f"gen_workflow_{i}"
+            )
+            ai_model = st.selectbox(
+                "Model", model_options, index=0, key=f"gen_model_{i}"
+            )
+
+            # per-panel state
+            if f"gen_df_{i}" not in st.session_state:
+                st.session_state[f"gen_df_{i}"] = None
+            if f"gen_pfx_{i}" not in st.session_state:
+                st.session_state[f"gen_pfx_{i}"] = ""
+            if f"gen_error_{i}" not in st.session_state:
+                st.session_state[f"gen_error_{i}"] = ""
+
+            # Generate
+            if st.button("🚀 Generate PFx", type="primary", key=f"gen_btn_{i}"):
+                st.session_state[f"gen_error_{i}"] = None
+                st.session_state[f"gen_df_{i}"] = None
+                st.session_state[f"gen_pfx_{i}"] = ""
+
+                if not incidental_finding.strip():
+                    st.session_state[f"gen_error_{i}"] = "Please enter an Incidental Finding before generating."
+                else:
+                    try:
+                        # >>> NEW: auto-suggest ICD-10 if blank
+                        if not (icd10_code or "").strip():
+                            suggestion = suggest_icd10_code(incidental_finding, ai_model)
+                            if suggestion:
+                                icd10_code = suggestion["code"]
+                                st.session_state[f"gen_icd10_{i}"] = icd10_code  # populate the UI field
+                                st.info(f'Auto-filled ICD-10: **{icd10_code}**'
+                                        + (f' — {suggestion.get("desc","")}' if suggestion.get("desc") else ""))
+                            else:
+                                st.warning("Couldn’t auto-suggest an ICD-10 code. Proceeding without one.")
+
+                        from streamlit_calls import (
+                            zeroshot_call, fewshot_call, agentic_conversation,
+                        )
+
+                        def _run_one(fn):
+                            out = fn(incidental_finding, icd10_code, reading_level, ai_model)
+                            return _ensure_schema(out)
+
+                        if workflow_choice == "Zero-shot":
+                            df = _run_one(zeroshot_call)
+
+                        elif workflow_choice == "Few-shot":
+                            df = _run_one(fewshot_call)
+
+                        elif workflow_choice == "Agentic":
+                            df = _run_one(agentic_conversation)
+
+                        elif workflow_choice == "All":
+                            df_zero = _run_one(zeroshot_call);         df_zero["_workflow"] = "Zero-shot"
+                            df_few  = _run_one(fewshot_call);          df_few["_workflow"]  = "Few-shot"
+                            df_ag   = _run_one(agentic_conversation);  df_ag["_workflow"]   = "Agentic"
+                            df = pd.concat([df_zero, df_few, df_ag], ignore_index=True)
+                        else:
+                            df = _ensure_schema(None)
+
+                        st.session_state[f"gen_df_{i}"]  = df
+                        st.session_state[f"gen_pfx_{i}"] = _extract_pfx_text(df)
+                        if df.empty:
+                            st.session_state[f"gen_error_{i}"] = "No results returned by the selected workflow(s)."
+
+                    except Exception as e:
+                        st.session_state[f"gen_error_{i}"] = f"Error during generation: {e}"
 
     btn_cols = st.columns([1, 1, 6], gap="small")
 
