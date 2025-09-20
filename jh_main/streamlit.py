@@ -322,64 +322,136 @@ READING_LEVELS = [
 
 # ====== PAGES ======
 def page_home():
-    _top_nav("home")
+    # optional: keep your existing _top_nav if you want the title only (no buttons)
+    _top_nav("home")  # shows title/caption only in your current setup
 
-    # Hero
-    l, r = st.columns([1.2, 1])
-    with l:
-        st.header("Making medical reports understandable.")
-        st.write("PLACEHOLDER: One-sentence value prop.")
-        st.write("PLACEHOLDER: Secondary sentence about accuracy, empathy, and clarity.")
-        st.markdown("- PLACEHOLDER bullet 1\n- PLACEHOLDER bullet 2\n- PLACEHOLDER bullet 3")
-        c1, c2 = st.columns(2)
-        with c1:
-            if st.button("Browse PFx →", type="primary", use_container_width=True):
-                _set_page("browse")
-        with c2:
-            if st.button("Generate your own →", use_container_width=True):
-                _set_page("generate")
-    with r:
-        st.markdown("### Demo Screenshot (Placeholder)")
-        st.markdown(
-            "<div style='height:220px;border:1px dashed #cbd5e1;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#64748b;'>"
-            "Placeholder image or diagram</div>",
-            unsafe_allow_html=True,
+    # ===== Hero =====
+    st.header("Making medical reports understandable.")
+    st.write(
+        "OpenPFx turns complex radiology findings into **clear, patient-friendly explanations** "
+        "that provide context without medical jargon."
+    )
+    st.caption(
+        "Explanations are generated through multiple AI workflows, with the **agentic workflow "
+        "outperforming others in testing for accuracy and readability**."
+    )
+    st.markdown(
+        "- **Clarity, not jargon:** Plain-language explanations of imaging findings.\n"
+        "- **Context you can trust:** Understand what was seen in your scan, explained simply.\n"
+        "- **Transparent process:** Every explanation includes ICD-10 code, readability score, and an accuracy check."
+    )
+    st.divider()
+
+    # ===== The Problem =====
+    st.subheader("The Problem")
+    st.write(
+        "Radiology reports are written for doctors, not patients. When patients read them, the technical "
+        "language around incidental findings can be confusing and overwhelming. OpenPFx makes these findings "
+        "understandable by providing clear, patient-friendly context."
+    )
+    st.divider()
+
+    # ===== The Solution =====
+    st.subheader("The Solution")
+    st.write(
+        "**Patient-Friendly Explanations (PFx):** OpenPFx automatically generates accessible explanations of incidental findings. "
+        "Each explanation provides general context in everyday language, alongside key details like coding and readability."
+    )
+    st.divider()
+
+    # ===== Browse PFx =====
+    st.subheader("Browse PFx")
+    st.write(
+        "Explore a growing library of **pre-generated explanations** for hundreds of incidental findings. "
+        "These PFx were created through OpenPFx workflows and curated for patients and clinicians. "
+        "Search by finding, compare workflows, and copy explanations for easy sharing."
+    )
+    c1, c2, c3 = st.columns([1, 1, 6])
+    with c1:
+        if st.button("Browse PFx →", type="primary", use_container_width=True, key="home_browse_btn"):
+            _set_page("browse")
+    with c2:
+        st.button("Learn more", use_container_width=True, key="home_browse_learn", disabled=True)
+    st.divider()
+
+    # ===== Generate Your Own =====
+    st.subheader("Generate Your Own")
+    st.write(
+        "If your finding isn’t in the library, create a new explanation instantly. "
+        "Enter the finding and choose a workflow to produce a patient-friendly version."
+    )
+    st.markdown(
+        "> ⚠️ **ICD-10 note for this mode:** the suggested ICD-10 code may not always be correct. "
+        "Codes are provided for general context only and should be confirmed with your clinician."
+    )
+    c4, c5, c6 = st.columns([1, 1, 6])
+    with c4:
+        if st.button("Generate PFx →", type="primary", use_container_width=True, key="home_generate_btn"):
+            _set_page("generate")
+    with c5:
+        st.button("See examples", use_container_width=True, key="home_generate_examples", disabled=True)
+    st.divider()
+
+    # ===== Workflows Explained =====
+    st.subheader("Workflows Explained")
+    st.write("OpenPFx offers four approaches for generating explanations:")
+    st.markdown(
+        "- **Zero-shot** — Quick, direct explanation with no prior examples.\n"
+        "- **Few-shot** — Uses reference examples to improve consistency.\n"
+        "- **Multiple Few-shot** — Adds a broader set of examples for more stability.\n"
+        "- **Agentic** — A multi-agent process with built-in checks for coding, accuracy, and readability. "
+        "In testing, **this workflow outperformed all others**."
+    )
+    st.divider()
+
+    # ===== What You’ll See =====
+    st.subheader("What You’ll See")
+    st.markdown(
+        "- A **patient-friendly summary** of the finding\n"
+        "- An **ICD-10 code** corresponding to the finding\n"
+        "- A **readability score** (Flesch) so you know the language is approachable\n"
+        "- An **accuracy check** for extra confidence"
+    )
+    st.divider()
+
+    # ===== Global ICD-10 Disclaimer =====
+    st.subheader("Important Note on ICD-10 Codes")
+    st.write(
+        "All ICD-10 codes shown in OpenPFx are **general** and are not specific to a patient’s individual case. "
+        "They are provided for context only and should be confirmed with your clinician before use in medical or administrative decisions."
+    )
+    st.divider()
+
+    # ===== Accuracy & Safety =====
+    st.subheader("Accuracy & Safety")
+    st.write(
+        "OpenPFx provides **general context only**. It is not personalized medical advice and should never replace "
+        "a conversation with your clinician."
+    )
+    st.markdown("> Always consult your doctor about what your imaging results mean for you.")
+    st.divider()
+
+    # ===== FAQ =====
+    st.subheader("FAQ")
+    with st.expander("What is an incidental finding?"):
+        st.write("An unexpected result that appears on a scan but wasn’t related to the original reason for imaging.")
+    with st.expander("What does OpenPFx provide?"):
+        st.write(
+            "Plain-language context around incidental findings — via a **Browse** library of pre-generated PFx and "
+            "a **Generate Your Own** tool for on-demand explanations."
+        )
+    with st.expander("Why are there multiple workflows?"):
+        st.write(
+            "Each workflow represents a different approach. The **agentic** workflow has been the most accurate and "
+            "readable in testing."
+        )
+    with st.expander("How reliable are the ICD-10 codes?"):
+        st.write(
+            "They’re general codes for context and may not match the specifics of your case. "
+            "Always confirm with your clinician."
         )
 
-    st.divider()
-
-    # How it works
-    st.subheader("How it works (Placeholder)")
-    c1, c2, c3 = st.columns(3)
-    for c, title in zip([c1, c2, c3], ["Pick a finding", "Read PFx", "Share/Export"]):
-        with c:
-            st.markdown(f"**{title}**")
-            st.write("PLACEHOLDER: short description for this step.")
-            st.markdown(
-                "<div style='height:100px;border:1px solid #e5e7eb;border-radius:10px;background:#f8fafc'></div>",
-                unsafe_allow_html=True,
-            )
-
-    st.divider()
-
-    # Accuracy / Safety
-    st.subheader("Accuracy & Safety (Placeholder)")
-    st.write("PLACEHOLDER paragraph about clinical vetting, limitations, and that PFx is not medical advice.")
-    st.markdown("> PLACEHOLDER note: always consult your clinician.")
-
-    st.divider()
-
-    # FAQ
-    st.subheader("FAQ (Placeholder)")
-    with st.expander("Is this medical advice?"):
-        st.write("PLACEHOLDER answer.")
-    with st.expander("Are the explanations reviewed?"):
-        st.write("PLACEHOLDER answer.")
-    with st.expander("Can I contribute?"):
-        st.write("PLACEHOLDER answer.")
-
-    st.divider()
-    st.caption("© PLACEHOLDER Organization — built with ❤️ for patients and clinicians.")
+    st.caption("© OpenPFx — built for patients and clinicians.")
 
 def page_browse():
     _top_nav("browse")
