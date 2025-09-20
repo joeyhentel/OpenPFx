@@ -12,7 +12,7 @@ from streamlit.components.v1 import html as st_html
 
 st.set_page_config(page_title="OpenPFx", page_icon="💬", layout="wide")
 
-from jh_pfx_prompts import (
+from jh_main/jh_pfx_prompts import (
     example,
     icd10_example,
     single_fewshot_icd10_labeling_prompt,
@@ -24,7 +24,7 @@ from jh_pfx_prompts import (
 )
 
 # Core LLM-backed functions implemented in your separate module
-from streamlit_calls import (
+from jh_main/streamlit_calls import (
     suggest_icd10_code,      
     zeroshot_call,
     fewshot_call,
