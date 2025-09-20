@@ -370,8 +370,6 @@ def page_home():
     with c1:
         if st.button("Browse PFx →", type="primary", use_container_width=True, key="home_browse_btn"):
             _set_page("browse")
-    with c2:
-        st.button("Learn more", use_container_width=True, key="home_browse_learn", disabled=True)
     st.divider()
 
     # ===== Generate Your Own =====
@@ -388,8 +386,6 @@ def page_home():
     with c4:
         if st.button("Generate PFx →", type="primary", use_container_width=True, key="home_generate_btn"):
             _set_page("generate")
-    with c5:
-        st.button("See examples", use_container_width=True, key="home_generate_examples", disabled=True)
     st.divider()
 
     # ===== Workflows Explained =====
