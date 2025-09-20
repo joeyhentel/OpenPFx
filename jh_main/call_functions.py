@@ -2,7 +2,7 @@ import re
 import pandas as pd 
 import os
 import dotenv
-from jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION
+from jh_main.jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION
 from openai import OpenAI
 CLIENT = OpenAI()
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
