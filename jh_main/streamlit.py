@@ -686,7 +686,8 @@ def page_generate():
                     order = ["Zero-shot", "Few-shot", "Agentic"]
                     for g in [g for g in order if g in df_out["_workflow"].unique()]:
                         row = df_out[df_out["_workflow"] == g].iloc[0]
-                        st.markdown(f"### {g}")
+                        finding_name = (st.session_state.get(f"gen_finding_{i}") or "").strip() or f"Finding {i+1}"
+                        st.markdown(f"### {finding_name} — {g} Explanation")
                         pfx_text = (row.get("PFx") or "").strip()
                         st.markdown(f"<div class='pfx-card'>{pfx_text}</div>", unsafe_allow_html=True)
                         if pfx_text:
@@ -720,7 +721,8 @@ def page_generate():
                         pass
 
             else:
-                st.markdown(f"### Patient-Friendly Explanation ({i+1})")
+                finding_name = (st.session_state.get(f"gen_finding_{i}") or "").strip() or f"Finding {i+1}"
+                st.markdown(f"### {finding_name} — Explanation")
                 pfx_text = (st.session_state.get(f"gen_pfx_{i}") or "").strip()
                 st.markdown(
                     f"<div class='pfx-card'>{pfx_text if pfx_text else '<span class=\"pfx-muted\">PLACEHOLDER: Your PFx will appear here once generated.</span>'}</div>",
