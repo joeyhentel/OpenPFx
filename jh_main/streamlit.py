@@ -587,7 +587,7 @@ def page_generate():
                 "Reading Level", READING_LEVELS, index=6, key=f"gen_reading_{i}"
             )
 
-            workflow_options = ["Zero-shot", "Few-shot", "Agentic", "All"]
+            workflow_options = ["All", "Zero-shot", "Few-shot", "Agentic"]
             workflow_choice = st.selectbox(
                 "Workflow", workflow_options, index=0, key=f"gen_workflow_{i}"
             )
