@@ -223,13 +223,16 @@ try:
 except NameError:
     BASE_DIR = Path.cwd()
 
+CSV_DIR = BASE_DIR / "Generated_PFx_CSVs"
+
 WORKFLOW_FILES = {
-    "Zero-shot":         BASE_DIR / "PFx_final - PFx_Zeroshot.csv",
-    "Few-shot":          BASE_DIR / "PFx_final - PFx_Single_Fewshot.csv",
-    "Multiple Few-shot": BASE_DIR / "PFx_final - PFx_Multiple_Few.csv",
-    "Agentic":           BASE_DIR / "PFx_final - PFx_Agentic.csv",
+    "Zero-shot":         CSV_DIR / "PFx_final - PFx_Zeroshot.csv",
+    "Few-shot":          CSV_DIR / "PFx_final - PFx_Single_Fewshot.csv",
+    "Multiple Few-shot": CSV_DIR / "PFx_final - PFx_Multiple_Few.csv",
+    "Agentic":           CSV_DIR / "PFx_final - PFx_Agentic.csv",
 }
-LEGACY_FALLBACK = BASE_DIR / "pfx_source.csv"
+
+LEGACY_FALLBACK = CSV_DIR / "pfx_source.csv"
 
 @st.cache_data(show_spinner=False)
 def _load_any_csv(path: Path) -> Optional[pd.DataFrame]:
