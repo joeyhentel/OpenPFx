@@ -10,11 +10,8 @@ import pandas as pd
 import streamlit as st
 from streamlit.components.v1 import html as st_html
 
-# ====== CONFIG ======
 st.set_page_config(page_title="OpenPFx", page_icon="💬", layout="wide")
 
-# ====== IMPORTS YOU PROVIDE ======
-# Prompts may be used by your underlying functions/files; they aren't used directly here.
 from jh_pfx_prompts import (
     example,
     icd10_example,
@@ -181,22 +178,38 @@ def _copy_button(js_text: str, key: str, height: int = 60):
         height=height,
     )
 
-REQUIRED_SCHEMA = ["finding", "ICD10_code", "PFx", "PFx_ICD10_code"]
+REQUIRED_SCHEMA = [
+    "finding",
+    "ICD10_code",
+    "PFx",
+    "PFx_ICD10_code",
+    "Flesch_Score",
+    "accuracy",
+]
 
 def _ensure_schema(df: pd.DataFrame | dict | None) -> pd.DataFrame:
+    """Ensure required columns exist, but preserve all other columns too."""
     if df is None:
         return pd.DataFrame(columns=REQUIRED_SCHEMA)
+
     if isinstance(df, dict):
         df = pd.DataFrame([df])
+
     if not isinstance(df, pd.DataFrame):
         try:
             df = pd.DataFrame(df)
         except Exception:
             return pd.DataFrame(columns=REQUIRED_SCHEMA)
+
+    # Add any missing required columns
     for col in REQUIRED_SCHEMA:
         if col not in df.columns:
             df[col] = ""
-    return df[REQUIRED_SCHEMA]
+
+    # Put required columns first; keep any extras afterward
+    ordered_cols = [c for c in REQUIRED_SCHEMA if c in df.columns] + \
+                   [c for c in df.columns if c not in REQUIRED_SCHEMA]
+    return df[ordered_cols]
 
 def _extract_pfx_text(df: pd.DataFrame | None) -> str:
     if df is None or "PFx" not in df.columns:
@@ -612,12 +625,17 @@ def page_generate():
                         icd10   = (row.get("ICD10_code") or "").strip()
                         acc_str = _fmt_percent(row.get("accuracy"))
                         fres_str= _fmt_float(row.get("Flesch_Score"))
+
                         pills = []
-                        if icd10:   pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
-                        if acc_str: pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
-                        if fres_str:pills.append(f"<div class='pfx-pill'><b>Flesch:</b> {fres_str}</div>")
-                        if pills: st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
-                        st.divider()
+                        if icd10:
+                            pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
+                        if acc_str:
+                            pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
+                        if fres_str:
+                            pills.append(f"<div class='pfx-pill'><b>Flesch:</b> {fres_str}</div>")
+                        if pills:
+                            st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
+
 
                     st.markdown("### Generation Details")
                     try:
@@ -646,11 +664,17 @@ def page_generate():
                     icd10   = (row.get("ICD10_code") or "").strip()
                     acc_str = _fmt_percent(row.get("accuracy"))
                     fres_str= _fmt_float(row.get("Flesch_Score"))
+
                     pills = []
-                    if icd10:   pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
-                    if acc_str: pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
-                    if fres_str:pills.append(f"<div class='pfx-pill'><b>Flesch:</b> {fres_str}</div>")
-                    if pills: st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
+                    if icd10:
+                        pills.append(f"<div class='pfx-pill'><b>ICD-10:</b> {icd10}</div>")
+                    if acc_str:
+                        pills.append(f"<div class='pfx-pill'><b>Accuracy:</b> {acc_str}</div>")
+                    if fres_str:
+                        pills.append(f"<div class='pfx-pill'><b>Flesch:</b> {fres_str}</div>")
+                    if pills:
+                        st.markdown("<div class='pfx-meta'>" + "".join(pills) + "</div>", unsafe_allow_html=True)
+
                     st.markdown("### Generation Details")
                     try:
                         st.download_button(

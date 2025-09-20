@@ -272,7 +272,7 @@ def agentic_conversation(finding, code, grade_level, ai_model):
             ),
             OnCondition(
                 target=AgentTarget(writer),
-                condition=StringLLMCondition(prompt="""If the response is medically inaccuare or the original and pfx_icd10_codes are signifigantly different, 
+                condition=StringLLMCondition(prompt="""If the response is medically inaccuate or the original and pfx_icd10_codes are signifigantly different, 
                 send the response back to the writer agent with an explanation of why it was sent back and suggestions for improvement in medical accuracy."""),
             ),
         ])
@@ -331,6 +331,7 @@ def agentic_conversation(finding, code, grade_level, ai_model):
 def suggest_icd10_code(finding: str, ai_model: str):
     """Return the best ICD-10 code string for a given finding, or None."""
     prompt = f"""
+    You are a medical coding expert who specializes in assigning ICD-10 codes to medical findings.
     Suggest the most appropriate ICD-10 code for this incidental finding:
     "{finding}"
 
