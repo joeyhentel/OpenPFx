@@ -13,7 +13,7 @@ OpenPFx is an open-source program that uses generative AI to generate patient-fr
 > DISCLAIMER: ICD-10 codes provided by this tool are approximations for informational use and may be inaccurate. Always confirm final codes with a licensed clinician or certified medical coder.
 
 
-**Readability**: The Flesch Reading Ease Score (FRES) is used to measure 
+**Readability**: The Flesch Reading Ease Score (FRES) is used to measure readability. 
 > <img src="./images/FRES_Guide.png" alt="FRES Guide" width="400"/>
 
 
@@ -49,6 +49,7 @@ Provides context such as sample responses or templates.
 Structured process that enables AI models, acting as "agents," to iteratively refine their outputs based on feedback and contextual adjustments.
 
 OpenPFx uses the AG2 (formally Autogen) framework. Below is a flowchart of the original workflow used.
+> <img src="./images/agent_workflow.png" alt="agent workflow" width="500"/>
 
 ## 🚀 Getting Started
 
