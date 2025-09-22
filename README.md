@@ -5,31 +5,30 @@ OpenPFx is an open-source program that uses generative AI to generate patient-fr
 **[Visit Website](https://openpfx.streamlit.app)**
 
 ## Key Features 
-### 📝 Pre-Generated: 
+
+### 📊 Advanced Stats:
+
+> **ICD-10 Codes**: standard medical codes used worldwide to label diseases and health conditions
+
+>> DISCLAIMER: ICD-10 codes provided by this tool are approximations for informational use and may be inaccurate. Always confirm final codes with a licensed clinician or certified medical coder.
+
+
+> **Readability**: Flesch Reading Ease Score (FRES)
+>> <img src="./images/FRES_Guide.png" alt="FRES Guide" width="400"/>
+
+
+> **Accuracy**: measured through mutliple ICD-10 checks
+>> When the LLM generates a PFx, it also assigns an ICD-10 code to its own response. A separate agent then reads that PFx and assigns a code as well. The first three digits of both predictions are compared to the first three digits of the true ICD-10 code. Each correct match earns a point, and the two points are averaged.
+
+### 📝 Pre-Generated PFx: 
 
 > On website, navigate to Browse PFx page. Select desired workflow (see workflow explanations below) and finding(s).
 
 > [Acesss Through Raw CSV Files](./Generated_PFx_CSVs/)
 
 
+### 🖥️ Generate Your Own PFx:
 
-### 🖥️ Generate Your Own:
-
-> On website, navigate to Generate page. Input finding, workflow, desired grade level 
-
-
-
-
-### 📊 Advanced Stats:
-
-> ICD10 Code: a general (not exact) code for the finding
-
-
-> Readability: Flesch Reading Ease Score (FRES)
->> 
-
-
-> Accuracy: measured through mutliple ICD10 checks (see accuracy explanation below)
-
+> On website, navigate to Generate page. Input finding, model, desired grade level, workflow (see explanation below), and ICD-10 Code (optional)
 
 
