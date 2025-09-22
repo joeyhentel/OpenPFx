@@ -1,35 +1,52 @@
-<!-- Improved compatibility of back to top link -->
+<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a id="readme-top"></a>
+<!--
+*** Thanks for checking out the Best-README-Template. If you have a suggestion
+*** that would make this better, please fork the repo and create a pull request
+*** or simply open an issue with the tag "enhancement".
+*** Don't forget to give the project a star!
+*** Thanks again! Now go create something AMAZING! :D
+-->
+
+
 
 <!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![Unlicense License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/your_username/OpenPFx">
+  <a href="https://github.com/othneildrew/Best-README-Template">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">OpenPFx</h3>
+  <h3 align="center">Best-README-Template</h3>
 
   <p align="center">
-    Open-source toolkit and Streamlit app for generating patient-friendly explanations (PFx) of radiology incidental findings.
+    An awesome README template to jumpstart your projects!
     <br />
-    <a href="https://github.com/your_username/OpenPFx"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/your_username/OpenPFx">View Demo</a>
-    ·
-    <a href="https://github.com/your_username/OpenPFx/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
-    ·
-    <a href="https://github.com/your_username/OpenPFx/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    &middot;
+    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    &middot;
+    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -53,11 +70,9 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#research-notebooks">Research Notebooks</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#citation">Citation</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -70,16 +85,16 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-**OpenPFx** is a research-driven application designed to generate **patient-friendly explanations (PFx)** of incidental findings in radiology reports.  
-It provides multiple prompting strategies (zero-shot, few-shot, multi-few, and agentic workflows) and includes automated readability scoring and ICD-10 labeling.
+There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
 
-Core goals:
-* Translate clinical findings into clear, accessible explanations for patients.
-* Suggest relevant ICD-10 codes using few-shot prompts.
-* Evaluate explanation readability using Flesch Reading Ease.
-* Provide an easy-to-use **Streamlit app** to browse pre-generated PFx or create new ones.
+Here's why:
+* Your time should be focused on creating something amazing. A project that solves a problem and helps others
+* You shouldn't be doing the same tasks over and over like creating a README from scratch
+* You should implement DRY principles to the rest of your life :smile:
 
-Pre-generated CSVs are included for reproducibility in `Generated_PFx_CSVs/`.
+Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
+
+Use the `BLANK_README.md` to get started.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -87,12 +102,16 @@ Pre-generated CSVs are included for reproducibility in `Generated_PFx_CSVs/`.
 
 ### Built With
 
-* [![Streamlit][Streamlit]][Streamlit-url]
-* [![LangChain][LangChain]][LangChain-url]
-* [![AG2][AG2]][AG2-url]
-* [![OpenAI][OpenAI]][OpenAI-url]
-* [![Pandas][Pandas]][Pandas-url]
-* [![Python][Python]][Python-url]
+This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+
+* [![Next][Next.js]][Next-url]
+* [![React][React.js]][React-url]
+* [![Vue][Vue.js]][Vue-url]
+* [![Angular][Angular.io]][Angular-url]
+* [![Svelte][Svelte.dev]][Svelte-url]
+* [![Laravel][Laravel.com]][Laravel-url]
+* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
+* [![JQuery][JQuery.com]][JQuery-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -101,436 +120,155 @@ Pre-generated CSVs are included for reproducibility in `Generated_PFx_CSVs/`.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Follow these instructions to set up the project locally.
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-* Python 3.9+
-* pip (or conda)
+This is an example of how to list things you need to use the software and how to install them.
+* npm
+  ```sh
+  npm install npm@latest -g
+  ```
 
 ### Installation
 
-1. Clone the repo
+_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+
+1. Get a free API Key at [https://example.com](https://example.com)
+2. Clone the repo
    ```sh
-   git clone https://github.com/your_username/OpenPFx.git
-   cd OpenPFx
-Create and activate a virtual environment
-
-sh
-Copy code
-python -m venv .venv
-source .venv/bin/activate   # on Windows use .venv\Scripts\activate
-Install dependencies
-
-sh
-Copy code
-pip install -r requirements.txt
-Set environment variables in a .env file
-
-env
-Copy code
-OPENAI_API_KEY=your_api_key
-OPENAI_MODEL=gpt-4o
-Run the app
-
-sh
-Copy code
-streamlit run streamlit.py
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- USAGE EXAMPLES -->
-Usage
-OpenPFx provides three main workflows in the Streamlit UI:
-
-Home: introduction, disclaimers, and project overview.
-
-Browse PFx: filter and explore pre-generated CSVs for zero-shot, few-shot, multi-few, and agentic methods.
-
-Generate: create PFx from input findings, view ICD-10 suggestions, and check readability scores.
-
-For more examples, please refer to the Documentation.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- RESEARCH NOTEBOOKS -->
-Research Notebooks
-The jh_main/*.ipynb notebooks contain the experiments used in the research project.
-They were used to:
-
-Test zero-shot, few-shot, multi-few, and agentic prompting.
-
-Generate PFx at scale for evaluation.
-
-Produce the final CSVs in Generated_PFx_CSVs/.
-
-⚠️ These notebooks document the research process and may not be as polished as the main app. For practical use, run the Streamlit interface instead.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- ROADMAP -->
-Roadmap
- Add Zero-shot / Few-shot / Multi-few PFx
-
- Add Agentic workflow with AG2
-
- Add Readability Scoring
-
- Expand ICD-10 labeling
-
- Add evaluation metrics dashboard
-
- Multi-language PFx generation
-
-See the open issues for full list of features and bugs.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- CONTRIBUTING -->
-Contributing
-Contributions make open source better!
-If you have suggestions for improvement, feel free to fork the repo and create a pull request.
-
-Fork the Project
-
-Create your Feature Branch (git checkout -b feature/MyFeature)
-
-Commit your Changes (git commit -m 'Add MyFeature')
-
-Push to the Branch (git push origin feature/MyFeature)
-
-Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- LICENSE -->
-License
-Code: Distributed under the Unlicense. See LICENSE.txt.
-
-Generated PFx datasets: Released under CC0 1.0 (see Generated_PFx_CC_LICENSE.md).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- CITATION -->
-Citation
-If you use this code or data, please cite our related publication:
-
-Paper Title (arXiv / Journal link)
-
-bibtex
-Copy code
-@article{your_citation_key,
-  title={Paper Title},
-  author={Your Name and Coauthors},
-  journal={arXiv preprint arXiv:xxxx.xxxxx},
-  year={2025}
-}
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- CONTACT -->
-Contact
-Your Name - @your_twitter - email@example.com
-
-Project Link: https://github.com/your_username/OpenPFx
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- ACKNOWLEDGMENTS -->
-Acknowledgments
-Choose an Open Source License
-
-Streamlit
-
-LangChain
-
-AG2 / AutoGen
-
-Textstat
-
-Shields.io
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- MARKDOWN LINKS & IMAGES -->
-yaml
-Copy code
-
----
-
-👉 Do you want me to also **write a one-line project tagline** (something punchy under the title, like “Democratizing patient-friendly radiology explanations with LLMs”)? It helps the README pop.
-
-
-
-
-
-
-You said:
-also tell them they can visit streamlit at openpfx.streamlit.app
-
-
-ChatGPT said:
-Perfect — that’s a great addition. I’ll add a live demo link right up top so users know they can try it immediately. Here’s the updated part of the README with the Streamlit cloud app link included:
-
-markdown
-Copy code
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/your_username/OpenPFx">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
-  <h3 align="center">OpenPFx</h3>
-
-  <p align="center">
-    Open-source toolkit and Streamlit app for generating patient-friendly explanations (PFx) of radiology incidental findings.
-    <br />
-    <a href="https://openpfx.streamlit.app"><strong>🌐 Live Demo »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/your_username/OpenPFx">View Repo</a>
-    ·
-    <a href="https://github.com/your_username/OpenPFx/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
-    ·
-    <a href="https://github.com/your_username/OpenPFx/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
-  </p>
-</div>
-That way, the Streamlit Cloud app (openpfx.streamlit.app) is highlighted right under the project name with a bold demo link.
-
-👉 Do you want me to regenerate the entire README with this integrated, so you have the final polished version in one file?
-
-
-
-
-
-
-
-You said:
-yes
-
-
-ChatGPT said:
-Got it ✅ — here’s the final polished README.md for your repo, with the live demo link (openpfx.streamlit.app) fully integrated. You can copy this straight into your repo root.
-
-markdown
-Copy code
-<!-- Improved compatibility of back to top link -->
-<a id="readme-top"></a>
-
-<!-- PROJECT SHIELDS -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![Unlicense License][license-shield]][license-url]
-
-
-
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/your_username/OpenPFx">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
-  <h3 align="center">OpenPFx</h3>
-
-  <p align="center">
-    Open-source toolkit and Streamlit app for generating patient-friendly explanations (PFx) of radiology incidental findings.
-    <br />
-    <a href="https://openpfx.streamlit.app"><strong>🌐 Live Demo »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/your_username/OpenPFx">View Repo</a>
-    ·
-    <a href="https://github.com/your_username/OpenPFx/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
-    ·
-    <a href="https://github.com/your_username/OpenPFx/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
-  </p>
-</div>
-
-
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#research-notebooks">Research Notebooks</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#citation">Citation</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
-
-
-
-<!-- ABOUT THE PROJECT -->
-## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://openpfx.streamlit.app)
-
-**OpenPFx** is a research-driven application designed to generate **patient-friendly explanations (PFx)** of incidental findings in radiology reports.  
-It provides multiple prompting strategies (zero-shot, few-shot, multi-few, and agentic workflows) and includes automated readability scoring and ICD-10 labeling.
-
-Core goals:
-* Translate clinical findings into clear, accessible explanations for patients.
-* Suggest relevant ICD-10 codes using few-shot prompts.
-* Evaluate explanation readability using Flesch Reading Ease.
-* Provide an easy-to-use **Streamlit app** to browse pre-generated PFx or create new ones.
-
-Pre-generated CSVs are included for reproducibility in `Generated_PFx_CSVs/`.
+   git clone https://github.com/github_username/repo_name.git
+   ```
+3. Install NPM packages
+   ```sh
+   npm install
+   ```
+4. Enter your API in `config.js`
+   ```js
+   const API_KEY = 'ENTER YOUR API';
+   ```
+5. Change git remote url to avoid accidental pushes to base project
+   ```sh
+   git remote set-url origin github_username/repo_name
+   git remote -v # confirm the changes
+   ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
-### Built With
+<!-- USAGE EXAMPLES -->
+## Usage
 
-* [![Streamlit][Streamlit]][Streamlit-url]
-* [![LangChain][LangChain]][LangChain-url]
-* [![AG2][AG2]][AG2-url]
-* [![OpenAI][OpenAI]][OpenAI-url]
-* [![Pandas][Pandas]][Pandas-url]
-* [![Python][Python]][Python-url]
+Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+
+_For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
-<!-- GETTING STARTED -->
-## Getting Started
+<!-- ROADMAP -->
+## Roadmap
 
-Follow these instructions to set up the project locally.
+- [x] Add Changelog
+- [x] Add back to top links
+- [ ] Add Additional Templates w/ Examples
+- [ ] Add "components" document to easily copy & paste sections of the readme
+- [ ] Multi-language Support
+    - [ ] Chinese
+    - [ ] Spanish
 
-### Prerequisites
+See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
-* Python 3.9+
-* pip (or conda)
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Installation
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/your_username/OpenPFx.git
-   cd OpenPFx
-Create and activate a virtual environment
 
-sh
-Copy code
-python -m venv .venv
-source .venv/bin/activate   # on Windows use .venv\Scripts\activate
-Install dependencies
+<!-- CONTRIBUTING -->
+## Contributing
 
-sh
-Copy code
-pip install -r requirements.txt
-Set environment variables in a .env file
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-env
-Copy code
-OPENAI_API_KEY=your_api_key
-OPENAI_MODEL=gpt-4o
-Run the app
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
 
-sh
-Copy code
-streamlit run streamlit.py
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- USAGE EXAMPLES -->
-Usage
-You can explore OpenPFx in two ways:
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-🌐 Live Demo: openpfx.streamlit.app
+### Top contributors:
 
-Local Run: use the installation steps above.
+<a href="https://github.com/othneildrew/Best-README-Template/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=othneildrew/Best-README-Template" alt="contrib.rocks image" />
+</a>
 
-The Streamlit app provides three main workflows:
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Home: introduction, disclaimers, and project overview.
 
-Browse PFx: filter and explore pre-generated CSVs for zero-shot, few-shot, multi-few, and agentic methods.
 
-Generate: create PFx from input findings, view ICD-10 suggestions, and check readability scores.
+<!-- LICENSE -->
+## License
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- RESEARCH NOTEBOOKS -->
-Research Notebooks
-The jh_main/*.ipynb notebooks contain the experiments used in the research project.
-They were used to:
+Distributed under the Unlicense License. See `LICENSE.txt` for more information.
 
-Test zero-shot, few-shot, multi-few, and agentic prompting.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Generate PFx at scale for evaluation.
 
-Produce the final CSVs in Generated_PFx_CSVs/.
 
-⚠️ These notebooks document the research process and may not be as polished as the main app. For practical use, run the Streamlit interface instead.
+<!-- CONTACT -->
+## Contact
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- ROADMAP -->
-Roadmap
- Add Zero-shot / Few-shot / Multi-few PFx
+Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
 
- Add Agentic workflow with AG2
+Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
 
- Add Readability Scoring
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
- Expand ICD-10 labeling
 
- Add evaluation metrics dashboard
 
- Multi-language PFx generation
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
 
-See the open issues for full list of features and bugs.
+Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- CONTRIBUTING -->
-Contributing
-Contributions make open source better!
-If you have suggestions for improvement, feel free to fork the repo and create a pull request.
+* [Choose an Open Source License](https://choosealicense.com)
+* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
+* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
+* [Malven's Grid Cheatsheet](https://grid.malven.co/)
+* [Img Shields](https://shields.io)
+* [GitHub Pages](https://pages.github.com)
+* [Font Awesome](https://fontawesome.com)
+* [React Icons](https://react-icons.github.io/react-icons/search)
 
-Fork the Project
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Create your Feature Branch (git checkout -b feature/MyFeature)
 
-Commit your Changes (git commit -m 'Add MyFeature')
 
-Push to the Branch (git push origin feature/MyFeature)
-
-Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- LICENSE -->
-License
-Code: Distributed under the Unlicense. See LICENSE.txt.
-
-Generated PFx datasets: Released under CC0 1.0 (see Generated_PFx_CC_LICENSE.md).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- CITATION -->
-Citation
-If you use this code or data, please cite our related publication:
-
-Paper Title (arXiv / Journal link)
-
-bibtex
-Copy code
-@article{your_citation_key,
-  title={Paper Title},
-  author={Your Name and Coauthors},
-  journal={arXiv preprint arXiv:xxxx.xxxxx},
-  year={2025}
-}
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- CONTACT -->
-Contact
-Your Name - @your_twitter - email@example.com
-
-Project Link: https://github.com/your_username/OpenPFx
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- ACKNOWLEDGMENTS -->
-Acknowledgments
-Choose an Open Source License
-
-Streamlit
-
-LangChain
-
-AG2 / AutoGen
-
-Textstat
-
-Shields.io
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> <!-- MARKDOWN LINKS & IMAGES -->
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
+[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
+[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
+[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/othneildrew
+[product-screenshot]: images/screenshot.png
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
+[Vue-url]: https://vuejs.org/
+[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
+[Angular-url]: https://angular.io/
+[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
