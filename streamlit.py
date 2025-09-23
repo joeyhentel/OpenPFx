@@ -398,8 +398,9 @@ def page_home():
         "- **Zero-shot** — No context such as a template or an example letter is provided, requiring the LLM to rely solely on its previous knowledge.\n"
         "- **Few-shot** — Provides context such as sample responses or templates.\n"
         "- **Multiple Few-shot** — Same as few-shot, but requests five of the same PFx and chooses the best one.\n"
-        "- **Agentic** — Structured process that enables AI models, acting as 'agents,' to complete assigned tasks and iteratively refine their outputs based on feedback and contextual adjustments. \n OpenPFx uses the AG2 (formally Autogen) framework."
-        "In testing, **this workflow outperformed all others**."
+        "- **Agentic** — Structured process that enables AI models, acting as 'agents,' to complete assigned tasks and iteratively refine their outputs based on feedback and contextual adjustments. "
+        "                OpenPFx uses the AG2 (formally Autogen) framework."
+        "                In testing, **this workflow outperformed all others**."
     )
     st.divider()
 
