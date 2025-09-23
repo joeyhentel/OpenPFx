@@ -395,10 +395,10 @@ def page_home():
     st.subheader("Workflows Explained")
     st.write("OpenPFx offers four approaches for generating explanations:")
     st.markdown(
-        "- **Zero-shot** — Quick, direct explanation with no prior examples.\n"
-        "- **Few-shot** — Uses reference examples to improve consistency.\n"
-        "- **Multiple Few-shot** — Adds a broader set of examples for more stability.\n"
-        "- **Agentic** — A multi-agent process with built-in checks for coding, accuracy, and readability. "
+        "- **Zero-shot** — No context such as a template or an example letter is provided, requiring the LLM to rely solely on its previous knowledge.\n"
+        "- **Few-shot** — Provides context such as sample responses or templates.\n"
+        "- **Multiple Few-shot** — Same as few-shot, but requests five of the same PFx and chooses the best one.\n"
+        "- **Agentic** — Structured process that enables AI models, acting as 'agents,' to iteratively refine their outputs based on feedback and contextual adjustments. \n OpenPFx uses the AG2 (formally Autogen) framework."
         "In testing, **this workflow outperformed all others**."
     )
     st.divider()
