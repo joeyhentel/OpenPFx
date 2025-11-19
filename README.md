@@ -3,6 +3,7 @@
 OpenPFx is an open-source program that uses generative AI to generate patient-friendly explanations (PFx) of medical findings. 
 
 **[Visit Website](https://openpfx.streamlit.app)**
+**[Read Paper](https://www.medrxiv.org/content/10.1101/2025.10.10.25337597v1)**
 
 ## Key Features 
 
