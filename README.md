@@ -132,6 +132,4 @@ OPENAI_MODEL=gpt-4o
 streamlit run streamlit.py
 ```
 
-The app will open at [http://localhost:8501](http://localhost:8501).
-
 

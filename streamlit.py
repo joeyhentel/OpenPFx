@@ -9,6 +9,7 @@ from typing import Optional
 import pandas as pd
 import streamlit as st
 from streamlit.components.v1 import html as st_html
+import langchain
 
 st.set_page_config(page_title="OpenPFx", page_icon="💬", layout="wide")
 
