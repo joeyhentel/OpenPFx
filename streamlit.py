@@ -1,5 +1,4 @@
 # app.py — OpenPFx with Home landing page + Browse (multiselect) + Generate (LLM)
-# Drop-in single file. Replace placeholder copy where noted.
 
 import os
 import json
@@ -9,22 +8,10 @@ from typing import Optional
 import pandas as pd
 import streamlit as st
 from streamlit.components.v1 import html as st_html
-import langchain
 
 st.set_page_config(page_title="OpenPFx", page_icon="💬", layout="wide")
 
-from jh_main.jh_pfx_prompts import (
-    example,
-    icd10_example,
-    single_fewshot_icd10_labeling_prompt,
-    baseline_zeroshot_prompt,
-    writer_prompt,
-    doctor_prompt,
-    readability_checker_prompt,
-    ICD10_LABELER_INSTRUCTION,
-)
-
-# Core LLM-backed functions implemented in your separate module
+# Core LLM-backed functions
 from jh_main.streamlit_calls import (
     suggest_icd10_code,      
     zeroshot_call,
@@ -557,7 +544,7 @@ def page_generate():
     _top_nav("generate")
 
     st.subheader("Generate Your Own PFx")
-    st.caption("PLACEHOLDER: Choose model & workflow, enter a finding, optionally use auto ICD-10.")
+    st.caption("Choose model & workflow, enter a finding, optionally use auto ICD-10.")
 
     if "gen_panel_count" not in st.session_state:
         st.session_state.gen_panel_count = 1
@@ -657,6 +644,7 @@ def page_generate():
 
                 except Exception as e:
                     st.session_state[f"gen_error_{i}"] = f"Error during generation: {e}"
+                    st.exception(e)
 
         # Add / Reset
         b1, b2 = st.columns([1, 1])
