@@ -310,7 +310,7 @@ DATASETS = _load_all_workflows(WORKFLOW_FILES)
 
 # ====== MODEL/READING OPTIONS ======
 MODEL_OPTIONS = [
-    "gpt-4o-2024-08-06",
+    "gpt-4o",
     "gpt-4o-mini",
 ]
 READING_LEVELS = [
