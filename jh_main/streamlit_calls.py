@@ -4,7 +4,7 @@ import re
 import pandas as pd
 from jh_main.jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION, single_fewshot_prompt
 
-from autogen import ConversableAgent
+from autogen import ConversableAgent, LLMConfig
 from autogen.agentchat import initiate_group_chat
 from autogen.agentchat.group.patterns import RoundRobinPattern
 from autogen.agentchat.group import OnCondition, StringLLMCondition
