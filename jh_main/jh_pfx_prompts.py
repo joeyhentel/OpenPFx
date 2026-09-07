@@ -1,5 +1,4 @@
 import langchain_core
-from langchain_core.prompts import PromptTemplate
 import re 
 EXAMPLE = """ 
 
