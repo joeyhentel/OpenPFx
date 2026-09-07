@@ -1,9 +1,9 @@
 # app.py — OpenPFx with Home landing page + Browse (multiselect) + Generate (LLM)
 
-import os
 import json
 from pathlib import Path
 from typing import Optional
+import os
 from dotenv import load_dotenv
 load_dotenv()
 

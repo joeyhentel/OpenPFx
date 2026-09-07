@@ -33,7 +33,7 @@ def extract_json(openai_response):
     else:
         return None
 
-def label_icd10s(pfx_output):
+def label_icd10s(pfx_output, ai_model):
     """
     Takes a single PFx response (string or JSON) and returns
     a labeled ICD-10 result as a Python dictionary (or object).
@@ -53,7 +53,7 @@ def label_icd10s(pfx_output):
 
     # Call the model to get ICD-10 codes
     pfx_icd10_response = CLIENT.chat.completions.create(
-        model=OPENAI_MODEL,
+        model=ai_model,
         temperature=0.0,
         messages=[
             {

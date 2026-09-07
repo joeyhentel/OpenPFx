@@ -70,7 +70,7 @@ def zeroshot_call(finding, code, grade_level, ai_model):
         "PFx_ICD10_code": extracted_response.get("PFx_ICD10_code", "")
     }
     for response in zero_results_df['PFx']:
-        agent_code = label_icd10s(response)
+        agent_code = label_icd10s(response, ai_model)
 
     zero_results_df["_0_agent_icd10_codes"] = agent_code
 
@@ -150,7 +150,7 @@ def fewshot_call(finding, code, grade_level, ai_model):
 
     # Label ICD-10
     for response in few_results_df['PFx']:
-        agent_code = label_icd10s(response)
+        agent_code = label_icd10s(response, ai_model)
 
     few_results_df["_0_agent_icd10_codes"] = agent_code
 
@@ -308,7 +308,7 @@ def agentic_conversation(finding, code, grade_level, ai_model):
         "PFx_ICD10_code": chat.get("PFx_ICD10_code", "")
         }
 
-        agent_code = label_icd10s(chat.get("PFx", ""))
+        agent_code = label_icd10s(chat.get("PFx", ""), ai_model)
 
         agent_results["_0_agent_icd10_codes"] = agent_code
 
