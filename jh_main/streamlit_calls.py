@@ -5,11 +5,11 @@ import pandas as pd
 from jh_main.jh_pfx_prompts import example, icd10_example, single_fewshot_icd10_labeling_prompt, baseline_zeroshot_prompt, writer_prompt,doctor_prompt, readability_checker_prompt, ICD10_LABELER_INSTRUCTION, single_fewshot_prompt
 
 from autogen import ConversableAgent
-"""from autogen_agentchat import initiate_group_chat
-from autogen_agentchat.group.patterns import RoundRobinPattern
-from autogen_agentchat.group import OnCondition, StringLLMCondition
-from autogen_agentchat.group import AgentTarget
-from autogen_agentchat.group import TerminateTarget"""
+from autogen.agentchat import initiate_group_chat
+from autogen.agentchat.group.patterns import RoundRobinPattern
+from autogen.agentchat.group import OnCondition, StringLLMCondition
+from autogen.agentchat.group import AgentTarget
+from autogen.agentchat.group import TerminateTarget
 
 from pydantic import BaseModel, Field
 from typing import Optional
