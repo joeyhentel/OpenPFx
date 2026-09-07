@@ -4,6 +4,6 @@ textstat
 openai
 requests
 python-dotenv
-ag2[openai]
+autogen[openai]
 pydantic
 langchain
