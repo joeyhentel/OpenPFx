@@ -26,6 +26,7 @@ import requests
 from dotenv import load_dotenv
 import math
 import unicodedata
+load_dotenv() 
 
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
