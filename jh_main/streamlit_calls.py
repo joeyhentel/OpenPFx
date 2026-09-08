@@ -191,39 +191,30 @@ def agentic_conversation(finding, code, grade_level, ai_model):
         Explanation: Optional[str] = Field(None, description="Why the verdict was given")
         Improvements: Optional[str] = Field(None, description="Suggested changes to improve readability or accuracy")
 
-    llm_config = LLMConfig(
-        api_type="openai",
-        model=ai_model,
-        api_key=OPENAI_API_KEY,
-    )
+    llm_config = LLMConfig({
+        "api_type": "openai",
+        "model": ai_model,
+        "api_key": OPENAI_API_KEY,
+    })
 
-    writer_config=LLMConfig(
-        api_type="openai",
-        model=ai_model,
-        api_key=OPENAI_API_KEY,
+    writer_config = LLMConfig(
+        {"api_type": "openai", "model": ai_model, "api_key": OPENAI_API_KEY},
         response_format=WriterOutput,
     )
 
     labeler_config = LLMConfig(
-        api_type="openai",
-        model=ai_model,
-        api_key=OPENAI_API_KEY,
+        {"api_type": "openai", "model": ai_model, "api_key": OPENAI_API_KEY},
         response_format=LabelerOutput,
     )
 
     doctor_config = LLMConfig(
-        api_type="openai",
-        model=ai_model,
-        api_key=OPENAI_API_KEY,
+        {"api_type": "openai", "model": ai_model, "api_key": OPENAI_API_KEY},
         response_format=DoctorReadabilityOutput,
     )
 
-    readability_config=LLMConfig(
-        api_type="openai",
-        model=ai_model,
-        api_key=OPENAI_API_KEY,
+    readability_config = LLMConfig(
+        {"api_type": "openai", "model": ai_model, "api_key": OPENAI_API_KEY},
         response_format=DoctorReadabilityOutput,
-        
     )
 
     agent_results = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code","_0_agent_icd10_codes", "_0_icd10_matches", "_0_pfx_icd10_matches", "accuracy", "Flesch_Score"])
