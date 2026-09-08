@@ -191,12 +191,6 @@ def agentic_conversation(finding, code, grade_level, ai_model):
         Explanation: Optional[str] = Field(None, description="Why the verdict was given")
         Improvements: Optional[str] = Field(None, description="Suggested changes to improve readability or accuracy")
 
-    llm_config = LLMConfig({
-        "api_type": "openai",
-        "model": ai_model,
-        "api_key": OPENAI_API_KEY,
-    })
-
     writer_config = LLMConfig(
         {"api_type": "openai", "model": ai_model, "api_key": OPENAI_API_KEY},
         response_format=WriterOutput,
@@ -219,105 +213,104 @@ def agentic_conversation(finding, code, grade_level, ai_model):
 
     agent_results = pd.DataFrame(columns=["finding", "ICD10_code", "PFx", "PFx_ICD10_code","_0_agent_icd10_codes", "_0_icd10_matches", "_0_pfx_icd10_matches", "accuracy", "Flesch_Score"])
 
-    with llm_config:
-        writer = ConversableAgent(
-            name = "writer",
-            system_message = writer_prompt.format(Incidental_Finding = finding, Reading_Level = grade_level),
-            llm_config = writer_config,
-        )
-    
-        icd10_labeler = ConversableAgent(
-            name = "icd10_labeler",
-            system_message = ICD10_LABELER_INSTRUCTION,
-            llm_config = labeler_config,
-            code_execution_config=False,
-        )
-    
-        doctor = ConversableAgent( 
-            name = "Doctor",
-            system_message = doctor_prompt.format(Incidental_Finding = finding, ICD10_code = code),
-            llm_config = doctor_config,
-            code_execution_config=False,
-        )
-    
-        readability_checker = ConversableAgent(
-            name = "Readability_Checker",
-            system_message = readability_checker_prompt.format(reading_level = grade_level),
-            llm_config = readability_config,
-            code_execution_config=False,
-            functions=[calculate_fres],
-        )
-    
-        pattern = RoundRobinPattern(
-            initial_agent = writer,
-            agents = [writer, icd10_labeler, doctor, readability_checker],
-        )
+    writer = ConversableAgent(
+        name = "writer",
+        system_message = writer_prompt.format(Incidental_Finding = finding, Reading_Level = grade_level),
+        llm_config = writer_config,
+    )
 
-        writer.handoffs.set_after_work(AgentTarget(icd10_labeler))
-    
-        icd10_labeler.handoffs.set_after_work(AgentTarget(doctor))
+    icd10_labeler = ConversableAgent(
+        name = "icd10_labeler",
+        system_message = ICD10_LABELER_INSTRUCTION,
+        llm_config = labeler_config,
+        code_execution_config=False,
+    )
 
-        doctor.handoffs.add_llm_conditions([
-            OnCondition(
-                target=AgentTarget(readability_checker),
-                condition=StringLLMCondition(prompt="If the response is medically accurate, send the response to the readability_checker."),
-            ),
-            OnCondition(
-                target=AgentTarget(writer),
-                condition=StringLLMCondition(prompt="""If the response is medically inaccuate or the original and pfx_icd10_codes are signifigantly different, 
-                send the response back to the writer agent with an explanation of why it was sent back and suggestions for improvement in medical accuracy."""),
-            ),
-        ])
+    doctor = ConversableAgent( 
+        name = "Doctor",
+        system_message = doctor_prompt.format(Incidental_Finding = finding, ICD10_code = code),
+        llm_config = doctor_config,
+        code_execution_config=False,
+    )
 
-        readability_checker.handoffs.add_llm_conditions([
-            OnCondition(
-                target=AgentTarget(writer),
-                condition=StringLLMCondition("""If the response does not meet the criteria for the desired reading level, send it back to the writer agent
-                with an explanation of why it wasn't readable enough and suggestions for improving the readability."""),
-            ),
-            OnCondition(
-              target=TerminateTarget(),
-                condition=StringLLMCondition("If the response meets the readability criteria, send it to TerminateTarget."),
-            ),
-        ])
-    
+    readability_checker = ConversableAgent(
+        name = "Readability_Checker",
+        system_message = readability_checker_prompt.format(reading_level = grade_level),
+        llm_config = readability_config,
+        code_execution_config=False,
+        functions=[calculate_fres],
+    )
 
-        result, context, last_agent = initiate_group_chat(
-            pattern = pattern,
-            messages = """Please play your specified role in generating a patient friendly explanation of an inicidental MRI finding.""",
-            max_rounds = 20,
-        )
+    pattern = RoundRobinPattern(
+        initial_agent = writer,
+        agents = [writer, icd10_labeler, doctor, readability_checker],
+    )
 
-        chat = extract_json_gpt4o(result)
+    writer.handoffs.set_after_work(AgentTarget(icd10_labeler))
 
-        # Populate the DataFrame with the results
+    icd10_labeler.handoffs.set_after_work(AgentTarget(doctor))
 
-        agent_results.loc[1] = {
-        "finding": finding,
-        "ICD10_code": code,
-        "PFx": chat.get("PFx", ""),
-        "PFx_ICD10_code": chat.get("PFx_ICD10_code", "")
-        }
+    doctor.handoffs.add_llm_conditions([
+        OnCondition(
+            target=AgentTarget(readability_checker),
+            condition=StringLLMCondition(prompt="If the response is medically accurate, send the response to the readability_checker."),
+        ),
+        OnCondition(
+            target=AgentTarget(writer),
+            condition=StringLLMCondition(prompt="""If the response is medically inaccuate or the original and pfx_icd10_codes are signifigantly different, 
+            send the response back to the writer agent with an explanation of why it was sent back and suggestions for improvement in medical accuracy."""),
+        ),
+    ])
 
-        agent_code = label_icd10s(chat.get("PFx", ""), ai_model)
+    readability_checker.handoffs.add_llm_conditions([
+        OnCondition(
+            target=AgentTarget(writer),
+            condition=StringLLMCondition("""If the response does not meet the criteria for the desired reading level, send it back to the writer agent
+            with an explanation of why it wasn't readable enough and suggestions for improving the readability."""),
+        ),
+        OnCondition(
+          target=TerminateTarget(),
+            condition=StringLLMCondition("If the response meets the readability criteria, send it to TerminateTarget."),
+        ),
+    ])
 
-        agent_results["_0_agent_icd10_codes"] = agent_code
 
-        # Compare only the first three characters for accuracy
-        agent_results["_0_icd10_matches"] = (
-            str(agent_results["ICD10_code"])[:3] == str(agent_results["_0_agent_icd10_codes"])[:3]
-        )
-        agent_results["_0_pfx_icd10_matches"] = (
-            str(agent_results["ICD10_code"])[:3] == str(agent_results["PFx_ICD10_code"])[:3]
-        )
+    result, context, last_agent = initiate_group_chat(
+        pattern = pattern,
+        messages = """Please play your specified role in generating a patient friendly explanation of an inicidental MRI finding.""",
+        max_rounds = 20,
+    )
 
-        agent_results["accuracy"] = (
-            agent_results["_0_icd10_matches"] + agent_results["_0_pfx_icd10_matches"]
-        ) / 2
+    chat = extract_json_gpt4o(result)
 
-        agent_results["Flesch_Score"] = agent_results["PFx"].apply(textstat.flesch_reading_ease)
+    # Populate the DataFrame with the results
 
-        return agent_results
+    agent_results.loc[1] = {
+    "finding": finding,
+    "ICD10_code": code,
+    "PFx": chat.get("PFx", ""),
+    "PFx_ICD10_code": chat.get("PFx_ICD10_code", "")
+    }
+
+    agent_code = label_icd10s(chat.get("PFx", ""), ai_model)
+
+    agent_results["_0_agent_icd10_codes"] = agent_code
+
+    # Compare only the first three characters for accuracy
+    agent_results["_0_icd10_matches"] = (
+        str(agent_results["ICD10_code"])[:3] == str(agent_results["_0_agent_icd10_codes"])[:3]
+    )
+    agent_results["_0_pfx_icd10_matches"] = (
+        str(agent_results["ICD10_code"])[:3] == str(agent_results["PFx_ICD10_code"])[:3]
+    )
+
+    agent_results["accuracy"] = (
+        agent_results["_0_icd10_matches"] + agent_results["_0_pfx_icd10_matches"]
+    ) / 2
+
+    agent_results["Flesch_Score"] = agent_results["PFx"].apply(textstat.flesch_reading_ease)
+
+    return agent_results
     
 
 def suggest_icd10_code(finding: str, ai_model: str):
